@@ -27,14 +27,10 @@ import (
 	pb "github.com/kata-containers/kata-containers/src/runtime/protocols/hypervisor"
 )
 
-// TODO: implement a ttrpc server to serve hypervisor RPC calls from kata shim
-// https://github.com/kata-containers/kata-containers/blob/2.2.0-alpha1/src/runtime/virtcontainers/hypervisor.go#L843-L883
 
 const (
 	Version       = "0.0.0"
-	maxRetries    = 10
-	queryInterval = 2
-	subnetBits    = "/24"
+	EC2LaunchTemplateName = "kata"
 )
 
 type hypervisorService struct {
@@ -184,9 +180,7 @@ func (s *hypervisorService) StartVM(ctx context.Context, req *pb.StartVMRequest)
 		MinCount: aws.Int32(1),
 		MaxCount: aws.Int32(1),
 		LaunchTemplate: &types.LaunchTemplateSpecification{
-			//LaunchTemplateId: aws.String("lt-03953efc650bba184"),
-                        //Version: aws.String("1"),
-			LaunchTemplateName: aws.String("kata"),
+			LaunchTemplateName: aws.String(EC2LaunchTemplateName),
 		},
 		UserData: &userDataEnc,
 	}

@@ -25,14 +25,9 @@ import (
 	pb "github.com/kata-containers/kata-containers/src/runtime/protocols/hypervisor"
 )
 
-// TODO: implement a ttrpc server to serve hypervisor RPC calls from kata shim
-// https://github.com/kata-containers/kata-containers/blob/2.2.0-alpha1/src/runtime/virtcontainers/hypervisor.go#L843-L883
 
 const (
 	Version       = "0.0.0"
-	maxRetries    = 10
-	queryInterval = 2
-	subnetBits    = "/24"
 )
 
 type hypervisorService struct {
