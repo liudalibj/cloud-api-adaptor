@@ -7,8 +7,8 @@ name: daily e2e test for ibmcloud (amd64 arch)
 on:
   schedule:
     # Runs "at 07:00 every day" (see https://crontab.guru)
-    # - cron: '0 7 * * *'
-    - cron: '*/2 * * * *'
+    - cron: '0 7 * * *'
+    # - cron: '*/2 * * * *'
   push:
     branches:    
       - daily-e2e-ibmcloud-amd64
