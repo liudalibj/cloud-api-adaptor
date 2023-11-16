@@ -6,7 +6,7 @@ package azure
 import (
 	"flag"
 
-	"github.com/confidential-containers/cloud-api-adaptor/pkg/adaptor/cloud"
+	"github.com/confidential-containers/cloud-api-adaptor/provider"
 )
 
 var azurecfg Config
@@ -14,7 +14,7 @@ var azurecfg Config
 type Manager struct{}
 
 func init() {
-	cloud.AddCloud("azure", &Manager{})
+	provider.AddCloudProvider("azure", &Manager{})
 }
 
 func (_ *Manager) ParseCmd(flags *flag.FlagSet) {
@@ -40,16 +40,16 @@ func (_ *Manager) ParseCmd(flags *flag.FlagSet) {
 }
 
 func (_ *Manager) LoadEnv() {
-	cloud.DefaultToEnv(&azurecfg.ClientId, "AZURE_CLIENT_ID", "")
-	cloud.DefaultToEnv(&azurecfg.ClientSecret, "AZURE_CLIENT_SECRET", "")
-	cloud.DefaultToEnv(&azurecfg.TenantId, "AZURE_TENANT_ID", "")
-	cloud.DefaultToEnv(&azurecfg.SubscriptionId, "AZURE_SUBSCRIPTION_ID", "")
-	cloud.DefaultToEnv(&azurecfg.Region, "AZURE_REGION", "")
-	cloud.DefaultToEnv(&azurecfg.ResourceGroupName, "AZURE_RESOURCE_GROUP", "")
-	cloud.DefaultToEnv(&azurecfg.Size, "AZURE_INSTANCE_SIZE", "Standard_DC2as_v5")
+	provider.DefaultToEnv(&azurecfg.ClientId, "AZURE_CLIENT_ID", "")
+	provider.DefaultToEnv(&azurecfg.ClientSecret, "AZURE_CLIENT_SECRET", "")
+	provider.DefaultToEnv(&azurecfg.TenantId, "AZURE_TENANT_ID", "")
+	provider.DefaultToEnv(&azurecfg.SubscriptionId, "AZURE_SUBSCRIPTION_ID", "")
+	provider.DefaultToEnv(&azurecfg.Region, "AZURE_REGION", "")
+	provider.DefaultToEnv(&azurecfg.ResourceGroupName, "AZURE_RESOURCE_GROUP", "")
+	provider.DefaultToEnv(&azurecfg.Size, "AZURE_INSTANCE_SIZE", "Standard_DC2as_v5")
 }
 
-func (_ *Manager) NewProvider() (cloud.Provider, error) {
+func (_ *Manager) NewProvider() (provider.Provider, error) {
 	return NewProvider(&azurecfg)
 }
 
