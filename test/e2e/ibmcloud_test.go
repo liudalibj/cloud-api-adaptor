@@ -495,6 +495,15 @@ func TestPodVMwithAnnotationsLargerCPU(t *testing.T) {
 	doTestPodVMwithAnnotationsLargerCPU(t, assert)
 }
 
+func TestIBMCloudCreateNginxDeployment(t *testing.T) {
+	// TODO: We meet the 10% FAIL in this case for ibmcloud maybe related to kata-containers/kata-containers#5732
+	t.Skip("Skipping Test until issue kata-containers/kata-containers#5732 is Fixed")
+	// assert := IBMCloudAssert{
+	// 	vpc: pv.IBMCloudProps.VPC,
+	// }
+	// doTestNginxDeployement(t, assert)
+}
+
 // IBMCloudAssert implements the CloudAssert interface for ibmcloud.
 type IBMCloudAssert struct {
 	vpc *vpcv1.VpcV1

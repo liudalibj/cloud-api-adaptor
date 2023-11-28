@@ -130,3 +130,22 @@ func TestCloudProviderCreateSimplePod(t *testing.T) {
 For running e2e test cases specifically for checking PodVM with Image from Authenticated Registry, we need to export following two variables
 - `AUTHENTICATED_REGISTRY_IMAGE` - Name of the image along with the tag from authenticated registry (example: quay.io/kata-containers/confidential-containers-auth:test)
 - `REGISTRY_CREDENTIAL_ENCODED` - Credentials of registry encrypted as BASE64ENCODED(USERNAME:PASSWORD). If you're using quay registry, we can get the encrypted credentials from Account Settings >> Generate Encrypted Password >> Docker Configuration
+
+## Failed to run nginx container in peer pod
+The 'nginx:latest' is used some of e2e test cases before, in the daily e2e-test report we found that this image make the test result not stable. The nginx container is CrashLoopBackOff status and the pod log looks like:
+```
+/docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+/docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
+dpkg-query: no packages found matching nginx
+10-listen-on-ipv6-by-default.sh: info: /etc/nginx/conf.d/default.conf differs from the packaged version
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+/docker-entrypoint.sh: Ignoring /docker-entrypoint.d/.wh..wh..opq
+/docker-entrypoint.sh: Configuration complete; ready for start up
+2023/09/19 13:56:25 [emerg] 1#1: getpwnam("nginx") failed in /etc/nginx/nginx.conf:2
+nginx: [emerg] getpwnam("nginx") failed in /etc/nginx/nginx.conf:2
+```
+We discussed this on the community call(2023/12/06) and the suggestion is that whilst we don't want to hide and lose the nginx issue, having a range of tests that occasionally fail isn't helpful either, so the propose that we swap the defaultimages for tests to busybox.
+The new added nginx specific tesst `TestIBMCloudCreateNginxDeployment` and `TestLibvirtCreateNginxDeployment`.
