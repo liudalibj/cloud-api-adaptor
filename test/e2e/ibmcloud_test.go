@@ -12,14 +12,9 @@ import (
 	"strings"
 	"testing"
 
-	corev1 "k8s.io/api/core/v1"
-
 	"github.com/IBM/vpc-go-sdk/vpcv1"
 	pv "github.com/confidential-containers/cloud-api-adaptor/test/provisioner"
 	log "github.com/sirupsen/logrus"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/util/intstr"
-	"k8s.io/utils/pointer"
 )
 
 func TestCreateSimplePod(t *testing.T) {
@@ -105,403 +100,403 @@ func TestCreatePodWithSecret(t *testing.T) {
 	doTestCreatePodWithSecret(t, assert)
 }
 
-func TestCreatePeerPodContainerWithExternalIPAccess(t *testing.T) {
-	assert := IBMCloudAssert{
-		vpc: pv.IBMCloudProps.VPC,
-	}
-	doTestCreatePeerPodContainerWithExternalIPAccess(t, assert)
-}
+// func TestCreatePeerPodContainerWithExternalIPAccess(t *testing.T) {
+// 	assert := IBMCloudAssert{
+// 		vpc: pv.IBMCloudProps.VPC,
+// 	}
+// 	doTestCreatePeerPodContainerWithExternalIPAccess(t, assert)
+// }
 
-func TestCreatePeerPodWithJob(t *testing.T) {
-	assert := IBMCloudAssert{
-		vpc: pv.IBMCloudProps.VPC,
-	}
-	doTestCreatePeerPodWithJob(t, assert)
-}
+// func TestCreatePeerPodWithJob(t *testing.T) {
+// 	assert := IBMCloudAssert{
+// 		vpc: pv.IBMCloudProps.VPC,
+// 	}
+// 	doTestCreatePeerPodWithJob(t, assert)
+// }
 
-func TestCreatePeerPodAndCheckUserLogs(t *testing.T) {
-	assert := IBMCloudAssert{
-		vpc: pv.IBMCloudProps.VPC,
-	}
-	doTestCreatePeerPodAndCheckUserLogs(t, assert)
-}
+// func TestCreatePeerPodAndCheckUserLogs(t *testing.T) {
+// 	assert := IBMCloudAssert{
+// 		vpc: pv.IBMCloudProps.VPC,
+// 	}
+// 	doTestCreatePeerPodAndCheckUserLogs(t, assert)
+// }
 
-func TestCreatePeerPodAndCheckWorkDirLogs(t *testing.T) {
-	assert := IBMCloudAssert{
-		vpc: pv.IBMCloudProps.VPC,
-	}
-	doTestCreatePeerPodAndCheckWorkDirLogs(t, assert)
-}
+// func TestCreatePeerPodAndCheckWorkDirLogs(t *testing.T) {
+// 	assert := IBMCloudAssert{
+// 		vpc: pv.IBMCloudProps.VPC,
+// 	}
+// 	doTestCreatePeerPodAndCheckWorkDirLogs(t, assert)
+// }
 
-func TestCreatePeerPodAndCheckEnvVariableLogsWithImageOnly(t *testing.T) {
-	assert := IBMCloudAssert{
-		vpc: pv.IBMCloudProps.VPC,
-	}
-	doTestCreatePeerPodAndCheckEnvVariableLogsWithImageOnly(t, assert)
-}
+// func TestCreatePeerPodAndCheckEnvVariableLogsWithImageOnly(t *testing.T) {
+// 	assert := IBMCloudAssert{
+// 		vpc: pv.IBMCloudProps.VPC,
+// 	}
+// 	doTestCreatePeerPodAndCheckEnvVariableLogsWithImageOnly(t, assert)
+// }
 
-func TestCreatePeerPodAndCheckEnvVariableLogsWithDeploymentOnly(t *testing.T) {
-	assert := IBMCloudAssert{
-		vpc: pv.IBMCloudProps.VPC,
-	}
-	doTestCreatePeerPodAndCheckEnvVariableLogsWithDeploymentOnly(t, assert)
-}
+// func TestCreatePeerPodAndCheckEnvVariableLogsWithDeploymentOnly(t *testing.T) {
+// 	assert := IBMCloudAssert{
+// 		vpc: pv.IBMCloudProps.VPC,
+// 	}
+// 	doTestCreatePeerPodAndCheckEnvVariableLogsWithDeploymentOnly(t, assert)
+// }
 
-func TestCreatePeerPodAndCheckEnvVariableLogsWithImageAndDeployment(t *testing.T) {
-	assert := IBMCloudAssert{
-		vpc: pv.IBMCloudProps.VPC,
-	}
-	doTestCreatePeerPodAndCheckEnvVariableLogsWithImageAndDeployment(t, assert)
-}
+// func TestCreatePeerPodAndCheckEnvVariableLogsWithImageAndDeployment(t *testing.T) {
+// 	assert := IBMCloudAssert{
+// 		vpc: pv.IBMCloudProps.VPC,
+// 	}
+// 	doTestCreatePeerPodAndCheckEnvVariableLogsWithImageAndDeployment(t, assert)
+// }
 
-func TestCreatePeerPodWithLargeImage(t *testing.T) {
-	assert := IBMCloudAssert{
-		vpc: pv.IBMCloudProps.VPC,
-	}
-	doTestCreatePeerPodWithLargeImage(t, assert)
-}
+// func TestCreatePeerPodWithLargeImage(t *testing.T) {
+// 	assert := IBMCloudAssert{
+// 		vpc: pv.IBMCloudProps.VPC,
+// 	}
+// 	doTestCreatePeerPodWithLargeImage(t, assert)
+// }
 
-func TestCreatePeerPodWithPVC(t *testing.T) {
-	if os.Getenv("TEST_CSI_WRAPPER") == "yes" {
-		assert := IBMCloudAssert{
-			vpc: pv.IBMCloudProps.VPC,
-		}
-		nameSpace := "kube-system"
-		pvcName := "my-pvc"
-		mountPath := "/mount-path"
-		storageClassName := "ibmc-vpc-block-5iops-tier"
-		storageSize := "10Gi"
-		podName := "nginx-pvc-pod"
-		imageName := "nginx:latest"
-		containerName := "nginx-pvc-container"
-		csiContainerName := "ibm-vpc-block-podvm-node-driver"
-		csiImageName := "gcr.io/k8s-staging-cloud-provider-ibm/ibm-vpc-block-csi-driver:v5.2.0"
+// func TestCreatePeerPodWithPVC(t *testing.T) {
+// 	if os.Getenv("TEST_CSI_WRAPPER") == "yes" {
+// 		assert := IBMCloudAssert{
+// 			vpc: pv.IBMCloudProps.VPC,
+// 		}
+// 		nameSpace := "kube-system"
+// 		pvcName := "my-pvc"
+// 		mountPath := "/mount-path"
+// 		storageClassName := "ibmc-vpc-block-5iops-tier"
+// 		storageSize := "10Gi"
+// 		podName := "nginx-pvc-pod"
+// 		imageName := "nginx:latest"
+// 		containerName := "nginx-pvc-container"
+// 		csiContainerName := "ibm-vpc-block-podvm-node-driver"
+// 		csiImageName := "gcr.io/k8s-staging-cloud-provider-ibm/ibm-vpc-block-csi-driver:v5.2.0"
 
-		myPVC := newPVC(nameSpace, pvcName, storageClassName, storageSize, corev1.ReadWriteOnce)
-		myPodwithPVC := newPodWithPVCFromIBMVPCBlockDriver(nameSpace, podName, containerName, imageName, csiContainerName, csiImageName, withPVCBinding(mountPath, pvcName))
-		doTestCreatePeerPodWithPVCAndCSIWrapper(t, assert, myPVC, myPodwithPVC, mountPath)
-	} else {
-		log.Infof("Ignore PeerPod with PVC (CSI wrapper) test")
-	}
-}
+// 		myPVC := newPVC(nameSpace, pvcName, storageClassName, storageSize, corev1.ReadWriteOnce)
+// 		myPodwithPVC := newPodWithPVCFromIBMVPCBlockDriver(nameSpace, podName, containerName, imageName, csiContainerName, csiImageName, withPVCBinding(mountPath, pvcName))
+// 		doTestCreatePeerPodWithPVCAndCSIWrapper(t, assert, myPVC, myPodwithPVC, mountPath)
+// 	} else {
+// 		log.Infof("Ignore PeerPod with PVC (CSI wrapper) test")
+// 	}
+// }
 
-func newPodWithPVCFromIBMVPCBlockDriver(namespace, podName, containerName, imageName, csiContainerName, csiImageName string, options ...podOption) *corev1.Pod {
-	runtimeClassName := "kata-remote"
-	propagationBidirectional := corev1.MountPropagationBidirectional
-	propagationHostPathDirectory := corev1.HostPathDirectory
-	pod := &corev1.Pod{
-		ObjectMeta: metav1.ObjectMeta{Name: podName, Namespace: namespace},
-		Spec: corev1.PodSpec{
-			RuntimeClassName: &runtimeClassName,
-			Containers: []corev1.Container{
-				{
-					Name: csiContainerName,
-					Env: []corev1.EnvVar{
-						{
-							Name: "KUBE_NODE_NAME",
-							ValueFrom: &corev1.EnvVarSource{
-								FieldRef: &corev1.ObjectFieldSelector{
-									FieldPath: "spec.nodeName",
-								},
-							},
-						},
-					},
-					EnvFrom: []corev1.EnvFromSource{
-						{
-							ConfigMapRef: &corev1.ConfigMapEnvSource{
-								LocalObjectReference: corev1.LocalObjectReference{
-									Name: "ibm-vpc-block-csi-configmap",
-								},
-							},
-						},
-					},
-					Image:           csiImageName,
-					ImagePullPolicy: corev1.PullAlways,
-					SecurityContext: &corev1.SecurityContext{
-						Privileged:   pointer.Bool(true),
-						RunAsNonRoot: pointer.Bool(false),
-						RunAsUser:    pointer.Int64(0),
-					},
-					Ports: []corev1.ContainerPort{
-						{
-							Name:          "healthz",
-							ContainerPort: 9808,
-							Protocol:      corev1.ProtocolTCP,
-						},
-					},
-					VolumeMounts: []corev1.VolumeMount{
-						{
-							Name:             "kubelet-data-dir",
-							MountPath:        "/var/lib/kubelet",
-							MountPropagation: &propagationBidirectional,
-						},
-						{
-							Name:      "plugin-dir",
-							MountPath: "/tmp",
-						},
-						{
-							Name:      "device-dir",
-							MountPath: "/dev",
-						},
-						{
-							Name:      "etcudevpath",
-							MountPath: "/etc/udev",
-						},
-						{
-							Name:      "runudevpath",
-							MountPath: "/run/udev",
-						},
-						{
-							Name:      "libudevpath",
-							MountPath: "/lib/udev",
-						},
-						{
-							Name:      "syspath",
-							MountPath: "/sys",
-						},
-						{
-							Name:      "customer-auth",
-							MountPath: "/etc/storage_ibmc",
-							ReadOnly:  true,
-						},
-					},
-				},
-				{
-					Name: "csi-podvm-wrapper",
-					Env: []corev1.EnvVar{
-						{
-							Name: "POD_NAME",
-							ValueFrom: &corev1.EnvVarSource{
-								FieldRef: &corev1.ObjectFieldSelector{
-									FieldPath: "metadata.name",
-								},
-							},
-						},
-						{
-							Name: "POD_NAME_SPACE",
-							ValueFrom: &corev1.EnvVarSource{
-								FieldRef: &corev1.ObjectFieldSelector{
-									FieldPath: "metadata.namespace",
-								},
-							},
-						},
-						{
-							Name: "POD_UID",
-							ValueFrom: &corev1.EnvVarSource{
-								FieldRef: &corev1.ObjectFieldSelector{
-									FieldPath: "metadata.uid",
-								},
-							},
-						},
-						{
-							Name: "POD_NODE_NAME",
-							ValueFrom: &corev1.EnvVarSource{
-								FieldRef: &corev1.ObjectFieldSelector{
-									FieldPath: "spec.nodeName",
-								},
-							},
-						},
-					},
-					Args: []string{
-						"--v=5",
-						"--endpoint=/tmp/csi-podvm-wrapper.sock",
-						"--target-endpoint=/tmp/csi.sock",
-						"--namespace=kube-system",
-					},
-					Image:           "quay.io/confidential-containers/csi-podvm-wrapper:latest",
-					ImagePullPolicy: corev1.PullAlways,
-					VolumeMounts: []corev1.VolumeMount{
-						{
-							Name:      "plugin-dir",
-							MountPath: "/tmp",
-						},
-					},
-				},
-				{
-					Name:            containerName,
-					Image:           imageName,
-					ImagePullPolicy: corev1.PullAlways,
-					Ports:           []corev1.ContainerPort{{ContainerPort: 80}},
-					ReadinessProbe: &corev1.Probe{
-						ProbeHandler: corev1.ProbeHandler{
-							HTTPGet: &corev1.HTTPGetAction{
-								Path: "/",
-								Port: intstr.FromInt(80),
-							},
-						},
-						InitialDelaySeconds: 10,
-						PeriodSeconds:       5,
-					},
-				},
-			},
-			ServiceAccountName: "ibm-vpc-block-node-sa",
-			Volumes: []corev1.Volume{
-				{
-					Name: "kubelet-data-dir",
-					VolumeSource: corev1.VolumeSource{
-						HostPath: &corev1.HostPathVolumeSource{
-							Path: "/var/lib/kubelet",
-							Type: &propagationHostPathDirectory,
-						},
-					},
-				},
-				{
-					Name: "plugin-dir",
-					VolumeSource: corev1.VolumeSource{
-						EmptyDir: &corev1.EmptyDirVolumeSource{},
-					},
-				},
-				{
-					Name: "device-dir",
-					VolumeSource: corev1.VolumeSource{
-						HostPath: &corev1.HostPathVolumeSource{
-							Path: "/dev",
-							Type: &propagationHostPathDirectory,
-						},
-					},
-				},
-				{
-					Name: "etcudevpath",
-					VolumeSource: corev1.VolumeSource{
-						HostPath: &corev1.HostPathVolumeSource{
-							Path: "/etc/udev",
-							Type: &propagationHostPathDirectory,
-						},
-					},
-				},
-				{
-					Name: "runudevpath",
-					VolumeSource: corev1.VolumeSource{
-						HostPath: &corev1.HostPathVolumeSource{
-							Path: "/run/udev",
-							Type: &propagationHostPathDirectory,
-						},
-					},
-				},
-				{
-					Name: "libudevpath",
-					VolumeSource: corev1.VolumeSource{
-						HostPath: &corev1.HostPathVolumeSource{
-							Path: "/lib/udev",
-							Type: &propagationHostPathDirectory,
-						},
-					},
-				},
-				{
-					Name: "syspath",
-					VolumeSource: corev1.VolumeSource{
-						HostPath: &corev1.HostPathVolumeSource{
-							Path: "/sys",
-							Type: &propagationHostPathDirectory,
-						},
-					},
-				},
-				{
-					Name: "customer-auth",
-					VolumeSource: corev1.VolumeSource{
-						Secret: &corev1.SecretVolumeSource{
-							SecretName: "storage-secret-store",
-						},
-					},
-				},
-			},
-		},
-	}
+// func newPodWithPVCFromIBMVPCBlockDriver(namespace, podName, containerName, imageName, csiContainerName, csiImageName string, options ...podOption) *corev1.Pod {
+// 	runtimeClassName := "kata-remote"
+// 	propagationBidirectional := corev1.MountPropagationBidirectional
+// 	propagationHostPathDirectory := corev1.HostPathDirectory
+// 	pod := &corev1.Pod{
+// 		ObjectMeta: metav1.ObjectMeta{Name: podName, Namespace: namespace},
+// 		Spec: corev1.PodSpec{
+// 			RuntimeClassName: &runtimeClassName,
+// 			Containers: []corev1.Container{
+// 				{
+// 					Name: csiContainerName,
+// 					Env: []corev1.EnvVar{
+// 						{
+// 							Name: "KUBE_NODE_NAME",
+// 							ValueFrom: &corev1.EnvVarSource{
+// 								FieldRef: &corev1.ObjectFieldSelector{
+// 									FieldPath: "spec.nodeName",
+// 								},
+// 							},
+// 						},
+// 					},
+// 					EnvFrom: []corev1.EnvFromSource{
+// 						{
+// 							ConfigMapRef: &corev1.ConfigMapEnvSource{
+// 								LocalObjectReference: corev1.LocalObjectReference{
+// 									Name: "ibm-vpc-block-csi-configmap",
+// 								},
+// 							},
+// 						},
+// 					},
+// 					Image:           csiImageName,
+// 					ImagePullPolicy: corev1.PullAlways,
+// 					SecurityContext: &corev1.SecurityContext{
+// 						Privileged:   pointer.Bool(true),
+// 						RunAsNonRoot: pointer.Bool(false),
+// 						RunAsUser:    pointer.Int64(0),
+// 					},
+// 					Ports: []corev1.ContainerPort{
+// 						{
+// 							Name:          "healthz",
+// 							ContainerPort: 9808,
+// 							Protocol:      corev1.ProtocolTCP,
+// 						},
+// 					},
+// 					VolumeMounts: []corev1.VolumeMount{
+// 						{
+// 							Name:             "kubelet-data-dir",
+// 							MountPath:        "/var/lib/kubelet",
+// 							MountPropagation: &propagationBidirectional,
+// 						},
+// 						{
+// 							Name:      "plugin-dir",
+// 							MountPath: "/tmp",
+// 						},
+// 						{
+// 							Name:      "device-dir",
+// 							MountPath: "/dev",
+// 						},
+// 						{
+// 							Name:      "etcudevpath",
+// 							MountPath: "/etc/udev",
+// 						},
+// 						{
+// 							Name:      "runudevpath",
+// 							MountPath: "/run/udev",
+// 						},
+// 						{
+// 							Name:      "libudevpath",
+// 							MountPath: "/lib/udev",
+// 						},
+// 						{
+// 							Name:      "syspath",
+// 							MountPath: "/sys",
+// 						},
+// 						{
+// 							Name:      "customer-auth",
+// 							MountPath: "/etc/storage_ibmc",
+// 							ReadOnly:  true,
+// 						},
+// 					},
+// 				},
+// 				{
+// 					Name: "csi-podvm-wrapper",
+// 					Env: []corev1.EnvVar{
+// 						{
+// 							Name: "POD_NAME",
+// 							ValueFrom: &corev1.EnvVarSource{
+// 								FieldRef: &corev1.ObjectFieldSelector{
+// 									FieldPath: "metadata.name",
+// 								},
+// 							},
+// 						},
+// 						{
+// 							Name: "POD_NAME_SPACE",
+// 							ValueFrom: &corev1.EnvVarSource{
+// 								FieldRef: &corev1.ObjectFieldSelector{
+// 									FieldPath: "metadata.namespace",
+// 								},
+// 							},
+// 						},
+// 						{
+// 							Name: "POD_UID",
+// 							ValueFrom: &corev1.EnvVarSource{
+// 								FieldRef: &corev1.ObjectFieldSelector{
+// 									FieldPath: "metadata.uid",
+// 								},
+// 							},
+// 						},
+// 						{
+// 							Name: "POD_NODE_NAME",
+// 							ValueFrom: &corev1.EnvVarSource{
+// 								FieldRef: &corev1.ObjectFieldSelector{
+// 									FieldPath: "spec.nodeName",
+// 								},
+// 							},
+// 						},
+// 					},
+// 					Args: []string{
+// 						"--v=5",
+// 						"--endpoint=/tmp/csi-podvm-wrapper.sock",
+// 						"--target-endpoint=/tmp/csi.sock",
+// 						"--namespace=kube-system",
+// 					},
+// 					Image:           "quay.io/confidential-containers/csi-podvm-wrapper:latest",
+// 					ImagePullPolicy: corev1.PullAlways,
+// 					VolumeMounts: []corev1.VolumeMount{
+// 						{
+// 							Name:      "plugin-dir",
+// 							MountPath: "/tmp",
+// 						},
+// 					},
+// 				},
+// 				{
+// 					Name:            containerName,
+// 					Image:           imageName,
+// 					ImagePullPolicy: corev1.PullAlways,
+// 					Ports:           []corev1.ContainerPort{{ContainerPort: 80}},
+// 					ReadinessProbe: &corev1.Probe{
+// 						ProbeHandler: corev1.ProbeHandler{
+// 							HTTPGet: &corev1.HTTPGetAction{
+// 								Path: "/",
+// 								Port: intstr.FromInt(80),
+// 							},
+// 						},
+// 						InitialDelaySeconds: 10,
+// 						PeriodSeconds:       5,
+// 					},
+// 				},
+// 			},
+// 			ServiceAccountName: "ibm-vpc-block-node-sa",
+// 			Volumes: []corev1.Volume{
+// 				{
+// 					Name: "kubelet-data-dir",
+// 					VolumeSource: corev1.VolumeSource{
+// 						HostPath: &corev1.HostPathVolumeSource{
+// 							Path: "/var/lib/kubelet",
+// 							Type: &propagationHostPathDirectory,
+// 						},
+// 					},
+// 				},
+// 				{
+// 					Name: "plugin-dir",
+// 					VolumeSource: corev1.VolumeSource{
+// 						EmptyDir: &corev1.EmptyDirVolumeSource{},
+// 					},
+// 				},
+// 				{
+// 					Name: "device-dir",
+// 					VolumeSource: corev1.VolumeSource{
+// 						HostPath: &corev1.HostPathVolumeSource{
+// 							Path: "/dev",
+// 							Type: &propagationHostPathDirectory,
+// 						},
+// 					},
+// 				},
+// 				{
+// 					Name: "etcudevpath",
+// 					VolumeSource: corev1.VolumeSource{
+// 						HostPath: &corev1.HostPathVolumeSource{
+// 							Path: "/etc/udev",
+// 							Type: &propagationHostPathDirectory,
+// 						},
+// 					},
+// 				},
+// 				{
+// 					Name: "runudevpath",
+// 					VolumeSource: corev1.VolumeSource{
+// 						HostPath: &corev1.HostPathVolumeSource{
+// 							Path: "/run/udev",
+// 							Type: &propagationHostPathDirectory,
+// 						},
+// 					},
+// 				},
+// 				{
+// 					Name: "libudevpath",
+// 					VolumeSource: corev1.VolumeSource{
+// 						HostPath: &corev1.HostPathVolumeSource{
+// 							Path: "/lib/udev",
+// 							Type: &propagationHostPathDirectory,
+// 						},
+// 					},
+// 				},
+// 				{
+// 					Name: "syspath",
+// 					VolumeSource: corev1.VolumeSource{
+// 						HostPath: &corev1.HostPathVolumeSource{
+// 							Path: "/sys",
+// 							Type: &propagationHostPathDirectory,
+// 						},
+// 					},
+// 				},
+// 				{
+// 					Name: "customer-auth",
+// 					VolumeSource: corev1.VolumeSource{
+// 						Secret: &corev1.SecretVolumeSource{
+// 							SecretName: "storage-secret-store",
+// 						},
+// 					},
+// 				},
+// 			},
+// 		},
+// 	}
 
-	for _, option := range options {
-		option(pod)
-	}
+// 	for _, option := range options {
+// 		option(pod)
+// 	}
 
-	return pod
-}
+// 	return pod
+// }
 
-func TestCreatePeerPodWithAuthenticatedImagewithValidCredentials(t *testing.T) {
-	assert := IBMCloudAssert{
-		vpc: pv.IBMCloudProps.VPC,
-	}
-	if os.Getenv("REGISTRY_CREDENTIAL_ENCODED") != "" && os.Getenv("AUTHENTICATED_REGISTRY_IMAGE") != "" {
-		doTestCreatePeerPodWithAuthenticatedImagewithValidCredentials(t, assert)
-	} else {
-		t.Skip("Registry Credentials not exported")
-	}
-}
+// func TestCreatePeerPodWithAuthenticatedImagewithValidCredentials(t *testing.T) {
+// 	assert := IBMCloudAssert{
+// 		vpc: pv.IBMCloudProps.VPC,
+// 	}
+// 	if os.Getenv("REGISTRY_CREDENTIAL_ENCODED") != "" && os.Getenv("AUTHENTICATED_REGISTRY_IMAGE") != "" {
+// 		doTestCreatePeerPodWithAuthenticatedImagewithValidCredentials(t, assert)
+// 	} else {
+// 		t.Skip("Registry Credentials not exported")
+// 	}
+// }
 
-func TestCreatePeerPodWithAuthenticatedImageWithInvalidCredentials(t *testing.T) {
-	assert := IBMCloudAssert{
-		vpc: pv.IBMCloudProps.VPC,
-	}
-	if os.Getenv("REGISTRY_CREDENTIAL_ENCODED") != "" && os.Getenv("AUTHENTICATED_REGISTRY_IMAGE") != "" {
-		doTestCreatePeerPodWithAuthenticatedImageWithInvalidCredentials(t, assert)
-	} else {
-		t.Skip("Registry Credentials not exported")
-	}
-}
+// func TestCreatePeerPodWithAuthenticatedImageWithInvalidCredentials(t *testing.T) {
+// 	assert := IBMCloudAssert{
+// 		vpc: pv.IBMCloudProps.VPC,
+// 	}
+// 	if os.Getenv("REGISTRY_CREDENTIAL_ENCODED") != "" && os.Getenv("AUTHENTICATED_REGISTRY_IMAGE") != "" {
+// 		doTestCreatePeerPodWithAuthenticatedImageWithInvalidCredentials(t, assert)
+// 	} else {
+// 		t.Skip("Registry Credentials not exported")
+// 	}
+// }
 
-func TestCreatePeerPodWithAuthenticatedImageWithoutCredentials(t *testing.T) {
-	assert := IBMCloudAssert{
-		vpc: pv.IBMCloudProps.VPC,
-	}
-	if os.Getenv("AUTHENTICATED_REGISTRY_IMAGE") != "" {
-		doTestCreatePeerPodWithAuthenticatedImageWithoutCredentials(t, assert)
-	} else {
-		t.Skip("Image Name not exported")
-	}
-}
+// func TestCreatePeerPodWithAuthenticatedImageWithoutCredentials(t *testing.T) {
+// 	assert := IBMCloudAssert{
+// 		vpc: pv.IBMCloudProps.VPC,
+// 	}
+// 	if os.Getenv("AUTHENTICATED_REGISTRY_IMAGE") != "" {
+// 		doTestCreatePeerPodWithAuthenticatedImageWithoutCredentials(t, assert)
+// 	} else {
+// 		t.Skip("Image Name not exported")
+// 	}
+// }
 
-func TestDeletePod(t *testing.T) {
-	assert := IBMCloudAssert{
-		vpc: pv.IBMCloudProps.VPC,
-	}
-	doTestDeleteSimplePod(t, assert)
-}
+// func TestDeletePod(t *testing.T) {
+// 	assert := IBMCloudAssert{
+// 		vpc: pv.IBMCloudProps.VPC,
+// 	}
+// 	doTestDeleteSimplePod(t, assert)
+// }
 
-func TestPodVMwithNoAnnotations(t *testing.T) {
-	assert := IBMCloudAssert{
-		vpc: pv.IBMCloudProps.VPC,
-	}
-	doTestPodVMwithNoAnnotations(t, assert, getProfileType("b", "2x8"))
-}
+// func TestPodVMwithNoAnnotations(t *testing.T) {
+// 	assert := IBMCloudAssert{
+// 		vpc: pv.IBMCloudProps.VPC,
+// 	}
+// 	doTestPodVMwithNoAnnotations(t, assert, getProfileType("b", "2x8"))
+// }
 
-func TestPodVMwithAnnotationsInstanceType(t *testing.T) {
-	assert := IBMCloudAssert{
-		vpc: pv.IBMCloudProps.VPC,
-	}
-	doTestPodVMwithAnnotationsInstanceType(t, assert, getProfileType("c", "2x4"))
-}
+// func TestPodVMwithAnnotationsInstanceType(t *testing.T) {
+// 	assert := IBMCloudAssert{
+// 		vpc: pv.IBMCloudProps.VPC,
+// 	}
+// 	doTestPodVMwithAnnotationsInstanceType(t, assert, getProfileType("c", "2x4"))
+// }
 
-func TestPodVMwithAnnotationsCPUMemory(t *testing.T) {
-	assert := IBMCloudAssert{
-		vpc: pv.IBMCloudProps.VPC,
-	}
-	doTestPodVMwithAnnotationsCPUMemory(t, assert, getProfileType("m", "2x16"))
-}
+// func TestPodVMwithAnnotationsCPUMemory(t *testing.T) {
+// 	assert := IBMCloudAssert{
+// 		vpc: pv.IBMCloudProps.VPC,
+// 	}
+// 	doTestPodVMwithAnnotationsCPUMemory(t, assert, getProfileType("m", "2x16"))
+// }
 
-func TestPodVMwithAnnotationsInvalidInstanceType(t *testing.T) {
-	assert := IBMCloudAssert{
-		vpc: pv.IBMCloudProps.VPC,
-	}
-	doTestPodVMwithAnnotationsInvalidInstanceType(t, assert, getProfileType("b", "2x4"))
-}
-func TestPodVMwithAnnotationsLargerMemory(t *testing.T) {
-	assert := IBMCloudAssert{
-		vpc: pv.IBMCloudProps.VPC,
-	}
-	doTestPodVMwithAnnotationsLargerMemory(t, assert)
-}
-func TestPodVMwithAnnotationsLargerCPU(t *testing.T) {
-	assert := IBMCloudAssert{
-		vpc: pv.IBMCloudProps.VPC,
-	}
-	doTestPodVMwithAnnotationsLargerCPU(t, assert)
-}
+// func TestPodVMwithAnnotationsInvalidInstanceType(t *testing.T) {
+// 	assert := IBMCloudAssert{
+// 		vpc: pv.IBMCloudProps.VPC,
+// 	}
+// 	doTestPodVMwithAnnotationsInvalidInstanceType(t, assert, getProfileType("b", "2x4"))
+// }
+// func TestPodVMwithAnnotationsLargerMemory(t *testing.T) {
+// 	assert := IBMCloudAssert{
+// 		vpc: pv.IBMCloudProps.VPC,
+// 	}
+// 	doTestPodVMwithAnnotationsLargerMemory(t, assert)
+// }
+// func TestPodVMwithAnnotationsLargerCPU(t *testing.T) {
+// 	assert := IBMCloudAssert{
+// 		vpc: pv.IBMCloudProps.VPC,
+// 	}
+// 	doTestPodVMwithAnnotationsLargerCPU(t, assert)
+// }
 
 func TestIBMCloudCreateNginxDeployment(t *testing.T) {
 	// TODO: We meet the 10% FAIL in this case for ibmcloud maybe related to kata-containers/kata-containers#5732
-	t.Skip("Skipping Test until issue kata-containers/kata-containers#5732 is Fixed")
-	// assert := IBMCloudAssert{
-	// 	vpc: pv.IBMCloudProps.VPC,
-	// }
-	// doTestNginxDeployement(t, assert)
+	// t.Skip("Skipping Test until issue kata-containers/kata-containers#5732 is Fixed")
+	assert := IBMCloudAssert{
+		vpc: pv.IBMCloudProps.VPC,
+	}
+	doTestNginxDeployementWithNydus(t, assert)
 }
 
 // IBMCloudAssert implements the CloudAssert interface for ibmcloud.

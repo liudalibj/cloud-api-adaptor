@@ -67,9 +67,9 @@ func TestLibvirtCreatePeerPodAndCheckEnvVariableLogsWithImageAndDeployment(t *te
 	doTestCreatePeerPodAndCheckEnvVariableLogsWithImageAndDeployment(t, assert)
 }
 
-func TestLibvirtCreateNginxDeployment(t *testing.T) {
+func TestLibvirtCreateNginxDeploymentWithNydus(t *testing.T) {
 	assert := LibvirtAssert{}
-	doTestNginxDeployement(t, assert)
+	doTestNginxDeployementWithNydus(t, assert)
 }
 
 /*

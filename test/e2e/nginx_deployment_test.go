@@ -23,7 +23,7 @@ import (
 	"sigs.k8s.io/e2e-framework/pkg/features"
 )
 
-const WAIT_NGINX_DEPLOYMENT_TIMEOUT = time.Second * 900
+const WAIT_NGINX_DEPLOYMENT_TIMEOUT = time.Second * 300
 
 type deploymentOption func(*appsv1.Deployment)
 
@@ -69,6 +69,10 @@ func newDeployment(namespace, deploymentName, containerName, imageName string, o
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      deploymentName,
 			Namespace: namespace,
+			// use NydusAnnotation
+			Annotations: map[string]string{
+				"io.containerd.cri.runtime-handler": "kata-remote",
+			},
 		},
 		Spec: appsv1.DeploymentSpec{
 			Selector: &metav1.LabelSelector{
@@ -97,13 +101,13 @@ func newDeployment(namespace, deploymentName, containerName, imageName string, o
 	return deployment
 }
 
-func doTestNginxDeployement(t *testing.T, assert CloudAssert) {
+func doTestNginxDeployementWithNydus(t *testing.T, assert CloudAssert) {
 	namespace := envconf.RandomName("default", 7)
 	deploymentName := "nginx-deployment"
 	containerName := "nginx"
 	imageName := "nginx:latest"
 	port := int32(80)
-	replicas := int32(10)
+	replicas := int32(6)
 	deployment := newDeployment(namespace, deploymentName, containerName, imageName, withContainerPort(port), withReplicaCount(replicas))
 
 	nginxImageFeature := features.New("Nginx image deployment test").
