@@ -1,3 +1,6 @@
+// (C) Copyright Confidential Containers Contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package e2e
 
 import (
@@ -17,6 +20,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"sigs.k8s.io/e2e-framework/klient"
+	"sigs.k8s.io/e2e-framework/pkg/env"
 )
 
 func reverseSlice(slice []string) []string {
@@ -42,9 +46,10 @@ type PodEvents struct {
 	EventReason      string
 }
 
-func newTestCase(t *testing.T, testName string, assert CloudAssert, assessMessage string) *testCase {
-	testCase := &testCase{
+func NewTestCase(t *testing.T, e env.Environment, testName string, assert CloudAssert, assessMessage string) *TestCase {
+	testCase := &TestCase{
 		testing:        t,
+		testEnv:        e,
 		testName:       testName,
 		assert:         assert,
 		assessMessage:  assessMessage,
@@ -56,7 +61,7 @@ func newTestCase(t *testing.T, testName string, assert CloudAssert, assessMessag
 	return testCase
 }
 
-func podEventExtractor(ctx context.Context, client klient.Client, pod v1.Pod) (*PodEvents, error) {
+func PodEventExtractor(ctx context.Context, client klient.Client, pod v1.Pod) (*PodEvents, error) {
 	clientset, err := kubernetes.NewForConfig(client.RESTConfig())
 	if err != nil {
 		return nil, err
@@ -79,12 +84,12 @@ func podEventExtractor(ctx context.Context, client klient.Client, pod v1.Pod) (*
 	return nil, errors.New("No Events Found in PodVM")
 }
 
-func watchImagePullTime(ctx context.Context, client klient.Client, caaPod v1.Pod, Pod v1.Pod) (string, error) {
+func WatchImagePullTime(ctx context.Context, client klient.Client, caaPod v1.Pod, Pod v1.Pod) (string, error) {
 	pullingtime := ""
 	var startTime, endTime time.Time
 
 	if Pod.Status.Phase == v1.PodRunning {
-		podLogString, err := getPodLog(ctx, client, caaPod)
+		podLogString, err := GetPodLog(ctx, client, caaPod)
 		if err != nil {
 			return "", err
 		}
@@ -149,7 +154,7 @@ func IsPulledWithNydusSnapshotter(ctx context.Context, t *testing.T, client klie
 	}
 	for _, pod := range podlist.Items {
 		if pod.Labels["app"] == "cloud-api-adaptor" && pod.Spec.NodeName == nodeName {
-			podLogString, err := getPodLog(ctx, client, pod)
+			podLogString, err := GetPodLog(ctx, client, pod)
 			if err != nil {
 				return false, err
 			}
@@ -170,7 +175,7 @@ func IsPulledWithNydusSnapshotter(ctx context.Context, t *testing.T, client klie
 	return false, fmt.Errorf("No cloud-api-adaptor pod found in podList: %v", podlist.Items)
 }
 
-func getPodLog(ctx context.Context, client klient.Client, pod v1.Pod) (string, error) {
+func GetPodLog(ctx context.Context, client klient.Client, pod v1.Pod) (string, error) {
 	clientset, err := kubernetes.NewForConfig(client.RESTConfig())
 	if err != nil {
 		return "", err
@@ -190,7 +195,7 @@ func getPodLog(ctx context.Context, client klient.Client, pod v1.Pod) (string, e
 	return buf.String(), nil
 }
 
-func comparePodLogString(ctx context.Context, client klient.Client, customPod v1.Pod, expectedPodlogString string) (string, error) {
+func ComparePodLogString(ctx context.Context, client klient.Client, customPod v1.Pod, expectedPodlogString string) (string, error) {
 	podLogString := ""
 	var podlist v1.PodList
 	if err := client.Resources(customPod.Namespace).List(ctx, &podlist); err != nil {
@@ -201,7 +206,7 @@ func comparePodLogString(ctx context.Context, client klient.Client, customPod v1
 	for _, pod := range podlist.Items {
 		if pod.ObjectMeta.Name == customPod.Name {
 			var err error
-			podLogString, err = getPodLog(ctx, client, pod)
+			podLogString, err = GetPodLog(ctx, client, pod)
 			if err != nil {
 				return "", err
 			}
@@ -217,7 +222,7 @@ func comparePodLogString(ctx context.Context, client klient.Client, customPod v1
 	return podLogString, nil
 }
 
-func getNodeNameFromPod(ctx context.Context, client klient.Client, customPod v1.Pod) (string, error) {
+func GetNodeNameFromPod(ctx context.Context, client klient.Client, customPod v1.Pod) (string, error) {
 	var podlist v1.PodList
 	if err := client.Resources(customPod.Namespace).List(ctx, &podlist); err != nil {
 		return "", err
@@ -231,7 +236,7 @@ func getNodeNameFromPod(ctx context.Context, client klient.Client, customPod v1.
 	return "", errors.New("Pod wasn't found")
 }
 
-func getSuccessfulAndErroredPods(ctx context.Context, t *testing.T, client klient.Client, job batchv1.Job) (int, int, string, error) {
+func GetSuccessfulAndErroredPods(ctx context.Context, t *testing.T, client klient.Client, job batchv1.Job) (int, int, string, error) {
 	podLogString := ""
 	errorPod := 0
 	successPod := 0
@@ -286,7 +291,7 @@ func getSuccessfulAndErroredPods(ctx context.Context, t *testing.T, client klien
 	return successPod, errorPod, podLogString, nil
 }
 
-func getAuthenticatedImageStatus(ctx context.Context, client klient.Client, expectedStatus string, authpod v1.Pod) error {
+func GetAuthenticatedImageStatus(ctx context.Context, client klient.Client, expectedStatus string, authpod v1.Pod) error {
 	clientset, err := kubernetes.NewForConfig(client.RESTConfig())
 	if err != nil {
 		return err
@@ -327,8 +332,8 @@ func getAuthenticatedImageStatus(ctx context.Context, client klient.Client, expe
 	return errors.New("PodVM Start Error")
 }
 
-// skipTestOnCI skips the test if running on CI
-func skipTestOnCI(t *testing.T) {
+// SkipTestOnCI skips the test if running on CI
+func SkipTestOnCI(t *testing.T) {
 	ci := os.Getenv("CI")
 
 	if ci == "true" {
@@ -336,7 +341,7 @@ func skipTestOnCI(t *testing.T) {
 	}
 }
 
-func testStringEmpty(data string) bool {
+func IsStringEmpty(data string) bool {
 	if data == "" {
 		return true
 	} else {
@@ -344,8 +349,16 @@ func testStringEmpty(data string) bool {
 	}
 }
 
-func testErrorEmpty(err error) bool {
+func IsErrorEmpty(err error) bool {
 	if err == nil {
+		return true
+	} else {
+		return false
+	}
+}
+
+func IsBufferEmpty(buffer bytes.Buffer) bool {
+	if buffer.String() == "" {
 		return true
 	} else {
 		return false

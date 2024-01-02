@@ -1,3 +1,6 @@
+// (C) Copyright Confidential Containers Contributors
+// SPDX-License-Identifier: Apache-2.0
+
 package e2e
 
 import (
@@ -12,27 +15,27 @@ import (
 
 const BUSYBOX_IMAGE = "quay.io/prometheus/busybox:latest"
 
-type podOption func(*corev1.Pod)
+type PodOption func(*corev1.Pod)
 
-func withRestartPolicy(restartPolicy corev1.RestartPolicy) podOption {
+func WithRestartPolicy(restartPolicy corev1.RestartPolicy) PodOption {
 	return func(p *corev1.Pod) {
 		p.Spec.RestartPolicy = restartPolicy
 	}
 }
 
-func withCommand(command []string) podOption {
+func WithCommand(command []string) PodOption {
 	return func(p *corev1.Pod) {
 		p.Spec.Containers[0].Command = command
 	}
 }
 
-func withEnvironmentalVariables(envVar []corev1.EnvVar) podOption {
+func WithEnvironmentalVariables(envVar []corev1.EnvVar) PodOption {
 	return func(p *corev1.Pod) {
 		p.Spec.Containers[0].Env = envVar
 	}
 }
 
-func withImagePullSecrets(secretName string) podOption {
+func WithImagePullSecrets(secretName string) PodOption {
 	return func(p *corev1.Pod) {
 		p.Spec.ImagePullSecrets = []corev1.LocalObjectReference{
 			{
@@ -42,21 +45,21 @@ func withImagePullSecrets(secretName string) podOption {
 	}
 }
 
-func withConfigMapBinding(mountPath string, configMapName string) podOption {
+func WithConfigMapBinding(mountPath string, configMapName string) PodOption {
 	return func(p *corev1.Pod) {
 		p.Spec.Containers[0].VolumeMounts = append(p.Spec.Containers[0].VolumeMounts, corev1.VolumeMount{Name: "config-volume", MountPath: mountPath})
 		p.Spec.Volumes = append(p.Spec.Volumes, corev1.Volume{Name: "config-volume", VolumeSource: corev1.VolumeSource{ConfigMap: &corev1.ConfigMapVolumeSource{LocalObjectReference: corev1.LocalObjectReference{Name: configMapName}}}})
 	}
 }
 
-func withSecretBinding(mountPath string, secretName string) podOption {
+func WithSecretBinding(mountPath string, secretName string) PodOption {
 	return func(p *corev1.Pod) {
 		p.Spec.Containers[0].VolumeMounts = append(p.Spec.Containers[0].VolumeMounts, corev1.VolumeMount{Name: "secret-volume", MountPath: mountPath})
 		p.Spec.Volumes = append(p.Spec.Volumes, corev1.Volume{Name: "secret-volume", VolumeSource: corev1.VolumeSource{Secret: &corev1.SecretVolumeSource{SecretName: secretName}}})
 	}
 }
 
-func withPVCBinding(mountPath string, pvcName string) podOption {
+func WithPVCBinding(mountPath string, pvcName string) PodOption {
 	propagationHostToContainer := corev1.MountPropagationHostToContainer
 	return func(p *corev1.Pod) {
 		p.Spec.Containers[2].VolumeMounts = append(p.Spec.Containers[2].VolumeMounts, corev1.VolumeMount{Name: "pvc-volume", MountPath: mountPath, MountPropagation: &propagationHostToContainer})
@@ -64,13 +67,13 @@ func withPVCBinding(mountPath string, pvcName string) podOption {
 	}
 }
 
-func withAnnotations(data map[string]string) podOption {
+func WithAnnotations(data map[string]string) PodOption {
 	return func(p *corev1.Pod) {
 		p.ObjectMeta.Annotations = data
 	}
 }
 
-func newPod(namespace string, podName string, containerName string, imageName string, options ...podOption) *corev1.Pod {
+func NewPod(namespace string, podName string, containerName string, imageName string, options ...PodOption) *corev1.Pod {
 	runtimeClassName := "kata-remote"
 	// Comment out adding runtime-handler until nydus-snapshotter is stable
 	// annotationData := map[string]string{
@@ -91,24 +94,24 @@ func newPod(namespace string, podName string, containerName string, imageName st
 	return pod
 }
 
-func newBusyboxPod(namespace string) *corev1.Pod {
-	return newBusyboxPodWithName(namespace, "busybox")
+func NewBusyboxPod(namespace string) *corev1.Pod {
+	return NewBusyboxPodWithName(namespace, "busybox")
 }
 
-func newBusyboxPodWithName(namespace, podName string) *corev1.Pod {
-	return newPod(namespace, podName, "busybox", BUSYBOX_IMAGE, withCommand([]string{"/bin/sh", "-c", "sleep 3600"}))
+func NewBusyboxPodWithName(namespace, podName string) *corev1.Pod {
+	return NewPod(namespace, podName, "busybox", BUSYBOX_IMAGE, WithCommand([]string{"/bin/sh", "-c", "sleep 3600"}))
 }
 
-// newConfigMap returns a new config map object.
-func newConfigMap(namespace, name string, configMapData map[string]string) *corev1.ConfigMap {
+// NewConfigMap returns a new config map object.
+func NewConfigMap(namespace, name string, configMapData map[string]string) *corev1.ConfigMap {
 	return &corev1.ConfigMap{
 		ObjectMeta: metav1.ObjectMeta{Name: name, Namespace: namespace},
 		Data:       configMapData,
 	}
 }
 
-// newSecret returns a new secret object.
-func newSecret(namespace, name string, data map[string][]byte, secretType corev1.SecretType) *corev1.Secret {
+// NewSecret returns a new secret object.
+func NewSecret(namespace, name string, data map[string][]byte, secretType corev1.SecretType) *corev1.Secret {
 	return &corev1.Secret{
 		ObjectMeta: metav1.ObjectMeta{Name: name, Namespace: namespace},
 		Data:       data,
@@ -116,8 +119,8 @@ func newSecret(namespace, name string, data map[string][]byte, secretType corev1
 	}
 }
 
-// newJob returns a new job
-func newJob(namespace, name string) *batchv1.Job {
+// NewJob returns a new job
+func NewJob(namespace, name string) *batchv1.Job {
 	runtimeClassName := "kata-remote"
 	// Comment out adding runtime-handler until nydus-snapshotter is stable
 	// annotationData := map[string]string{
@@ -150,8 +153,8 @@ func newJob(namespace, name string) *batchv1.Job {
 	}
 }
 
-// newPVC returns a new pvc object.
-func newPVC(namespace, name, storageClassName, diskSize string, accessModel corev1.PersistentVolumeAccessMode) *corev1.PersistentVolumeClaim {
+// NewPVC returns a new pvc object.
+func NewPVC(namespace, name, storageClassName, diskSize string, accessModel corev1.PersistentVolumeAccessMode) *corev1.PersistentVolumeClaim {
 	return &corev1.PersistentVolumeClaim{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      name,
@@ -174,7 +177,7 @@ func newPVC(namespace, name, storageClassName, diskSize string, accessModel core
 // CloudAssert defines assertions to perform on the cloud provider.
 type CloudAssert interface {
 	HasPodVM(t *testing.T, id string)                             // Assert there is a PodVM with `id`.
-	getInstanceType(t *testing.T, podName string) (string, error) // Get Instance Type of PodVM
+	GetInstanceType(t *testing.T, podName string) (string, error) // Get Instance Type of PodVM
 }
 
 // RollingUpdateAssert defines assertions for rolling update test

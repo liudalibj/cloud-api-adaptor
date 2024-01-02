@@ -22,6 +22,7 @@ import (
 	"sigs.k8s.io/e2e-framework/klient/k8s"
 	"sigs.k8s.io/e2e-framework/klient/wait"
 	"sigs.k8s.io/e2e-framework/klient/wait/conditions"
+	"sigs.k8s.io/e2e-framework/pkg/env"
 	envconf "sigs.k8s.io/e2e-framework/pkg/envconf"
 	"sigs.k8s.io/e2e-framework/pkg/features"
 )
@@ -29,7 +30,7 @@ import (
 const WAIT_DEPLOYMENT_AVAILABLE_TIMEOUT = time.Second * 180
 const OLD_VM_DELETION_TIMEOUT = time.Second * 30
 
-func doTestCaaDaemonsetRollingUpdate(t *testing.T, assert RollingUpdateAssert) {
+func DoTestCaaDaemonsetRollingUpdate(t *testing.T, testEnv env.Environment, assert RollingUpdateAssert) {
 	runtimeClassName := "kata-remote"
 	namespace := envconf.RandomName("default", 7)
 	deploymentName := "webserver-deployment"
