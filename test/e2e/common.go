@@ -24,6 +24,7 @@ import (
 
 const BUSYBOX_IMAGE = "quay.io/prometheus/busybox:latest"
 const WAIT_DEPLOYMENT_AVAILABLE_TIMEOUT = time.Second * 180
+const WAIT_NAMESPACE_AVAILABLE_TIMEOUT = time.Second * 120
 
 type PodOption func(*corev1.Pod)
 
@@ -125,6 +126,15 @@ func NewPod(namespace string, podName string, containerName string, imageName st
 	}
 
 	return pod
+}
+
+func NewNameSpace(name string) *corev1.Namespace {
+	namespace := &corev1.Namespace{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: name,
+		},
+	}
+	return namespace
 }
 
 func NewBusyboxPod(namespace string) *corev1.Pod {
@@ -248,6 +258,20 @@ func WaitForClusterIP(t *testing.T, client klient.Client, svc *v1.Service) strin
 	}
 
 	return clusterIP
+}
+
+func WaitForNamespace(client klient.Client, namespace *v1.Namespace) error {
+	if err := wait.For(conditions.New(client.Resources()).ResourceMatch(namespace, func(object k8s.Object) bool {
+		ns, ok := object.(*v1.Namespace)
+		if !ok {
+			log.Printf("Not a namespace object: %v", object)
+			return false
+		}
+		return ns.Status.Phase == corev1.NamespaceActive
+	}), wait.WithTimeout(WAIT_NAMESPACE_AVAILABLE_TIMEOUT)); err != nil {
+		return err
+	}
+	return nil
 }
 
 // CloudAssert defines assertions to perform on the cloud provider.

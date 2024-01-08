@@ -19,31 +19,32 @@ import (
 	envconf "sigs.k8s.io/e2e-framework/pkg/envconf"
 )
 
+var Namespace = envconf.RandomName("e2e-test", 12)
+
 // DoTestCreateSimplePod tests a simple peer-pod can be created.
 func DoTestCreateSimplePod(t *testing.T, e env.Environment, assert CloudAssert) {
-	namespace := envconf.RandomName("default", 7)
-	pod := NewBusyboxPodWithName(namespace, "simple-test")
+
+	pod := NewBusyboxPodWithName(Namespace, "simple-test")
 	NewTestCase(t, e, "SimplePeerPod", assert, "PodVM is created").WithPod(pod).Run()
 }
 
 func DoTestCreateSimplePodWithNydusAnnotation(t *testing.T, e env.Environment, assert CloudAssert) {
-	namespace := envconf.RandomName("default", 7)
 	annotationData := map[string]string{
 		"io.containerd.cri.runtime-handler": "kata-remote",
 	}
-	pod := NewPod(namespace, "alpine", "alpine", "alpine", WithRestartPolicy(v1.RestartPolicyNever), WithAnnotations(annotationData))
+	pod := NewPod(Namespace, "alpine", "alpine", "alpine", WithRestartPolicy(v1.RestartPolicyNever), WithAnnotations(annotationData))
 	NewTestCase(t, e, "SimplePeerPod", assert, "PodVM is created").WithPod(pod).WithNydusSnapshotter().Run()
 }
 
 func DoTestDeleteSimplePod(t *testing.T, e env.Environment, assert CloudAssert) {
-	namespace := envconf.RandomName("default", 7)
-	pod := NewBusyboxPodWithName(namespace, "deletion-test")
+
+	pod := NewBusyboxPodWithName(Namespace, "deletion-test")
 	duration := 1 * time.Minute
 	NewTestCase(t, e, "DeletePod", assert, "Deletion complete").WithPod(pod).WithDeleteAssertion(&duration).Run()
 }
 
 func DoTestCreatePodWithConfigMap(t *testing.T, e env.Environment, assert CloudAssert) {
-	namespace := envconf.RandomName("default", 7)
+
 	podName := "busybox-configmap-pod"
 	containerName := "busybox-configmap-container"
 	imageName := BUSYBOX_IMAGE
@@ -53,8 +54,8 @@ func DoTestCreatePodWithConfigMap(t *testing.T, e env.Environment, assert CloudA
 	configMapPath := podKubeConfigmapDir + configMapFileName
 	configMapContents := "Hello, world"
 	configMapData := map[string]string{configMapFileName: configMapContents}
-	pod := NewPod(namespace, podName, containerName, imageName, WithConfigMapBinding(podKubeConfigmapDir, configMapName), WithCommand([]string{"/bin/sh", "-c", "sleep 3600"}))
-	configMap := NewConfigMap(namespace, configMapName, configMapData)
+	pod := NewPod(Namespace, podName, containerName, imageName, WithConfigMapBinding(podKubeConfigmapDir, configMapName), WithCommand([]string{"/bin/sh", "-c", "sleep 3600"}))
+	configMap := NewConfigMap(Namespace, configMapName, configMapData)
 	testCommands := []TestCommand{
 		{
 			Command:       []string{"cat", configMapPath},
@@ -78,7 +79,7 @@ func DoTestCreatePodWithConfigMap(t *testing.T, e env.Environment, assert CloudA
 
 func DoTestCreatePodWithSecret(t *testing.T, e env.Environment, assert CloudAssert) {
 	//DoTestCreatePod(t, assert, "Secret is created and contains data", pod)
-	namespace := envconf.RandomName("default", 7)
+
 	podName := "busybox-secret-pod"
 	containerName := "busybox-secret-container"
 	imageName := BUSYBOX_IMAGE
@@ -91,8 +92,8 @@ func DoTestCreatePodWithSecret(t *testing.T, e env.Environment, assert CloudAsse
 	password := "password"
 	passwordPath := podKubeSecretsDir + passwordFileName
 	secretData := map[string][]byte{passwordFileName: []byte(password), usernameFileName: []byte(username)}
-	pod := NewPod(namespace, podName, containerName, imageName, WithSecretBinding(podKubeSecretsDir, secretName), WithCommand([]string{"/bin/sh", "-c", "sleep 3600"}))
-	secret := NewSecret(namespace, secretName, secretData, v1.SecretTypeOpaque)
+	pod := NewPod(Namespace, podName, containerName, imageName, WithSecretBinding(podKubeSecretsDir, secretName), WithCommand([]string{"/bin/sh", "-c", "sleep 3600"}))
+	secret := NewSecret(Namespace, secretName, secretData, v1.SecretTypeOpaque)
 
 	testCommands := []TestCommand{
 		{
@@ -131,8 +132,8 @@ func DoTestCreatePodWithSecret(t *testing.T, e env.Environment, assert CloudAsse
 }
 
 func DoTestCreatePeerPodContainerWithExternalIPAccess(t *testing.T, e env.Environment, assert CloudAssert) {
-	namespace := envconf.RandomName("default", 7)
-	pod := NewBusyboxPod(namespace)
+
+	pod := NewBusyboxPod(Namespace)
 	testCommands := []TestCommand{
 		{
 			Command:       []string{"ping", "-c", "1", "www.google.com"},
@@ -155,18 +156,18 @@ func DoTestCreatePeerPodContainerWithExternalIPAccess(t *testing.T, e env.Enviro
 }
 
 func DoTestCreatePeerPodWithJob(t *testing.T, e env.Environment, assert CloudAssert) {
-	namespace := envconf.RandomName("default", 7)
+
 	jobName := "job-pi"
-	job := NewJob(namespace, jobName)
+	job := NewJob(Namespace, jobName)
 	expectedPodLogString := "3.14"
 	NewTestCase(t, e, "JobPeerPod", assert, "Job has been created").WithJob(job).WithExpectedPodLogString(expectedPodLogString).Run()
 }
 
 func DoTestCreatePeerPodAndCheckUserLogs(t *testing.T, e env.Environment, assert CloudAssert) {
-	// namespace := envconf.RandomName("default", 7)
+	//
 	// podName := "user-pod"
 	// imageName := "quay.io/confidential-containers/test-images:testuser"
-	// pod := NewPod(namespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyOnFailure))
+	// pod := NewPod(Namespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyOnFailure))
 	// expectedPodLogString := "otheruser"
 	// NewTestCase(t, e, "UserPeerPod", assert, "Peer pod with user has been created").WithPod(pod).WithExpectedPodLogString(expectedPodLogString).WithCustomPodState(v1.PodSucceeded).Run()
 	t.Skip("Skipping Test until issue kata-containers/kata-containers#5732 is Fixed")
@@ -175,8 +176,8 @@ func DoTestCreatePeerPodAndCheckUserLogs(t *testing.T, e env.Environment, assert
 
 // DoTestCreateConfidentialPod verify a confidential peer-pod can be created.
 func DoTestCreateConfidentialPod(t *testing.T, e env.Environment, assert CloudAssert, testCommands []TestCommand) {
-	namespace := envconf.RandomName("default", 7)
-	pod := NewBusyboxPodWithName(namespace, "confidential-pod-busybox")
+
+	pod := NewBusyboxPodWithName(Namespace, "confidential-pod-busybox")
 	for i := 0; i < len(testCommands); i++ {
 		testCommands[i].ContainerName = pod.Spec.Containers[0].Name
 	}
@@ -185,46 +186,46 @@ func DoTestCreateConfidentialPod(t *testing.T, e env.Environment, assert CloudAs
 }
 
 func DoTestCreatePeerPodAndCheckWorkDirLogs(t *testing.T, e env.Environment, assert CloudAssert) {
-	namespace := envconf.RandomName("default", 7)
+
 	podName := "workdirpod"
 	imageName := "quay.io/confidential-containers/test-images:testworkdir"
-	pod := NewPod(namespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyOnFailure))
+	pod := NewPod(Namespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyOnFailure))
 	expectedPodLogString := "/other"
 	NewTestCase(t, e, "WorkDirPeerPod", assert, "Peer pod with work directory has been created").WithPod(pod).WithExpectedPodLogString(expectedPodLogString).WithCustomPodState(v1.PodSucceeded).Run()
 }
 
 func DoTestCreatePeerPodAndCheckEnvVariableLogsWithImageOnly(t *testing.T, e env.Environment, assert CloudAssert) {
-	namespace := envconf.RandomName("default", 7)
+
 	podName := "env-variable-in-image"
 	imageName := "quay.io/confidential-containers/test-images:testenv"
-	pod := NewPod(namespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyOnFailure))
+	pod := NewPod(Namespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyOnFailure))
 	expectedPodLogString := "ISPRODUCTION=false"
 	NewTestCase(t, e, "EnvVariablePeerPodWithImageOnly", assert, "Peer pod with environmental variables has been created").WithPod(pod).WithExpectedPodLogString(expectedPodLogString).WithCustomPodState(v1.PodSucceeded).Run()
 }
 
 func DoTestCreatePeerPodAndCheckEnvVariableLogsWithDeploymentOnly(t *testing.T, e env.Environment, assert CloudAssert) {
-	namespace := envconf.RandomName("default", 7)
+
 	podName := "env-variable-in-config"
 	imageName := BUSYBOX_IMAGE
-	pod := NewPod(namespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyOnFailure), WithEnvironmentalVariables([]v1.EnvVar{{Name: "ISPRODUCTION", Value: "true"}}), WithCommand([]string{"/bin/sh", "-c", "env"}))
+	pod := NewPod(Namespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyOnFailure), WithEnvironmentalVariables([]v1.EnvVar{{Name: "ISPRODUCTION", Value: "true"}}), WithCommand([]string{"/bin/sh", "-c", "env"}))
 	expectedPodLogString := "ISPRODUCTION=true"
 	NewTestCase(t, e, "EnvVariablePeerPodWithDeploymentOnly", assert, "Peer pod with environmental variables has been created").WithPod(pod).WithExpectedPodLogString(expectedPodLogString).WithCustomPodState(v1.PodSucceeded).Run()
 }
 
 func DoTestCreatePeerPodAndCheckEnvVariableLogsWithImageAndDeployment(t *testing.T, e env.Environment, assert CloudAssert) {
-	namespace := envconf.RandomName("default", 7)
+
 	podName := "env-variable-in-both"
 	imageName := "quay.io/confidential-containers/test-images:testenv"
-	pod := NewPod(namespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyOnFailure), WithEnvironmentalVariables([]v1.EnvVar{{Name: "ISPRODUCTION", Value: "true"}}))
+	pod := NewPod(Namespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyOnFailure), WithEnvironmentalVariables([]v1.EnvVar{{Name: "ISPRODUCTION", Value: "true"}}))
 	expectedPodLogString := "ISPRODUCTION=true"
 	NewTestCase(t, e, "EnvVariablePeerPodWithBoth", assert, "Peer pod with environmental variables has been created").WithPod(pod).WithExpectedPodLogString(expectedPodLogString).WithCustomPodState(v1.PodSucceeded).Run()
 }
 
 func DoTestCreatePeerPodWithLargeImage(t *testing.T, e env.Environment, assert CloudAssert) {
-	namespace := envconf.RandomName("default", 7)
+
 	podName := "largeimage-pod"
 	imageName := "quay.io/confidential-containers/test-images:largeimage"
-	pod := NewPod(namespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyOnFailure))
+	pod := NewPod(Namespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyOnFailure))
 	NewTestCase(t, e, "LargeImagePeerPod", assert, "Peer pod with Large Image has been created").WithPod(pod).WithPodWatcher().Run()
 }
 
@@ -250,7 +251,7 @@ func DoTestCreatePeerPodWithPVCAndCSIWrapper(t *testing.T, e env.Environment, as
 }
 
 func DoTestCreatePeerPodWithAuthenticatedImagewithValidCredentials(t *testing.T, e env.Environment, assert CloudAssert) {
-	namespace := envconf.RandomName("default", 7)
+
 	randseed := rand.New(rand.NewSource(time.Now().UnixNano()))
 	podName := "authenticated-image-valid-" + strconv.Itoa(int(randseed.Uint32())) + "-pod"
 	secretName := "auth-json-secret"
@@ -260,14 +261,14 @@ func DoTestCreatePeerPodWithAuthenticatedImagewithValidCredentials(t *testing.T,
 	}
 	expectedAuthStatus := "Completed"
 	secretData := map[string][]byte{v1.DockerConfigJsonKey: authfile}
-	secret := NewSecret(namespace, secretName, secretData, v1.SecretTypeDockerConfigJson)
+	secret := NewSecret(Namespace, secretName, secretData, v1.SecretTypeDockerConfigJson)
 	imageName := os.Getenv("AUTHENTICATED_REGISTRY_IMAGE")
-	pod := NewPod(namespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyNever), WithImagePullSecrets(secretName))
+	pod := NewPod(Namespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyNever), WithImagePullSecrets(secretName))
 	NewTestCase(t, e, "ValidAuthImagePeerPod", assert, "Peer pod with Authenticated Image with Valid Credentials has been created").WithSecret(secret).WithPod(pod).WithAuthenticatedImage().WithAuthImageStatus(expectedAuthStatus).WithCustomPodState(v1.PodPending).Run()
 }
 
 func DoTestCreatePeerPodWithAuthenticatedImageWithInvalidCredentials(t *testing.T, e env.Environment, assert CloudAssert) {
-	namespace := envconf.RandomName("default", 7)
+
 	randseed := rand.New(rand.NewSource(time.Now().UnixNano()))
 	podName := "authenticated-image-invalid-" + strconv.Itoa(int(randseed.Uint32())) + "-pod"
 	secretName := "auth-json-secret"
@@ -287,29 +288,28 @@ func DoTestCreatePeerPodWithAuthenticatedImageWithInvalidCredentials(t *testing.
 	}
 	expectedAuthStatus := "ImagePullBackOff"
 	secretData := map[string][]byte{v1.DockerConfigJsonKey: jsondata}
-	secret := NewSecret(namespace, secretName, secretData, v1.SecretTypeDockerConfigJson)
+	secret := NewSecret(Namespace, secretName, secretData, v1.SecretTypeDockerConfigJson)
 	imageName := os.Getenv("AUTHENTICATED_REGISTRY_IMAGE")
-	pod := NewPod(namespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyNever), WithImagePullSecrets(secretName))
+	pod := NewPod(Namespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyNever), WithImagePullSecrets(secretName))
 	NewTestCase(t, e, "InvalidAuthImagePeerPod", assert, "Peer pod with Authenticated Image with Invalid Credentials has been created").WithSecret(secret).WithPod(pod).WithAuthenticatedImage().WithAuthImageStatus(expectedAuthStatus).WithCustomPodState(v1.PodPending).Run()
 }
 
 func DoTestCreatePeerPodWithAuthenticatedImageWithoutCredentials(t *testing.T, e env.Environment, assert CloudAssert) {
-	namespace := envconf.RandomName("default", 7)
+
 	randseed := rand.New(rand.NewSource(time.Now().UnixNano()))
 	podName := "authenticated-image-without-creds-" + strconv.Itoa(int(randseed.Uint32())) + "-pod"
 	expectedAuthStatus := "WithoutCredentials"
 	imageName := os.Getenv("AUTHENTICATED_REGISTRY_IMAGE")
-	pod := NewPod(namespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyNever))
+	pod := NewPod(Namespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyNever))
 	NewTestCase(t, e, "InvalidAuthImagePeerPod", assert, "Peer pod with Authenticated Image with Invalid Credentials has been created").WithPod(pod).WithAuthenticatedImage().WithAuthImageStatus(expectedAuthStatus).WithCustomPodState(v1.PodPending).Run()
 }
 
 func DoTestPodVMwithNoAnnotations(t *testing.T, e env.Environment, assert CloudAssert, expectedType string) {
 
-	namespace := envconf.RandomName("default", 7)
 	podName := "no-annotations"
 	containerName := "busybox"
 	imageName := BUSYBOX_IMAGE
-	pod := NewPod(namespace, podName, containerName, imageName, WithCommand([]string{"/bin/sh", "-c", "sleep 3600"}))
+	pod := NewPod(Namespace, podName, containerName, imageName, WithCommand([]string{"/bin/sh", "-c", "sleep 3600"}))
 	testInstanceTypes := InstanceValidatorFunctions{
 		testSuccessfn: func(instance string) bool {
 			if instance == expectedType {
@@ -326,14 +326,14 @@ func DoTestPodVMwithNoAnnotations(t *testing.T, e env.Environment, assert CloudA
 }
 
 func DoTestPodVMwithAnnotationsInstanceType(t *testing.T, e env.Environment, assert CloudAssert, expectedType string) {
-	namespace := envconf.RandomName("default", 7)
+
 	podName := "annotations-instance-type"
 	containerName := "busybox"
 	imageName := BUSYBOX_IMAGE
 	annotationData := map[string]string{
 		"io.katacontainers.config.hypervisor.machine_type": expectedType,
 	}
-	pod := NewPod(namespace, podName, containerName, imageName, WithCommand([]string{"/bin/sh", "-c", "sleep 3600"}), WithAnnotations(annotationData))
+	pod := NewPod(Namespace, podName, containerName, imageName, WithCommand([]string{"/bin/sh", "-c", "sleep 3600"}), WithAnnotations(annotationData))
 
 	testInstanceTypes := InstanceValidatorFunctions{
 		testSuccessfn: func(instance string) bool {
@@ -351,7 +351,7 @@ func DoTestPodVMwithAnnotationsInstanceType(t *testing.T, e env.Environment, ass
 }
 
 func DoTestPodVMwithAnnotationsCPUMemory(t *testing.T, e env.Environment, assert CloudAssert, expectedType string) {
-	namespace := envconf.RandomName("default", 7)
+
 	podName := "annotations-cpu-mem"
 	containerName := "busybox"
 	imageName := BUSYBOX_IMAGE
@@ -359,7 +359,7 @@ func DoTestPodVMwithAnnotationsCPUMemory(t *testing.T, e env.Environment, assert
 		"io.katacontainers.config.hypervisor.default_vcpus":  "2",
 		"io.katacontainers.config.hypervisor.default_memory": "12288",
 	}
-	pod := NewPod(namespace, podName, containerName, imageName, WithCommand([]string{"/bin/sh", "-c", "sleep 3600"}), WithAnnotations(annotationData))
+	pod := NewPod(Namespace, podName, containerName, imageName, WithCommand([]string{"/bin/sh", "-c", "sleep 3600"}), WithAnnotations(annotationData))
 
 	testInstanceTypes := InstanceValidatorFunctions{
 		testSuccessfn: func(instance string) bool {
@@ -377,7 +377,7 @@ func DoTestPodVMwithAnnotationsCPUMemory(t *testing.T, e env.Environment, assert
 }
 
 func DoTestPodVMwithAnnotationsInvalidInstanceType(t *testing.T, e env.Environment, assert CloudAssert, expectedType string) {
-	namespace := envconf.RandomName("default", 7)
+
 	podName := "annotations-invalid-instance-type"
 	containerName := "busybox"
 	imageName := BUSYBOX_IMAGE
@@ -385,7 +385,7 @@ func DoTestPodVMwithAnnotationsInvalidInstanceType(t *testing.T, e env.Environme
 	annotationData := map[string]string{
 		"io.katacontainers.config.hypervisor.machine_type": expectedType,
 	}
-	pod := NewPod(namespace, podName, containerName, imageName, WithCommand([]string{"/bin/sh", "-c", "sleep 3600"}), WithAnnotations(annotationData))
+	pod := NewPod(Namespace, podName, containerName, imageName, WithCommand([]string{"/bin/sh", "-c", "sleep 3600"}), WithAnnotations(annotationData))
 	testInstanceTypes := InstanceValidatorFunctions{
 		testSuccessfn: IsStringEmpty,
 		testFailurefn: func(errorMsg error) bool {
@@ -402,7 +402,7 @@ func DoTestPodVMwithAnnotationsInvalidInstanceType(t *testing.T, e env.Environme
 }
 
 func DoTestPodVMwithAnnotationsLargerMemory(t *testing.T, e env.Environment, assert CloudAssert) {
-	namespace := envconf.RandomName("default", 7)
+
 	podName := "annotations-too-big-mem"
 	containerName := "busybox"
 	imageName := BUSYBOX_IMAGE
@@ -411,7 +411,7 @@ func DoTestPodVMwithAnnotationsLargerMemory(t *testing.T, e env.Environment, ass
 		"io.katacontainers.config.hypervisor.default_vcpus":  "2",
 		"io.katacontainers.config.hypervisor.default_memory": "18432",
 	}
-	pod := NewPod(namespace, podName, containerName, imageName, WithCommand([]string{"/bin/sh", "-c", "sleep 3600"}), WithAnnotations(annotationData))
+	pod := NewPod(Namespace, podName, containerName, imageName, WithCommand([]string{"/bin/sh", "-c", "sleep 3600"}), WithAnnotations(annotationData))
 	testInstanceTypes := InstanceValidatorFunctions{
 		testSuccessfn: IsStringEmpty,
 		testFailurefn: func(errorMsg error) bool {
@@ -428,7 +428,7 @@ func DoTestPodVMwithAnnotationsLargerMemory(t *testing.T, e env.Environment, ass
 }
 
 func DoTestPodVMwithAnnotationsLargerCPU(t *testing.T, e env.Environment, assert CloudAssert) {
-	namespace := envconf.RandomName("default", 7)
+
 	podName := "annotations-too-big-cpu"
 	containerName := "busybox"
 	imageName := BUSYBOX_IMAGE
@@ -440,7 +440,7 @@ func DoTestPodVMwithAnnotationsLargerCPU(t *testing.T, e env.Environment, assert
 		"io.katacontainers.config.hypervisor.default_vcpus":  "3",
 		"io.katacontainers.config.hypervisor.default_memory": "12288",
 	}
-	pod := NewPod(namespace, podName, containerName, imageName, WithCommand([]string{"/bin/sh", "-c", "sleep 3600"}), WithAnnotations(annotationData))
+	pod := NewPod(Namespace, podName, containerName, imageName, WithCommand([]string{"/bin/sh", "-c", "sleep 3600"}), WithAnnotations(annotationData))
 	testInstanceTypes := InstanceValidatorFunctions{
 		testSuccessfn: IsStringEmpty,
 		testFailurefn: func(errorMsg error) bool {
@@ -458,7 +458,7 @@ func DoTestPodVMwithAnnotationsLargerCPU(t *testing.T, e env.Environment, assert
 }
 
 func DoTestPodToServiceCommunication(t *testing.T, e env.Environment, assert CloudAssert) {
-	namespace := envconf.RandomName("default", 7)
+
 	clientPodName := "busybox"
 	clientContainerName := "busybox"
 	clientImageName := BUSYBOX_IMAGE
@@ -469,8 +469,8 @@ func DoTestPodToServiceCommunication(t *testing.T, e env.Environment, assert Clo
 	labels := map[string]string{
 		"app": "nginx",
 	}
-	clientPod := NewExtraPod(namespace, clientPodName, clientContainerName, clientImageName, WithCommand([]string{"/bin/sh", "-c", "sleep 3600"}), WithRestartPolicy(v1.RestartPolicyNever))
-	serverPod := NewPod(namespace, serverPodName, serverContainerName, serverImageName, WithContainerPort(80), WithRestartPolicy(v1.RestartPolicyNever), WithLabel(labels))
+	clientPod := NewExtraPod(Namespace, clientPodName, clientContainerName, clientImageName, WithCommand([]string{"/bin/sh", "-c", "sleep 3600"}), WithRestartPolicy(v1.RestartPolicyNever))
+	serverPod := NewPod(Namespace, serverPodName, serverContainerName, serverImageName, WithContainerPort(80), WithRestartPolicy(v1.RestartPolicyNever), WithLabel(labels))
 	testCommands := []TestCommand{
 		{
 			Command:       []string{"wget", "-O-", "nginx"},
@@ -487,7 +487,7 @@ func DoTestPodToServiceCommunication(t *testing.T, e env.Environment, assert Clo
 		},
 	}
 	clientPod.WithTestCommands(testCommands)
-	nginxSvc := NewService(namespace, serviceName, "http", 80, 80, labels)
+	nginxSvc := NewService(Namespace, serviceName, "http", 80, 80, labels)
 	extraPods := []*ExtraPod{clientPod}
 	NewTestCase(t, e, "TestExtraPods", assert, "Failed to test extra pod.").WithPod(serverPod).WithExtraPods(extraPods).WithService(nginxSvc).Run()
 }

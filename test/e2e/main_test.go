@@ -7,11 +7,15 @@ import (
 	"context"
 	"os"
 	"testing"
+	"time"
 
 	pv "github.com/confidential-containers/cloud-api-adaptor/test/provisioner"
 	log "github.com/sirupsen/logrus"
+	corev1 "k8s.io/api/core/v1"
 
 	kconf "sigs.k8s.io/e2e-framework/klient/conf"
+	"sigs.k8s.io/e2e-framework/klient/wait"
+	"sigs.k8s.io/e2e-framework/klient/wait/conditions"
 	"sigs.k8s.io/e2e-framework/pkg/env"
 	"sigs.k8s.io/e2e-framework/pkg/envconf"
 )
@@ -20,6 +24,7 @@ var (
 	testEnv       env.Environment
 	cloudProvider string
 	provisioner   pv.CloudProvisioner
+	nameSpace     *corev1.Namespace
 )
 
 func init() {
@@ -138,6 +143,20 @@ func TestMain(m *testing.M) {
 				return ctx, err
 			}
 		}
+		// Create a new namespace for all test cases
+		client, err := cfg.NewClient()
+		if err != nil {
+			return ctx, err
+		}
+		nameSpace = NewNameSpace(Namespace)
+		if err = client.Resources().Create(ctx, nameSpace); err != nil {
+			return ctx, err
+		}
+		log.Infof("Wait for the %s namespace be ready", Namespace)
+		if err = WaitForNamespace(client, nameSpace); err != nil {
+			return ctx, err
+		}
+		log.Infof("Namespace '%s' is ready for e2e-test", Namespace)
 		return ctx, nil
 	})
 
@@ -162,7 +181,25 @@ func TestMain(m *testing.M) {
 				return ctx, err
 			}
 		}
+		// Delete the namespace for all test cases
+		if nameSpace != nil {
+			client, err := cfg.NewClient()
+			if err != nil {
+				return ctx, err
+			}
+			if err = client.Resources().Delete(ctx, nameSpace); err != nil {
+				return ctx, err
+			}
+			log.Infof("Deleting namespace %s...", nameSpace.Name)
+			if err = wait.For(conditions.New(
+				client.Resources()).ResourceDeleted(nameSpace),
+				wait.WithInterval(5*time.Second),
+				wait.WithTimeout(60*time.Second)); err != nil {
+				return ctx, err
+			}
+			log.Infof("Namespace %s has been successfully deleted within 60s", nameSpace.Name)
 
+		}
 		return ctx, nil
 	})
 
