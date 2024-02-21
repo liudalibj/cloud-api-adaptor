@@ -1,7 +1,7 @@
 # Cloud providers from CAA
 FROM --platform=$TARGETPLATFORM docker.io/liudali/cloud-api-adaptor:latest as providers
 # Build the manager binary
-FROM --platform=$TARGETPLATFORM quay.io/confidential-containers/golang-fedora:1.20.8-38 as builder
+FROM --platform=$TARGETPLATFORM quay.io/confidential-containers/golang-fedora:1.20.12-38 as builder
 ARG TARGETOS
 ARG TARGETARCH
 ARG CGO_ENABLED=1
