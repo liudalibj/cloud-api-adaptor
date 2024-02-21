@@ -88,7 +88,7 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/internal v1.1.2 h1:mLY+pNL
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/managementgroups/armmanagementgroups v1.0.0 h1:pPvTJ1dY0sA35JOeFq6TsY2xj6Z85Yo23Pj4wCCvu4o=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/msi/armmsi v1.1.0 h1:Q707jfTFqfunSnh73YkCBDXR3GQJKno3chPRxXw//ho=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/msi/armmsi v1.1.0/go.mod h1:vjoxsjVnPwhjHZw4PuuhpgYlcxWl5tyNedLHUl0ulFA=
-github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork v1.1.0 h1:QM6sE5k2ZT/vI5BEe0r7mqjsUSnhVBFbOsVkEuaEfiA=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork v1.0.0 h1:nBy98uKOIfun5z6wx6jwWLrULcM0+cjBalBFZlEZ7CA=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2 v2.2.1 h1:bWh0Z2rOEDfB/ywv/l0iHN1JgyazE6kW/aIA89+CEK0=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2 v2.2.1/go.mod h1:Bzf34hhAE9NSxailk8xVeLEZbUjOXcC+GnU1mMKdhLw=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources v1.1.1 h1:7CBQ+Ei8SP2c6ydQTGCCrS35bDxgTMfoP2miAwK++OU=
@@ -355,8 +355,6 @@ github.com/cockroachdb/datadriven v0.0.0-20200714090401-bf6692d28da5/go.mod h1:h
 github.com/cockroachdb/errors v1.2.4/go.mod h1:rQD95gz6FARkaKkQXUksEje/d9a6wBJoCr5oaCLELYA=
 github.com/cockroachdb/logtags v0.0.0-20190617123548-eb05cc24525f/go.mod h1:i/u985jwjWRlyHXQbwatDASoW0RMlZ/3i9yJHE2xLkI=
 github.com/codahale/rfc6979 v0.0.0-20141003034818-6a90f24967eb/go.mod h1:ZjrT6AXHbDs86ZSdt/osfBi5qfexBrKUdONk989Wnk4=
-github.com/confidential-containers/cloud-api-adaptor/peerpod-ctrl v0.0.0-20230329054732-0d6eda047e81 h1:WlKW5O4L1ty6NRxnSusxlew04LxzBu7vmz3GFI/bd54=
-github.com/confidential-containers/cloud-api-adaptor/peerpod-ctrl v0.0.0-20230329054732-0d6eda047e81/go.mod h1:wVyhrLgLAxgn854Q77SaFWHz/dvFBkJPkjZLbyFpAIE=
 github.com/container-orchestrated-devices/container-device-interface v0.4.0/go.mod h1:E1zcucIkq9P3eyNmY+68dBQsTcsXJh9cgRo2IVNScKQ=
 github.com/containerd/aufs v0.0.0-20200908144142-dab0cbea06f4/go.mod h1:nukgQABAEopAHvB6j7cnP5zJ+/3aVcE7hCYqvIwAHyE=
 github.com/containerd/aufs v0.0.0-20201003224125-76a6863f2989/go.mod h1:AkGGQs9NM2vtYHaUen+NljV0/baGCAPELGm2q9ZXpWU=
@@ -1463,7 +1461,7 @@ github.com/onsi/ginkgo/v2 v2.0.0/go.mod h1:vw5CSIxN1JObi/U8gcbwft7ZxR2dgaR70JSE3
 github.com/onsi/ginkgo/v2 v2.1.3/go.mod h1:vw5CSIxN1JObi/U8gcbwft7ZxR2dgaR70JSE3/PpL4c=
 github.com/onsi/ginkgo/v2 v2.1.4/go.mod h1:um6tUpWM/cxCK3/FK8BXqEiUMUwRgSM4JXG47RKZmLU=
 github.com/onsi/ginkgo/v2 v2.1.6/go.mod h1:MEH45j8TBi6u9BMogfbp0stKC5cdGjumZj5Y7AG4VIk=
-github.com/onsi/ginkgo/v2 v2.6.0 h1:9t9b9vRUbFq3C4qKFCGkVuq/fIHji802N1nrtkh1mNc=
+github.com/onsi/ginkgo/v2 v2.8.1 h1:xFTEVwOFa1D/Ty24Ws1npBWkDYEV9BqZrsDxVrVkrrU=
 github.com/onsi/gomega v0.0.0-20151007035656-2152b45fa28a/go.mod h1:C1qb7wdrVGGVU+Z6iS04AVkA3Q65CEZX59MT0QO5uiA=
 github.com/onsi/gomega v0.0.0-20170829124025-dcabb60a477c/go.mod h1:C1qb7wdrVGGVU+Z6iS04AVkA3Q65CEZX59MT0QO5uiA=
 github.com/onsi/gomega v1.4.3/go.mod h1:ex+gbHU/CVuBBDIJjb2X0qEXbFg53c61hWP/1CpauHY=

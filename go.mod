@@ -49,7 +49,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/eks v1.29.5
 	github.com/aws/aws-sdk-go-v2/service/iam v1.22.5
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.38.5
-	github.com/confidential-containers/cloud-api-adaptor/peerpod-ctrl v0.0.0-20230329054732-0d6eda047e81
+	github.com/confidential-containers/cloud-api-adaptor/peerpod-ctrl v0.0.0
 	github.com/coreos/go-systemd v0.0.0-20190719114852-fd7a80b32e1f
 	github.com/kdomanski/iso9660 v0.3.5
 	github.com/moby/sys/mountinfo v0.6.2
@@ -165,3 +165,5 @@ require (
 replace google.golang.org/genproto => google.golang.org/genproto v0.0.0-20180817151627-c66870c02cf8
 
 replace github.com/prometheus/client_golang => github.com/prometheus/client_golang v1.14.0
+
+replace github.com/confidential-containers/cloud-api-adaptor/peerpod-ctrl => ./peerpod-ctrl
