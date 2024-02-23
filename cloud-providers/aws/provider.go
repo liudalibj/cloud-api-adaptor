@@ -16,9 +16,9 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
 
-	"github.com/confidential-containers/cloud-api-adaptor/provider"
-	"github.com/confidential-containers/cloud-api-adaptor/provider/util"
-	"github.com/confidential-containers/cloud-api-adaptor/provider/util/cloudinit"
+	provider "github.com/confidential-containers/cloud-api-adaptor/cloud-providers"
+	"github.com/confidential-containers/cloud-api-adaptor/cloud-providers/util"
+	"github.com/confidential-containers/cloud-api-adaptor/cloud-providers/util/cloudinit"
 )
 
 var logger = log.New(log.Writer(), "[adaptor/cloud/aws] ", log.LstdFlags|log.Lmsgprefix)

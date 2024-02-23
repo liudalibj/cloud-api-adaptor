@@ -6,7 +6,7 @@ package azure
 import (
 	"flag"
 
-	"github.com/confidential-containers/cloud-api-adaptor/provider"
+	provider "github.com/confidential-containers/cloud-api-adaptor/cloud-providers"
 )
 
 var azurecfg Config

@@ -20,9 +20,9 @@ import (
 	armcompute "github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork/v2"
 	"github.com/avast/retry-go/v4"
-	"github.com/confidential-containers/cloud-api-adaptor/provider"
-	"github.com/confidential-containers/cloud-api-adaptor/provider/util"
-	"github.com/confidential-containers/cloud-api-adaptor/provider/util/cloudinit"
+	provider "github.com/confidential-containers/cloud-api-adaptor/cloud-providers"
+	"github.com/confidential-containers/cloud-api-adaptor/cloud-providers/util"
+	"github.com/confidential-containers/cloud-api-adaptor/cloud-providers/util/cloudinit"
 )
 
 var logger = log.New(log.Writer(), "[adaptor/cloud/azure] ", log.LstdFlags|log.Lmsgprefix)

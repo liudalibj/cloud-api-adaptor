@@ -7,9 +7,8 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/IBM/vpc-go-sdk/vpcv1"
-	"github.com/confidential-containers/cloud-api-adaptor/provider"
+	provider "github.com/confidential-containers/cloud-api-adaptor/cloud-providers"
 )
 
 var ibmcloudVPCConfig Config
@@ -27,8 +26,8 @@ func (*Manager) ParseCmd(flags *flag.FlagSet) {
 	flags.StringVar(&ibmcloudVPCConfig.ApiKey, "api-key", "", "IBM Cloud API key, defaults to `IBMCLOUD_API_KEY`")
 	flags.StringVar(&ibmcloudVPCConfig.IAMProfileID, "iam-profile-id", "", "IBM IAM Profile ID, defaults to `IBMCLOUD_IAM_PROFILE_ID`")
 	flags.StringVar(&ibmcloudVPCConfig.CRTokenFileName, "cr-token-filename", "/var/run/secrets/tokens/vault-token", "Projected service account token")
-	flags.StringVar(&ibmcloudVPCConfig.IamServiceURL, "iam-service-url", "https://iam.cloud.ibm.com/identity/token", "IBM Cloud IAM Service URL")
-	flags.StringVar(&ibmcloudVPCConfig.VpcServiceURL, "vpc-service-url", "https://jp-tok.iaas.cloud.ibm.com/v1", "IBM Cloud VPC Service URL")
+	flags.StringVar(&ibmcloudVPCConfig.IamServiceURL, "iam-service-url", "https://iam.provider.ibm.com/identity/token", "IBM Cloud IAM Service URL")
+	flags.StringVar(&ibmcloudVPCConfig.VpcServiceURL, "vpc-service-url", "https://jp-tok.iaas.provider.ibm.com/v1", "IBM Cloud VPC Service URL")
 	flags.StringVar(&ibmcloudVPCConfig.ResourceGroupID, "resource-group-id", "", "Resource Group ID")
 	flags.StringVar(&ibmcloudVPCConfig.ProfileName, "profile-name", "", "Default instance profile name to be used for the Pod VMs")
 	flags.Var(&ibmcloudVPCConfig.InstanceProfiles, "profile-list", "List of instance profile names to be used for the Pod VMs, comma separated")
@@ -43,71 +42,11 @@ func (*Manager) ParseCmd(flags *flag.FlagSet) {
 
 }
 
-func (m *Manager) LoadEnv(extras map[string]string) error {
+func (m *Manager) LoadEnv() {
 
+	// overwrite config set by cmd parameters in oci image with env might come from orchastration platform
 	provider.DefaultToEnv(&ibmcloudVPCConfig.ApiKey, "IBMCLOUD_API_KEY", "")
 	provider.DefaultToEnv(&ibmcloudVPCConfig.IAMProfileID, "IBMCLOUD_IAM_PROFILE_ID", "")
-
-	var authenticator core.Authenticator
-
-	if ibmcloudVPCConfig.ApiKey != "" {
-		authenticator = &core.IamAuthenticator{
-			ApiKey: ibmcloudVPCConfig.ApiKey,
-			URL:    ibmcloudVPCConfig.IamServiceURL,
-		}
-	} else if ibmcloudVPCConfig.IAMProfileID != "" {
-		authenticator = &core.ContainerAuthenticator{
-			URL:             ibmcloudVPCConfig.IamServiceURL,
-			IAMProfileID:    ibmcloudVPCConfig.IAMProfileID,
-			CRTokenFilename: ibmcloudVPCConfig.CRTokenFileName,
-		}
-	} else {
-		return fmt.Errorf("either an IAM API Key or Profile ID needs to be set")
-	}
-
-	nodeRegion, ok := extras["topology.kubernetes.io/region"]
-	if ibmcloudVPCConfig.VpcServiceURL == "" && ok {
-		// Assume in prod if fetching from labels for now
-		// TODO handle other environments
-		ibmcloudVPCConfig.VpcServiceURL = fmt.Sprintf("https://%s.iaas.cloud.ibm.com/v1", nodeRegion)
-	}
-
-	var err error
-	m.service, err = vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
-		Authenticator: authenticator,
-		URL:           ibmcloudVPCConfig.VpcServiceURL,
-	})
-
-	if err != nil {
-		return err
-	}
-
-	// If this label exists assume we are in an IKS cluster
-	primarySubnetID, iks := extras["ibm-cloud.kubernetes.io/subnet-id"]
-	if iks {
-		if ibmcloudVPCConfig.ZoneName == "" {
-			ibmcloudVPCConfig.ZoneName = extras["topology.kubernetes.io/zone"]
-		}
-		vpcID, rgID, sgID, err := fetchVPCDetails(m.service, primarySubnetID)
-		if err != nil {
-			logger.Printf("warning, unable to automatically populate VPC details\ndue to: %v\n", err)
-		} else {
-			if ibmcloudVPCConfig.PrimarySubnetID == "" {
-				ibmcloudVPCConfig.PrimarySubnetID = primarySubnetID
-			}
-			if ibmcloudVPCConfig.VpcID == "" {
-				ibmcloudVPCConfig.VpcID = vpcID
-			}
-			if ibmcloudVPCConfig.ResourceGroupID == "" {
-				ibmcloudVPCConfig.ResourceGroupID = rgID
-			}
-			if ibmcloudVPCConfig.PrimarySecurityGroupID == "" {
-				ibmcloudVPCConfig.PrimarySecurityGroupID = sgID
-			}
-		}
-	}
-
-	// overwrite ibmcloudVPCConfig set by cmd parameters in oci image with env might come from orchastration platform
 
 	provider.DefaultToEnv(&ibmcloudVPCConfig.IamServiceURL, "IBMCLOUD_IAM_ENDPOINT", "")
 	provider.DefaultToEnv(&ibmcloudVPCConfig.VpcServiceURL, "IBMCLOUD_VPC_ENDPOINT", "")
@@ -130,7 +69,6 @@ func (m *Manager) LoadEnv(extras map[string]string) error {
 	if imageIDsStr != "" {
 		_ = ibmcloudVPCConfig.Images.Set(imageIDsStr)
 	}
-	return nil
 }
 
 func fetchVPCDetails(vpcV1 *vpcv1.VpcV1, subnetID string) (vpcID string, resourceGroupID string, securityGroupID string, e error) {

@@ -6,8 +6,8 @@ package ibmcloud
 import (
 	"strings"
 
-	"github.com/confidential-containers/cloud-api-adaptor/provider"
-	"github.com/confidential-containers/cloud-api-adaptor/provider/util"
+	provider "github.com/confidential-containers/cloud-api-adaptor/cloud-providers"
+	"github.com/confidential-containers/cloud-api-adaptor/cloud-providers/util"
 )
 
 type instanceProfiles []string

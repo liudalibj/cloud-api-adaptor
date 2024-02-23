@@ -14,7 +14,6 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.25.1
 	github.com/aws/aws-sdk-go-v2/credentials v1.16.1 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.134.0
-	github.com/confidential-containers/cloud-api-adaptor/provider v0.8.0
 	github.com/containerd/containerd v1.6.8
 	github.com/containerd/ttrpc v1.1.0
 	github.com/containernetworking/plugins v1.1.1
@@ -29,7 +28,7 @@ require (
 	github.com/vmware/govmomi v0.33.1 // indirect
 	golang.org/x/sys v0.13.0
 	google.golang.org/grpc v1.56.3
-	gopkg.in/yaml.v2 v2.4.0 // indirect
+	gopkg.in/yaml.v2 v2.4.0
 	k8s.io/cri-api v0.23.1
 	libvirt.org/go/libvirt v1.9008.0
 	libvirt.org/go/libvirtxml v1.9007.0
@@ -48,9 +47,10 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/eks v1.29.5
 	github.com/aws/aws-sdk-go-v2/service/iam v1.22.5
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.38.5
-	github.com/confidential-containers/cloud-api-adaptor/peerpod-ctrl v0.0.0-20230329054732-0d6eda047e81
+	github.com/confidential-containers/cloud-api-adaptor/cloud-providers v0.8.0
+	github.com/confidential-containers/cloud-api-adaptor/peerpod-ctrl v0.8.0
 	github.com/coreos/go-systemd v0.0.0-20190719114852-fd7a80b32e1f
-	github.com/kata-containers/kata-containers/src/runtime v0.0.0-20231109143605-6c2a2a14fe78
+	github.com/kata-containers/kata-containers/src/runtime v0.0.0-20231130163424-59d733fafdf6
 	github.com/moby/sys/mountinfo v0.6.2
 	github.com/pelletier/go-toml/v2 v2.1.0
 	github.com/sirupsen/logrus v1.9.0
@@ -172,4 +172,6 @@ replace google.golang.org/genproto => google.golang.org/genproto v0.0.0-20180817
 
 replace github.com/prometheus/client_golang => github.com/prometheus/client_golang v1.14.0
 
-replace github.com/confidential-containers/cloud-api-adaptor/provider => ./provider
+replace github.com/confidential-containers/cloud-api-adaptor/cloud-providers => ./cloud-providers
+
+replace github.com/confidential-containers/cloud-api-adaptor/peerpod-ctrl => ./peerpod-ctrl

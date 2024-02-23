@@ -13,9 +13,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/confidential-containers/cloud-api-adaptor/provider"
-	"github.com/confidential-containers/cloud-api-adaptor/provider/util"
-	"github.com/confidential-containers/cloud-api-adaptor/provider/util/cloudinit"
+	provider "github.com/confidential-containers/cloud-api-adaptor/cloud-providers"
+	"github.com/confidential-containers/cloud-api-adaptor/cloud-providers/util"
+	"github.com/confidential-containers/cloud-api-adaptor/cloud-providers/util/cloudinit"
 	"github.com/vmware/govmomi"
 	"github.com/vmware/govmomi/find"
 	"github.com/vmware/govmomi/object"

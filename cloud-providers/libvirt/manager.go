@@ -8,8 +8,7 @@ package libvirt
 import (
 	"flag"
 
-	"github.com/confidential-containers/cloud-api-adaptor/pkg/adaptor/cloud"
-	"github.com/confidential-containers/cloud-api-adaptor/provider"
+	provider "github.com/confidential-containers/cloud-api-adaptor/cloud-providers"
 )
 
 var libvirtcfg Config
@@ -51,7 +50,7 @@ func (_ *Manager) LoadEnv() {
 	provider.DefaultToEnv(&libvirtcfg.Firmware, "LIBVIRT_FIRMWARE", defaultFirmware)
 }
 
-func (_ *Manager) NewProvider() (cloud.Provider, error) {
+func (_ *Manager) NewProvider() (provider.Provider, error) {
 	return NewProvider(&libvirtcfg)
 }
 

@@ -7,7 +7,7 @@ import (
 	"flag"
 	"strconv"
 
-	"github.com/confidential-containers/cloud-api-adaptor/provider"
+	provider "github.com/confidential-containers/cloud-api-adaptor/cloud-providers"
 )
 
 var ibmcloudPowerVSConfig Config
@@ -34,7 +34,7 @@ func (_ *Manager) ParseCmd(flags *flag.FlagSet) {
 
 }
 
-func (_ *Manager) LoadEnv(extras map[string]string) error {
+func (_ *Manager) LoadEnv() {
 	// overwrite config set by cmd parameters in oci image with env might come from orchastration platform
 	provider.DefaultToEnv(&ibmcloudPowerVSConfig.ApiKey, "IBMCLOUD_API_KEY", "")
 
@@ -56,7 +56,6 @@ func (_ *Manager) LoadEnv(extras map[string]string) error {
 	if processorsStr != "" {
 		ibmcloudPowerVSConfig.Processors, _ = strconv.ParseFloat(processorsStr, 64)
 	}
-	return nil
 }
 
 func (_ *Manager) NewProvider() (provider.Provider, error) {

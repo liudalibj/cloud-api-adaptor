@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/confidential-containers/cloud-api-adaptor/provider"
+	provider "github.com/confidential-containers/cloud-api-adaptor/cloud-providers"
 	"github.com/stretchr/testify/assert"
 	libvirtxml "libvirt.org/go/libvirtxml"
 )

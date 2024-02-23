@@ -14,9 +14,9 @@ import (
 	"github.com/IBM-Cloud/power-go-client/power/models"
 	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/avast/retry-go/v4"
-	"github.com/confidential-containers/cloud-api-adaptor/provider"
-	"github.com/confidential-containers/cloud-api-adaptor/provider/util"
-	"github.com/confidential-containers/cloud-api-adaptor/provider/util/cloudinit"
+	provider "github.com/confidential-containers/cloud-api-adaptor/cloud-providers"
+	"github.com/confidential-containers/cloud-api-adaptor/cloud-providers/util"
+	"github.com/confidential-containers/cloud-api-adaptor/cloud-providers/util/cloudinit"
 )
 
 const maxInstanceNameLen = 63

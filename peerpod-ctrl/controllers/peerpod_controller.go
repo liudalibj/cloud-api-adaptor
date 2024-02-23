@@ -32,8 +32,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
+	provider "github.com/confidential-containers/cloud-api-adaptor/cloud-providers"
 	confidentialcontainersorgv1alpha1 "github.com/confidential-containers/cloud-api-adaptor/peerpod-ctrl/api/v1alpha1"
-	"github.com/confidential-containers/cloud-api-adaptor/provider"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 )
 

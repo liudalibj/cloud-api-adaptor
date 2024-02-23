@@ -6,7 +6,7 @@ import (
 
 type CloudProvider interface {
 	ParseCmd(flags *flag.FlagSet)
-	LoadEnv(map[string]string) error
+	LoadEnv()
 	NewProvider() (Provider, error)
 }
 
