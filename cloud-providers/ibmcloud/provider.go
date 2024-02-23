@@ -9,10 +9,12 @@ import (
 	"fmt"
 	"log"
 	"net/netip"
+	"os"
 	"time"
 
 	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/IBM/vpc-go-sdk/vpcv1"
+
 	provider "github.com/confidential-containers/cloud-api-adaptor/cloud-providers"
 	"github.com/confidential-containers/cloud-api-adaptor/cloud-providers/util"
 	"github.com/confidential-containers/cloud-api-adaptor/cloud-providers/util/cloudinit"
@@ -41,24 +43,115 @@ type ibmcloudVPCProvider struct {
 	serviceConfig *Config
 }
 
-func NewProvider(config *Config, service *vpcv1.VpcV1) (provider.Provider, error) {
+func NewProvider(config *Config) (provider.Provider, error) {
 
-	provider := &ibmcloudVPCProvider{
-		vpc:           service,
-		serviceConfig: config,
+	var authenticator core.Authenticator
+
+	if config.ApiKey != "" {
+		authenticator = &core.IamAuthenticator{
+			ApiKey: config.ApiKey,
+			URL:    config.IamServiceURL,
+		}
+	} else if config.IAMProfileID != "" {
+		authenticator = &core.ContainerAuthenticator{
+			URL:             config.IamServiceURL,
+			IAMProfileID:    config.IAMProfileID,
+			CRTokenFilename: config.CRTokenFileName,
+		}
+	} else {
+		return nil, fmt.Errorf("either an IAM API Key or Profile ID needs to be set")
 	}
 
-	if err := provider.updateInstanceProfileSpecList(); err != nil {
+	nodeName, ok := os.LookupEnv("NODE_NAME")
+	var nodeLabels map[string]string
+	if ok {
+		var err error
+		nodeLabels, err = util.NodeLabels(context.TODO(), nodeName)
+		if err != nil {
+			logger.Printf("warning, could not find node labels\ndue to: %v\n", err)
+		}
+	}
+
+	nodeRegion, ok := nodeLabels["topology.kubernetes.io/region"]
+	if config.VpcServiceURL == "" && ok {
+		// Assume in prod if fetching from labels for now
+		// TODO handle other environments
+		config.VpcServiceURL = fmt.Sprintf("https://%s.iaas.provider.ibm.com/v1", nodeRegion)
+	}
+
+	vpcV1, err := vpcv1.NewVpcV1(&vpcv1.VpcV1Options{
+		Authenticator: authenticator,
+		URL:           config.VpcServiceURL,
+	})
+
+	if err != nil {
 		return nil, err
 	}
 
-	if err := provider.updateImageList(context.TODO()); err != nil {
+	// If this label exists assume we are in an IKS cluster
+	primarySubnetID, iks := nodeLabels["ibm-provider.kubernetes.io/subnet-id"]
+	if iks {
+		if config.ZoneName == "" {
+			config.ZoneName = nodeLabels["topology.kubernetes.io/zone"]
+		}
+		vpcID, rgID, sgID, err := fetchVPCDetails(vpcV1, primarySubnetID)
+		if err != nil {
+			logger.Printf("warning, unable to automatically populate VPC details\ndue to: %v\n", err)
+		} else {
+			if config.PrimarySubnetID == "" {
+				config.PrimarySubnetID = primarySubnetID
+			}
+			if config.VpcID == "" {
+				config.VpcID = vpcID
+			}
+			if config.ResourceGroupID == "" {
+				config.ResourceGroupID = rgID
+			}
+			if config.PrimarySecurityGroupID == "" {
+				config.PrimarySecurityGroupID = sgID
+			}
+		}
+	}
+
+	provider := &ibmcloudVPCProvider{
+		vpc:           vpcV1,
+		serviceConfig: config,
+	}
+
+	if err = provider.updateInstanceProfileSpecList(); err != nil {
+		return nil, err
+	}
+
+	if err = provider.updateImageList(context.TODO()); err != nil {
 		return nil, err
 	}
 
 	logger.Printf("ibmcloud-vpc config: %#v", config.Redact())
 
 	return provider, nil
+}
+
+func fetchVPCDetails(vpcV1 *vpcv1.VpcV1, subnetID string) (vpcID string, resourceGroupID string, securityGroupID string, e error) {
+	subnet, response, err := vpcV1.GetSubnet(&vpcv1.GetSubnetOptions{
+		ID: &subnetID,
+	})
+	if err != nil {
+		e = fmt.Errorf("VPC error with:\n %w\nfurther details:\n %v", err, response)
+		return
+	}
+
+	sg, response, err := vpcV1.GetVPCDefaultSecurityGroup(&vpcv1.GetVPCDefaultSecurityGroupOptions{
+		ID: subnet.VPC.ID,
+	})
+	if err != nil {
+		e = fmt.Errorf("VPC error with:\n %w\nfurther details:\n %v", err, response)
+		return
+	}
+
+	securityGroupID = *sg.ID
+	vpcID = *subnet.VPC.ID
+	resourceGroupID = *subnet.ResourceGroup.ID
+	return
 }
 
 func (p *ibmcloudVPCProvider) getInstancePrototype(instanceName, userData, instanceProfile, imageId string) *vpcv1.InstancePrototype {

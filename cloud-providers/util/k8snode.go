@@ -1,4 +1,4 @@
-package k8sops
+package util
 
 import (
 	"context"

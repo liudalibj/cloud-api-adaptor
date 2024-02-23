@@ -32,11 +32,10 @@ func (_ *Manager) ParseCmd(flags *flag.FlagSet) {
 	flags.StringVar(&vspherecfg.Host, "host", "", "vCenter host name of resource pool destination")
 }
 
-func (_ *Manager) LoadEnv(extras map[string]string) error {
+func (_ *Manager) LoadEnv() {
 	provider.DefaultToEnv(&vspherecfg.UserName, "GOVC_USERNAME", "")
 	provider.DefaultToEnv(&vspherecfg.Password, "GOVC_PASSWORD", "")
 	provider.DefaultToEnv(&vspherecfg.Thumbprint, "GOVC_THUMBPRINT", "")
-	return nil
 }
 
 func (_ *Manager) NewProvider() (provider.Provider, error) {

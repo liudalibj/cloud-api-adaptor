@@ -5,29 +5,25 @@ package ibmcloud
 
 import (
 	"flag"
-	"fmt"
 
-	"github.com/IBM/vpc-go-sdk/vpcv1"
 	provider "github.com/confidential-containers/cloud-api-adaptor/cloud-providers"
 )
 
 var ibmcloudVPCConfig Config
 
-type Manager struct {
-	service *vpcv1.VpcV1
-}
+type Manager struct{}
 
 func init() {
 	provider.AddCloudProvider("ibmcloud", &Manager{})
 }
 
-func (*Manager) ParseCmd(flags *flag.FlagSet) {
+func (_ *Manager) ParseCmd(flags *flag.FlagSet) {
 
 	flags.StringVar(&ibmcloudVPCConfig.ApiKey, "api-key", "", "IBM Cloud API key, defaults to `IBMCLOUD_API_KEY`")
 	flags.StringVar(&ibmcloudVPCConfig.IAMProfileID, "iam-profile-id", "", "IBM IAM Profile ID, defaults to `IBMCLOUD_IAM_PROFILE_ID`")
 	flags.StringVar(&ibmcloudVPCConfig.CRTokenFileName, "cr-token-filename", "/var/run/secrets/tokens/vault-token", "Projected service account token")
-	flags.StringVar(&ibmcloudVPCConfig.IamServiceURL, "iam-service-url", "https://iam.provider.ibm.com/identity/token", "IBM Cloud IAM Service URL")
-	flags.StringVar(&ibmcloudVPCConfig.VpcServiceURL, "vpc-service-url", "https://jp-tok.iaas.provider.ibm.com/v1", "IBM Cloud VPC Service URL")
+	flags.StringVar(&ibmcloudVPCConfig.IamServiceURL, "iam-service-url", "https://iam.cloud.ibm.com/identity/token", "IBM Cloud IAM Service URL")
+	flags.StringVar(&ibmcloudVPCConfig.VpcServiceURL, "vpc-service-url", "https://jp-tok.iaas.cloud.ibm.com/v1", "IBM Cloud VPC Service URL")
 	flags.StringVar(&ibmcloudVPCConfig.ResourceGroupID, "resource-group-id", "", "Resource Group ID")
 	flags.StringVar(&ibmcloudVPCConfig.ProfileName, "profile-name", "", "Default instance profile name to be used for the Pod VMs")
 	flags.Var(&ibmcloudVPCConfig.InstanceProfiles, "profile-list", "List of instance profile names to be used for the Pod VMs, comma separated")
@@ -42,8 +38,7 @@ func (*Manager) ParseCmd(flags *flag.FlagSet) {
 
 }
 
-func (m *Manager) LoadEnv() {
-
+func (_ *Manager) LoadEnv() {
 	// overwrite config set by cmd parameters in oci image with env might come from orchastration platform
 	provider.DefaultToEnv(&ibmcloudVPCConfig.ApiKey, "IBMCLOUD_API_KEY", "")
 	provider.DefaultToEnv(&ibmcloudVPCConfig.IAMProfileID, "IBMCLOUD_IAM_PROFILE_ID", "")
@@ -71,29 +66,10 @@ func (m *Manager) LoadEnv() {
 	}
 }
 
-func fetchVPCDetails(vpcV1 *vpcv1.VpcV1, subnetID string) (vpcID string, resourceGroupID string, securityGroupID string, e error) {
-	subnet, response, err := vpcV1.GetSubnet(&vpcv1.GetSubnetOptions{
-		ID: &subnetID,
-	})
-	if err != nil {
-		e = fmt.Errorf("VPC error with:\n %w\nfurther details:\n %v", err, response)
-		return
-	}
-
-	sg, response, err := vpcV1.GetVPCDefaultSecurityGroup(&vpcv1.GetVPCDefaultSecurityGroupOptions{
-		ID: subnet.VPC.ID,
-	})
-	if err != nil {
-		e = fmt.Errorf("VPC error with:\n %w\nfurther details:\n %v", err, response)
-		return
-	}
-
-	securityGroupID = *sg.ID
-	vpcID = *subnet.VPC.ID
-	resourceGroupID = *subnet.ResourceGroup.ID
-	return
+func (_ *Manager) NewProvider() (provider.Provider, error) {
+	return NewProvider(&ibmcloudVPCConfig)
 }
 
-func (m *Manager) NewProvider() (provider.Provider, error) {
-	return NewProvider(&ibmcloudVPCConfig, m.service)
+func (_ *Manager) GetConfig() (config *Config) {
+	return &ibmcloudVPCConfig
 }
