@@ -72,11 +72,13 @@ GOFLAGS += -tags=$(subst $(space),$(comma),$(strip $(BUILTIN_CLOUD_PROVIDERS)))
 
 ifneq (,$(filter libvirt,$(BUILTIN_CLOUD_PROVIDERS)))
 cloud-api-adaptor: GOOPTIONS := $(subst CGO_ENABLED=0,CGO_ENABLED=1,$(GOOPTIONS))
-cloud-api-adaptor: $(GOOPTIONS) go build $(GOFLAGS) -buildmode=plugin ./cloud-providers/libvirt-plugin
 endif
 
 $(BINARIES): .git-commit $(SOURCES)
 	$(GOOPTIONS) go build $(GOFLAGS) -o "$@" ./cmd/$@
+
+libvirt-plugin: .git-commit
+	$(GOOPTIONS) go build $(GOFLAGS) -buildmode=plugin github.com/confidential-containers/cloud-api-adaptor/cloud-providers/libvirt-plugin
 
 ##@ Development
 
