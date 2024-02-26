@@ -21,7 +21,7 @@ import (
 
 const maxInstanceNameLen = 63
 
-var logger = log.New(log.Writer(), "[adaptor/cloud/ibmcloud-powervs] ", log.LstdFlags|log.Lmsgprefix)
+var logger = log.New(log.Writer(), "[cloud-providers/ibmcloud-powervs] ", log.LstdFlags|log.Lmsgprefix)
 
 type ibmcloudPowerVSProvider struct {
 	powervsService

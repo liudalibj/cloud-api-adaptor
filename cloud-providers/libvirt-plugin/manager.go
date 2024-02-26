@@ -25,7 +25,7 @@ const (
 	defaultFirmware       = "/usr/share/edk2/ovmf/OVMF_CODE.fd"
 )
 
-func init() {
+func InitCloud() {
 	provider.AddCloudProvider("libvirt-ext", &Manager{})
 }
 

@@ -53,12 +53,9 @@ func LoadCloudProviders(path string) {
 
 func Get(name string) CloudProvider {
 	// Get the length of the cloudTable
-	length := len(providerTable)
-	logger.Printf("Length of the providerTable: %d", length)
-	if length == 0 {
-		logger.Printf("Loading CloudProviders from %s", ProviderPath)
-		LoadCloudProviders(ProviderPath)
-	}
+	logger.Printf("Loading CloudProviders from %s", ProviderPath)
+	LoadCloudProviders(ProviderPath)
+	logger.Printf("Support CloudProviders: %s", providerTable)
 	return providerTable[name]
 }
 

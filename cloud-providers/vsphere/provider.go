@@ -22,7 +22,7 @@ import (
 	"github.com/vmware/govmomi/vim25/types"
 )
 
-var logger = log.New(log.Writer(), "[adaptor/cloud/vsphere] ", log.LstdFlags|log.Lmsgprefix)
+var logger = log.New(log.Writer(), "[cloud-providers/vsphere] ", log.LstdFlags|log.Lmsgprefix)
 
 const maxInstanceNameLen = 63
 

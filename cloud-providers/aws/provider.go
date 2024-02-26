@@ -21,7 +21,7 @@ import (
 	"github.com/confidential-containers/cloud-api-adaptor/cloud-providers/util/cloudinit"
 )
 
-var logger = log.New(log.Writer(), "[adaptor/cloud/aws] ", log.LstdFlags|log.Lmsgprefix)
+var logger = log.New(log.Writer(), "[cloud-providers/aws] ", log.LstdFlags|log.Lmsgprefix)
 var errNotReady = errors.New("address not ready")
 
 const (

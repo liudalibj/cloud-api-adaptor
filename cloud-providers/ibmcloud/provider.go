@@ -25,7 +25,7 @@ const (
 	queryInterval = 2
 )
 
-var logger = log.New(log.Writer(), "[adaptor/cloud/ibmcloud] ", log.LstdFlags|log.Lmsgprefix)
+var logger = log.New(log.Writer(), "[cloud-providers/ibmcloud] ", log.LstdFlags|log.Lmsgprefix)
 var errNotReady = errors.New("address not ready")
 
 const maxInstanceNameLen = 63

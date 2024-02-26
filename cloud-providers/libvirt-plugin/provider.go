@@ -16,7 +16,7 @@ import (
 	"github.com/confidential-containers/cloud-api-adaptor/cloud-providers/util/cloudinit"
 )
 
-var logger = log.New(log.Writer(), "[adaptor/cloud/libvirt] ", log.LstdFlags|log.Lmsgprefix)
+var logger = log.New(log.Writer(), "[cloud-providers/libvirt] ", log.LstdFlags|log.Lmsgprefix)
 
 const maxInstanceNameLen = 63
 
