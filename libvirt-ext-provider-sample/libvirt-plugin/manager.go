@@ -16,12 +16,12 @@ type Manager struct {
 	libvirtManager *libvirt.Manager
 }
 
-func init() {
+func InitCloud() {
 	libvirtManager := &libvirt.Manager{}
 	manager := &Manager{
 		libvirtManager: libvirtManager,
 	}
-	provider.AddCloudProvider("libvirt-ext", manager)
+	provider.AddCloudProvider("libvirt-ext-sample", manager)
 }
 
 func (m *Manager) ParseCmd(flags *flag.FlagSet) {
