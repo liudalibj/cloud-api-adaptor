@@ -12,7 +12,7 @@ import (
 	"github.com/confidential-containers/cloud-api-adaptor/cloud-providers/util"
 )
 
-var logger = log.New(log.Writer(), "[adaptor/cloud] ", log.LstdFlags|log.Lmsgprefix)
+var logger = log.New(log.Writer(), "[cloud-providers/provider] ", log.LstdFlags|log.Lmsgprefix)
 
 // Method to verify the correct instanceType to be used for Pod VM
 func VerifyCloudInstanceType(instanceType string, validInstanceTypes []string, defaultInstanceType string) (string, error) {
