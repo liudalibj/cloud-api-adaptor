@@ -7,12 +7,12 @@ import (
 	"context"
 	"sync"
 
-	provider "github.com/confidential-containers/cloud-api-adaptor/cloud-providers"
-	"github.com/confidential-containers/cloud-api-adaptor/cloud-providers/util/cloudinit"
 	"github.com/confidential-containers/cloud-api-adaptor/pkg/adaptor/k8sops"
 	"github.com/confidential-containers/cloud-api-adaptor/pkg/adaptor/proxy"
 	"github.com/confidential-containers/cloud-api-adaptor/pkg/podnetwork"
 	"github.com/confidential-containers/cloud-api-adaptor/pkg/podnetwork/tunneler"
+	provider "github.com/confidential-containers/cloud-providers"
+	"github.com/confidential-containers/cloud-providers/util/cloudinit"
 	pb "github.com/kata-containers/kata-containers/src/runtime/protocols/hypervisor"
 )
 

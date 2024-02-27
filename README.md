@@ -28,6 +28,8 @@ Please refer to the instructions mentioned in the following [doc](install/README
 
 ## Supported Providers
 
+https://github.com/confidential-containers/cloud-providers
+
 * aws
 * azure
 * ibmcloud

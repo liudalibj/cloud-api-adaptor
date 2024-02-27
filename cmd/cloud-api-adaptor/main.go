@@ -10,13 +10,13 @@ import (
 	"io"
 	"os"
 
-	provider "github.com/confidential-containers/cloud-api-adaptor/cloud-providers"
 	"github.com/confidential-containers/cloud-api-adaptor/cmd"
 	"github.com/confidential-containers/cloud-api-adaptor/pkg/adaptor"
 	"github.com/confidential-containers/cloud-api-adaptor/pkg/adaptor/proxy"
 	daemon "github.com/confidential-containers/cloud-api-adaptor/pkg/forwarder"
 	"github.com/confidential-containers/cloud-api-adaptor/pkg/podnetwork/tunneler/vxlan"
 	"github.com/confidential-containers/cloud-api-adaptor/pkg/util/tlsutil"
+	provider "github.com/confidential-containers/cloud-providers"
 
 	"github.com/confidential-containers/cloud-api-adaptor/pkg/podnetwork"
 	"github.com/confidential-containers/cloud-api-adaptor/pkg/probe"

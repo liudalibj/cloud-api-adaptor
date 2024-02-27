@@ -6,5 +6,5 @@
 package main
 
 import (
-	_ "github.com/confidential-containers/cloud-api-adaptor/cloud-providers/ibmcloud"
+	_ "github.com/confidential-containers/cloud-providers/ibmcloud"
 )

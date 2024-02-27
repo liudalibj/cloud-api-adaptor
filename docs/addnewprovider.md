@@ -2,15 +2,15 @@
 
 ### Step 1: Initialize and register the cloud provider manager
 
-The provider-specific cloud manager should be placed under `pkg/adaptor/cloud/<provider>/`.
+The provider-specific cloud manager should be placed under cloud providers repo: `https://github.com/confidential-containers/cloud-providers/blob/main/<provider>/`.
 
-:information_source:[Example code](https://github.com/confidential-containers/cloud-api-adaptor/blob/main/pkg/adaptor/cloud/aws)
+:information_source:[Example code](https://github.com/confidential-containers/cloud-providers/blob/main/aws)
 
 ### Step 2: Add provider specific code
 
-Under `pkg/adaptor/cloud/<provider>`, start by adding a new file called `types.go`. This file defines a configuration struct that contains the required parameters for a cloud provider.
+Under `https://github.com/confidential-containers/cloud-providers/<provider>/`, start by adding a new file called `types.go`. This file defines a configuration struct that contains the required parameters for a cloud provider.
 
-:information_source:[Example code](https://github.com/confidential-containers/cloud-api-adaptor/blob/main/pkg/adaptor/cloud/aws/types.go)
+:information_source:[Example code](https://github.com/confidential-containers/cloud-providers/blob/main/aws/types.go)
 
 #### Step 2.1: Implement the Cloud interface
 
@@ -24,11 +24,11 @@ Create an `init` function to add your manager to the cloud provider table.
 
 ```go
 func init() {
-	cloud.AddCloud("aws", &Manager{})
+	provider.AddCloudProvider("aws", &Manager{})
 }
 ```
 
-:information_source:[Example code](https://github.com/confidential-containers/cloud-api-adaptor/blob/main/pkg/adaptor/cloud/aws/manager.go)
+:information_source:[Example code](https://github.com/confidential-containers/cloud-providers/blob/main/aws/manager.go)
 
 #### Step 2.2: Implement the Provider interface
 
@@ -38,12 +38,46 @@ The Provider interface defines a set of methods that need to be implemented by t
  - DeleteInstance
  - Teardown
 
-:information_source:[Example code](https://github.com/confidential-containers/cloud-api-adaptor/blob/main/pkg/adaptor/cloud/aws/provider.go#L76-L175)
+:information_source:[Example code](https://github.com/confidential-containers/cloud-providers/blob/main/aws/provider.go#L76-L175)
 
 Also, consider adding additional files to modularize the code. You can refer to existing providers such as `aws`, `azure`, `ibmcloud`, and `libvirt` for guidance. Adding unit tests wherever necessary is good practice.
 
-#### Step 2.3: Include Provider package from main
+- Make a new tag for cloud-providers repo
+```
+git tag v0.8.x
+git push origin v0.8.x
+```
 
+#### Step 2.3: Include Provider package for peerpod-ctrl manager
+- Get the new tag verions of cloud provider for [peerpod-ctrl](https://github.com/confidential-containers/peerpod-ctrl)
+```
+go get github.com/confidential-containers/cloud-providers@v0.8.x
+go mod tidy
+```
+- Use your provider in peerpod-ctrl operator
+To include your provider you need reference it from the operator. Go build tags are used to selectively include different providers.
+
+:information_source:[Example code](https://github.com/confidential-containers/peerpod-ctrl/blob/main/controllers/aws.go)
+
+```go
+//go:build aws
+```
+Note the comment at the top of the file, when building ensure `-tags=` is set to include your new provider. See the [Makefile](https://github.com/confidential-containers/peerpod-ctrl/blob/main/Makefile#L66) for more context and usage.
+- Make a new tag for peerpod-ctrl repo
+```
+git tag v0.8.x
+git push origin v0.8.x
+```
+
+#### Step 2.4: Include peerpod-ctrl and provider package from CAA main
+- Get the new tag verions of peerpod-ctrl in CAA
+```
+go get github.com/confidential-containers/peerpod-ctrl@v0.8.x
+go mod tidy
+```
+`go mod tidy` will update `cloud-providers` in CAA to `v0.8.x`, and we better keep use same verion for go mod `cloud-providers` and `peerpod-ctrl`.
+
+- Use your provider in CAA main package
 To include your provider you need reference it from the main package. Go build tags are used to selectively include different providers.
 
 :information_source:[Example code](https://github.com/confidential-containers/cloud-api-adaptor/blob/main/cmd/cloud-api-adaptor/aws.go)
