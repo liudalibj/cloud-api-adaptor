@@ -18,14 +18,14 @@ import (
 	"github.com/containerd/containerd/pkg/cri/annotations"
 	pb "github.com/kata-containers/kata-containers/src/runtime/protocols/hypervisor"
 
-	provider "github.com/confidential-containers/cloud-api-adaptor/cloud-providers"
-	putil "github.com/confidential-containers/cloud-api-adaptor/cloud-providers/util"
-	"github.com/confidential-containers/cloud-api-adaptor/cloud-providers/util/cloudinit"
 	"github.com/confidential-containers/cloud-api-adaptor/pkg/adaptor/k8sops"
 	"github.com/confidential-containers/cloud-api-adaptor/pkg/adaptor/proxy"
 	"github.com/confidential-containers/cloud-api-adaptor/pkg/forwarder"
 	"github.com/confidential-containers/cloud-api-adaptor/pkg/podnetwork"
 	"github.com/confidential-containers/cloud-api-adaptor/pkg/util"
+	provider "github.com/confidential-containers/cloud-providers"
+	putil "github.com/confidential-containers/cloud-providers/util"
+	"github.com/confidential-containers/cloud-providers/util/cloudinit"
 )
 
 const (

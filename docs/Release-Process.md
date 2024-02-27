@@ -23,28 +23,48 @@ At this point, we should update the cloud-api-adaptor versions to use these rele
 - The kata-containers source branch that we use in the [podvm `Dockerfiles`](../podvm/) and the
 [podvm workflows](../.github/workflows), by updating the `git.kata-containers.reference` value in [versions.yaml](../versions.yaml) to
 the tag of the kata-containers release candidate.
-- The `kata-containers/src/runtime` go module that we include in the main `cloud-api-adaptor` [`go.mod`](../go.mod),
-the `peerpod-ctl` [`go.mod`](../peerpod-ctrl/go.mod) and the `csi-wrapper` [`go.mod`](../volumes/csi-wrapper/go.mod).
+- The `kata-containers/src/runtime` go module that we include in the main `cloud-api-adaptor` [`go.mod`](../go.mod), and the `csi-wrapper` [`go.mod`](../volumes/csi-wrapper/go.mod).
 This can be done by running
     ```
     go get github.com/kata-containers/kata-containers/src/runtime@<release candidate branch e.g. CCv0>
     go mod tidy
     ```
-in the top-level repo directory, and the `peerpod-ctl` and `volumes/csi-wrapper` directories.
+in the top-level repo directory and `volumes/csi-wrapper` directories.
 > **Note:** If there are API changes in the kata-runtime go modules and we need to cloud-api-adaptor to implement,
-then it may be necessary to temporarily get the peerpod-ctrl and csi-wrapper to self-reference the parent folder to
+then it may be necessary to temporarily get the csi-wrapper to self-reference the parent folder to
 avoid compilation errors. This can be done by running:
 > ```
 > go mod edit -replace github.com/confidential-containers/cloud-api-adaptor=../
 > go mod tidy
 > ```
-> from in the `peerpod-ctrl` and `volumes/csi-wrapper` directories.
+> from in the `volumes/csi-wrapper` directories.
 - The attestation-agent that is built into the peer pod vm image, by updating the `git.guest-components.reference` value in [versions.yaml](../versions.yaml)
 
 Currently there isn't automation to build the podvm images at this phase. They should be built manually to ensure they don't break.
 
 These updates should be done in a PR that is merged triggering the [project images publish workflow](../.github/workflows/publish_images_on_push.yaml) to create a new container image in
 [`quay.io/confidential-containers/cloud-api-adaptor`](https://quay.io/repository/confidential-containers/cloud-api-adaptor?tab=tags) to use in testing.
+
+- The `cloud-providers` go module that we include in the main `peerpod-ctrl` [`go.mod`](https://github.com/confidential-containers/peerpod-ctrl/blob/main/go.mod), update it in `release-candidate-branch`, and commit the updated `go.mod` and `go.sum` to release candidate branch of `peerpod-ctrl` repo.
+This can be done by running
+    ```
+    go checkout -b <release-candidate-branch>
+    go get github.com/confidential-containers/cloud-providers@<release-candidate-branch>
+    go mod tidy
+    git add .
+    git commit -m "release candidate branch.\n Signed-off-by: UserName <my@email.address>"
+    ```
+in the top-level `peerpod-ctrl` repo directory.
+- The `peerpod-ctrl` go module that we include in the main `cloud-api-adaptor` [`go.mod`](../go.mod).
+This can be done by running
+    ```
+    go checkout -b <release-candidate-branch>
+    go get github.com/confidential-containers/peerpod-ctrl@<release-candidate-branch>
+    go mod tidy
+    git add .
+    git commit -m "release candidate branch.\n Signed-off-by: UserName <my@email.address>"
+    ```
+in the top-level `cloud-api-adaptor` repo directory, the `go mod tidy` command will update [`go.mod`](../go.mod) to use `github.com/confidential-containers/cloud-providers@<release-candidate-branch>`
 
 #### Tags and update go submodules
 
@@ -58,41 +78,57 @@ the correct order.
 > If you mess up, you need to restart the tagging with the next patch version.
 
 The process should go something like:
-- Create a tag for the main [go module](../go.mod) pointing to the latest commit (including the version updates just
-merged) with the name `v<version>-alpha.1` (e.g. `v0.7.0-alpha.1` for the confidential containers `0.7.0` release release candidate). This can be done by running:
+
+- Create a tag for the main [cloud-providers go module](https://github.com/confidential-containers/cloud-providers/blob/main/go.mod) pointing to the latest commit (including the version updates just merged) with the name `v<version>-alpha.1` (e.g. `v0.8.2-alpha.1` for the confidential containers `0.8.2` release release candidate). This can be done by running:
     ```
     git tag v<version>-alpha.1 main
     git push origin v<version>-alpha.1
     ```
-- Update the `csi-wrapper` and `peerpod-ctrl` go modules to use the tagged version of cloud-api-adapter, by running:
+in the top-level `cloud-providers` repo directory
+
+- Update the `peerpod-ctrl` go modules to use the tagged version of cloud-providers, by running:
+    ```
+    go get github.com/confidential-containers/cloud-providers@v<version>-alpha.1
+    go mod tidy
+    ```
+in the top-level `peerpod-ctrl` repo directory,
+- Merge the PR with this update to update the `main` branch of `peerpod-ctrl` repo.
+- Create a tag for the` peerpod-ctrl` main [go module](https://github.com/confidential-containers/peerpod-ctrl/blob/main/go.mod) pointing to the latest commit (including the version updates just merged from previous step) with the name `v<version>-alpha.1` (e.g. `v0.8.2-alpha.1` for the confidential containers `0.8.2` release release candidate). This can be done by running:
+    ```
+    git tag v<version>-alpha.1 main
+    git push origin v<version>-alpha.1
+    ```
+in the top-level `peerpod-ctrl` repo directory
+- Create a tag for the main [go module](../go.mod) pointing to the latest commit (including the version updates just
+merged from previous step) with the name `v<version>-alpha.1` (e.g. `v0.8.2-alpha.1` for the confidential containers `0.8.2` release release candidate). This can be done by running:
+    ```
+    git tag v<version>-alpha.1 main
+    git push origin v<version>-alpha.1
+    ```
+- Update the `csi-wrapper` go modules to use the tagged version of cloud-api-adapter, by running:
     ```
     go get github.com/confidential-containers/cloud-api-adaptor@v<version>-alpha.1
     go mod tidy
     ```
-    in their directories and removing the local replace references if we needed to add them earlier.
+in their directories and removing the local replace references if we needed to add them earlier.
 - Merge the PR with this update to update the `main` branch
-- Create a tag for the peerpod-ctrl submodule on the new latest commit with the name
- `peerpod-ctrl/v<version>-alpha.1`:
-    ```
-    git tag peerpod-ctrl/v<version>-alpha.1 main
-    git push origin peerpod-ctrl/v<version>-alpha.1
-    ```
 - Create a tag for the volumes/csi-wrapper submodule with the name
  `volumes/csi-wrapper/v<version>-alpha.1`:
     ```
     git tag volumes/csi-wrapper/v<version>-alpha.1 main
     git push origin volumes/csi-wrapper/v<version>-alpha.1
     ```
-- Create a tag for the `peerpodconfig-ctrl` submodule with the name `peerpodconfig-ctrl/v<version>-alpha.1`:
-    ```
-    git tag peerpodconfig-ctrl/v<version>-alpha.1 main
-    git push origin peerpodconfig-ctrl/v<version>-alpha.1
-    ```
 - Create a tag for the `webhook` submodule with the name `webhook/v<version>-alpha.1`:
     ```
     git tag webhook/v<version>-alpha.1 main
     git push origin webhook/v<version>-alpha.1
     ```
+- Create a tag for the `peerpodconfig-ctrl` [go module](https://github.com/confidential-containers/peerpodconfig-ctrl/blob/main/go.mod) with the name `v<version>-alpha.1`:
+    ```
+    git tag v<version>-alpha.1 main
+    git push origin v<version>-alpha.1
+    ```
+in the top-level `peerpodconfig-ctrl` repo directory
 - After this we should create a a cloud-api-adaptor [pre-release](https://github.com/confidential-containers/cloud-api-adaptor/releases/new)
 named `v<version>-alpha.1` to trigger the creation of the podvm build.
 
@@ -113,8 +149,8 @@ release tags of the project dependencies e.g. `v0.6.0` and creating the tags wit
 
 Also we need to wait until the [CoCo operator](https://github.com/confidential-containers/operator/) release tag has been create to pin the URLs used by the make `deploy` target to install the operator. So edit the [Makefile](../Makefile) to replace the *github.com/confidential-containers/operator/config/default* and *github.com/confidential-containers/operator/config/samples/ccruntime/peer-pods* URLs, e.g.:
 ```
-sed -i 's#\(github.com/confidential-containers/operator/config/default\)#\1?ref=v0.7.0#' Makefile
-sed -i 's#\(github.com/confidential-containers/operator/config/samples/ccruntime/peer-pods\)#\1?ref=v0.7.0#' Makefile
+sed -i 's#\(github.com/confidential-containers/operator/config/default\)#\1?ref=v0.8.0#' Makefile
+sed -i 's#\(github.com/confidential-containers/operator/config/samples/ccruntime/peer-pods\)#\1?ref=v0.8.0#' Makefile
 ```
 
 Once this has been completed and merged in we should pin the cloud-api-adaptor image used on the deployment files. You should use the commit SHA-1 of the last built `quay.io/confidentil-containers/cloud-api-image` image to update the overlays kustomization files. For example, suppose the release image is `quay.io/confidential-containers/cloud-api-adaptor:6d7d2a3fe8243809b3c3a710792c8498292e2fc3`:
@@ -133,13 +169,13 @@ confidential-containers release team to let them know it has completed successfu
 
 ### Post-release
 
-After the release has been cut the `peerpod-ctrl` and `volumes/csi-wrapper` go modules should be updated to remove
+After the release has been cut the `volumes/csi-wrapper` go modules should be updated to remove
 any local replace references, and be updated to use the release version of the `cloud-api-adaptor` by running:
   ```
   go get github.com/confidential-containers/cloud-api-adaptor
   go mod tidy
   ```
-from in the `peerpod-ctrl` and `volumes/csi-wrapper` directories.
+from in the `volumes/csi-wrapper` directories.
 
 The CoCo operator URLs on the [Makefile](../Makefile) should be reverted to use the latest version.
 

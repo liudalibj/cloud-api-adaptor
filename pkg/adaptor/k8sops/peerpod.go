@@ -10,7 +10,7 @@ import (
 	"log"
 	"os"
 
-	peerPodV1alpha1 "github.com/confidential-containers/cloud-api-adaptor/peerpod-ctrl/api/v1alpha1"
+	peerPodV1alpha1 "github.com/confidential-containers/peerpod-ctrl/api/v1alpha1"
 
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

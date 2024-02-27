@@ -63,50 +63,50 @@ jobs:
           path: ${{ github.workspace }}/tests_report_junit.xml
           retention-days: 1
 
-  controllers:
-    name: controllers
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        controller:
-          - peerpod-ctrl
-          - peerpodconfig-ctrl
-    defaults:
-      run:
-        working-directory: ${{ matrix.controller }}
-    steps:
-      - name: Checkout the pull request code
-        uses: actions/checkout@v4
+  # controllers:
+  #   name: controllers
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       controller:
+  #         - peerpod-ctrl
+  #         - peerpodconfig-ctrl
+  #   defaults:
+  #     run:
+  #       working-directory: ${{ matrix.controller }}
+  #   steps:
+  #     - name: Checkout the pull request code
+  #       uses: actions/checkout@v4
 
-      - name: Read properties from versions.yaml
-        run: |
-          go_version="$(yq '.tools.golang' ../versions.yaml)"
-          [ -n "$go_version" ]
-          echo "GO_VERSION=${go_version}" >> "$GITHUB_ENV"
+  #     - name: Read properties from versions.yaml
+  #       run: |
+  #         go_version="$(yq '.tools.golang' ../versions.yaml)"
+  #         [ -n "$go_version" ]
+  #         echo "GO_VERSION=${go_version}" >> "$GITHUB_ENV"
 
-      - name: Setup Golang version ${{ env.GO_VERSION }}
-        uses: actions/setup-go@v4
-        with:
-          go-version: ${{ env.GO_VERSION }}
+  #     - name: Setup Golang version ${{ env.GO_VERSION }}
+  #       uses: actions/setup-go@v4
+  #       with:
+  #         go-version: ${{ env.GO_VERSION }}
 
-      - name: Install build dependencies
-        if: matrix.controller == 'peerpod-ctrl'
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y libvirt-dev
+  #     - name: Install build dependencies
+  #       if: matrix.controller == 'peerpod-ctrl'
+  #       run: |
+  #         sudo apt-get update -y
+  #         sudo apt-get install -y libvirt-dev
 
-      - name: Verify go modules and manifests
-        run: make verify
+  #     - name: Verify go modules and manifests
+  #       run: make verify
 
-      - name: Build the controller manager
-        run: make build
+  #     - name: Build the controller manager
+  #       run: make build
 
-      - name: Run unit tests
-        run: make test
+  #     - name: Run unit tests
+  #       run: make test
 
-      - name: Build the controller image
-        run: make docker-build
+  #     - name: Build the controller image
+  #       run: make docker-build
 
   volumes:
     name: volume controllers

@@ -113,6 +113,14 @@ Cloud Service Provider, or locally for the `libvirt` implementation to creating 
 When the VMs are created they make a CNI compatible network tunnel using VxLAN tunneling, between the worker node and
 peer pods VM to flow other commands like `CreateContainer` through to the the remote sandbox.
 
+### Cloud providers
+The [cloud-providers](https://github.com/confidential-containers/cloud-providers/) contains the implementation the Cloud Service Providers. Built-in Providers:
+* aws
+* azure
+* ibmcloud
+* libvirt
+* vsphere
+
 ### Webhook
 The [webhook](../webhook/) is an mutating admission controller that modifies a pod spec using specific runtimeclass to
 remove all resources entries and replace it with peer-pod extended resource. This is needed as unlike a standard pod, a
@@ -120,12 +128,12 @@ peer pod will not consume the worker node's resources in the same way.
 
 ### peerpodconfig-ctrl
 
-The [peerpodconfig-ctrl](../peerpodconfig-ctrl/) is a Kubernetes controller that manages the creation and deletion of
+The [peerpodconfig-ctrl](https://github.com/confidential-containers/peerpodconfig-ctrl/) is a Kubernetes controller that manages the creation and deletion of
 components required to run peer pods.
 
 ### peerpod-ctrl
 
-The [peerpod-ctrl](../peerpod-ctrl/) is a Kubernetes controller that is used to track the cloud provider resources for
+The [peerpod-ctrl](https://github.com/confidential-containers/peerpod-ctrl/) is a Kubernetes controller that is used to track the cloud provider resources for
 the peer pods. It is responsible for watching PeerPod events and ensuring that any resources that weren't cleaned up by
 the cloud-api-adaptor (e.g. in the case of a network error) are deleted.
 

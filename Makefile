@@ -78,6 +78,9 @@ $(BINARIES): .git-commit $(SOURCES)
 	$(GOOPTIONS) go build $(GOFLAGS) -o "$@" ./cmd/$@
 
 ##@ Development
+.PHONY: get-peerpod-ctrl
+get-peerpod-ctrl: ## clone peerpod-ctrl codes to ./peerpod-ctrl
+	./hack/get-peerpod-ctrl.sh
 
 .PHONY: escapes
 escapes: ## golang memory escapes check
@@ -90,7 +93,7 @@ test: ## Run tests.
 	go test -v $(GOFLAGS) -cover $(PACKAGES) 2>&1
 
 .PHONY: test-e2e
-test-e2e: ## Run end-to-end tests for single provider.
+test-e2e: get-peerpod-ctrl ## Run end-to-end tests for single provider.
 ifneq ($(CLOUD_PROVIDER),)
 	go test -v -tags=$(CLOUD_PROVIDER) -timeout $(TEST_E2E_TIMEOUT) -count=1 ./test/e2e
 else
@@ -163,7 +166,7 @@ image-with-arch: .git-commit ## Build the per arch image
 ##@ Deployment
 
 .PHONY: deploy
-deploy: ## Deploy cloud-api-adaptor using the operator, according to install/overlays/$(CLOUD_PROVIDER)/kustomization.yaml file.
+deploy: get-peerpod-ctrl  ## Deploy cloud-api-adaptor using the operator, according to install/overlays/$(CLOUD_PROVIDER)/kustomization.yaml file.
 ifneq ($(CLOUD_PROVIDER),)
 	kubectl apply -k "github.com/confidential-containers/operator/config/release?ref=v0.8.0"
 	kubectl apply -k "github.com/confidential-containers/operator/config/samples/ccruntime/peer-pods?ref=v0.8.0"
@@ -176,7 +179,7 @@ ifeq ($(RESOURCE_CTRL),true)
 endif
 
 .PHONY: delete
-delete: ## Delete cloud-api-adaptor using the operator, according to install/overlays/$(CLOUD_PROVIDER)/kustomization.yaml file.
+delete: get-peerpod-ctrl ## Delete cloud-api-adaptor using the operator, according to install/overlays/$(CLOUD_PROVIDER)/kustomization.yaml file.
 ifeq ($(RESOURCE_CTRL),true)
 	$(MAKE) -C ./peerpod-ctrl undeploy
 endif

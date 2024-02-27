@@ -6,6 +6,8 @@ staticlib
 pause
 umoci
 skopeo
+peerpod-ctrl
+peerpodconfig-ctrl
 volumes/csi-wrapper/build
 volumes/csi-wrapper/vendor
 opa/
