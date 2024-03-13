@@ -12,6 +12,10 @@ on:
   pull_request:
   workflow_dispatch:
 
+defaults:
+  run:
+    working-directory: src/cloud-api-adaptor
+
 jobs:
   vet-and-fmt:
     name: vet and fmt
