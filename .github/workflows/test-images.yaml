@@ -9,6 +9,10 @@ on:
       - 'test/e2e/fixtures/Dockerfile.*'
       - '.github/workflows/test-images.yaml'
 
+defaults:
+  run:
+    working-directory: src/cloud-api-adaptor
+
 jobs:
   list-dockerfiles:
     runs-on: ubuntu-latest

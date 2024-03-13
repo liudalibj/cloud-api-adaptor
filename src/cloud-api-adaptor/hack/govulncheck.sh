@@ -43,7 +43,7 @@ if ! command -v govulncheck &> /dev/null; then
     exit 1
 fi
 
-readarray -t <<< "$(find . -name go.mod -exec sh -c 'dirname $1' shell {} \;)"
+readarray -t <<< "$(find ../ -name go.mod -exec sh -c 'dirname $1' shell {} \;)"
 goModules=("${MAPFILE[@]}")
 
 if [ "$verbose" = true ]; then

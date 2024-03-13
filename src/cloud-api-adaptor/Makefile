@@ -61,8 +61,8 @@ help: ## Display this help.
 VERSION ?= $(shell git describe --match "v[0-9]*" --tags 2> /dev/null | sed -E 's/-[0-9]+-g[0-9a-f]+$$/-dev/' || echo unknown)
 COMMIT  ?= $(shell cat .git-commit)
 
-GOFLAGS += -ldflags="-X 'github.com/confidential-containers/cloud-api-adaptor/cmd.VERSION=$(VERSION)' \
-                     -X 'github.com/confidential-containers/cloud-api-adaptor/cmd.COMMIT=$(COMMIT)'"
+GOFLAGS += -ldflags="-X 'github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/cmd.VERSION=$(VERSION)' \
+                     -X 'github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/cmd.COMMIT=$(COMMIT)'"
 
 # Build tags required to build cloud-api-adaptor are derived from BUILTIN_CLOUD_PROVIDERS.
 # When libvirt is specified, CGO_ENABLED is set to 1.
@@ -216,7 +216,8 @@ podvm-builder:
 	$(DOCKER_OPTS) .
 
 podvm-binaries:
-	docker buildx build -t $(PODVM_BINARIES_IMAGE) -f podvm/$(BINARIES_DOCKERFILE) \
+	cp -rf ../../.git .git
+	cd ../ && docker buildx build -t $(PODVM_BINARIES_IMAGE) -f cloud-api-adaptor/podvm/$(BINARIES_DOCKERFILE) \
 	--build-arg BUILDER_IMG=$(PODVM_BUILDER_IMAGE) \
 	--build-arg PODVM_DISTRO=$(PODVM_DISTRO) \
 	--build-arg ARCH=$(ARCH) \
@@ -225,7 +226,8 @@ podvm-binaries:
 	$(DOCKER_OPTS) .
 
 podvm-image:
-	docker buildx build -t $(PODVM_IMAGE) -f podvm/$(PODVM_DOCKERFILE) \
+	cp -rf ../../.git .git
+	cd ../ && docker buildx build -t $(PODVM_IMAGE) -f cloud-api-adaptor/podvm/$(PODVM_DOCKERFILE) \
 	--build-arg BUILDER_IMG=$(PODVM_BUILDER_IMAGE) \
 	--build-arg BINARIES_IMG=$(PODVM_BINARIES_IMAGE) \
 	--build-arg PODVM_DISTRO=$(PODVM_DISTRO) \

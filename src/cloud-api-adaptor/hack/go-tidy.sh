@@ -13,7 +13,7 @@ if [[ "${1-}" == "--check" ]]; then
     fi
 fi
 
-modules=$(find . -name go.mod -exec dirname {} \;)
+modules=$(find ../ -name go.mod -exec dirname {} \;)
 
 for module in ${modules}; do
     echo "Tidying Go module $module"

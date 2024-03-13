@@ -21,10 +21,10 @@ image is updated, the operator is updated and the tests pass with all of these.
 
 At this point, we should update the cloud-api-adaptor versions to use these release candidate versions of:
 - The kata-containers source branch that we use in the [podvm `Dockerfiles`](../podvm/) and the
-[podvm workflows](../.github/workflows), by updating the `git.kata-containers.reference` value in [versions.yaml](../versions.yaml) to
+[podvm workflows](../../../.github/workflows), by updating the `git.kata-containers.reference` value in [versions.yaml](../versions.yaml) to
 the tag of the kata-containers release candidate.
 - The `kata-containers/src/runtime` go module that we include in the main `cloud-api-adaptor` [`go.mod`](../go.mod),
-the `peerpod-ctl` [`go.mod`](../peerpod-ctrl/go.mod) and the `csi-wrapper` [`go.mod`](../volumes/csi-wrapper/go.mod).
+the `peerpod-ctl` [`go.mod`](../../peerpod-ctrl/go.mod) and the `csi-wrapper` [`go.mod`](../../csi-wrapper/go.mod).
 This can be done by running
     ```
     go get github.com/kata-containers/kata-containers/src/runtime@<release candidate branch e.g. CCv0>
@@ -43,7 +43,7 @@ avoid compilation errors. This can be done by running:
 
 Currently there isn't automation to build the podvm images at this phase. They should be built manually to ensure they don't break.
 
-These updates should be done in a PR that is merged triggering the [project images publish workflow](../.github/workflows/publish_images_on_push.yaml) to create a new container image in
+These updates should be done in a PR that is merged triggering the [project images publish workflow](../../../.github/workflows/publish_images_on_push.yaml) to create a new container image in
 [`quay.io/confidential-containers/cloud-api-adaptor`](https://quay.io/repository/confidential-containers/cloud-api-adaptor?tab=tags) to use in testing.
 
 #### Tags and update go submodules
@@ -151,9 +151,9 @@ for p in aws azure ibmcloud ibmcloud-powervs libvirt vsphere; do cd aws; kustomi
 
 References to Kata Containers should be reverted to the CCv0 branch in:
 
-* [podvm_builder.yaml workflow](../.github/workflows/podvm_builder.yaml)
+* [podvm_builder.yaml workflow](../../../.github/workflows/podvm_builder.yaml)
 * [podvm_builder `Dockerfiles`](../podvm/)
-* go modules (`cloud-api-adaptor` [`go.mod`](../go.mod), the `peerpod-ctl` [`go.mod`](../peerpod-ctrl/go.mod) and the `csi-wrapper` [`go.mod`](../volumes/csi-wrapper/go.mod))
+* go modules (`cloud-api-adaptor` [`go.mod`](../go.mod), the `peerpod-ctl` [`go.mod`](../../peerpod-ctrl/go.mod) and the `csi-wrapper` [`go.mod`](../../csi-wrapper/go.mod))
 
 The `CITATION.cff` needs to be updated with the dates from the release.
 

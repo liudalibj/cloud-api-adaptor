@@ -23,14 +23,31 @@ on:
         description: Git ref to checkout the cloud-api-adaptor repository. Defaults to main.
         required: false
         type: string
-
+  workflow_dispatch:
+     inputs:
+      registry:
+        default: 'quay.io/liudalibj'
+        description: 'Image registry (e.g. "ghcr.io/confidential-containers") where the built image will be pushed to'
+        required: false
+        type: string
+      image_tags:
+        default: ''
+        description: 'Comma-separated list of tags for the dev built image (e.g. latest,ci-dev). By default uses the values from hack/build.sh'
+        required: true
+        type: string
+      git_ref:
+        default: 'main'
+        description: Git ref to checkout the cloud-api-adaptor repository. Defaults to main.
+        required: false
+        type: string
+ 
 jobs:
   peerpod_push:
     name: build and push peerpod-ctrl
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: peerpod-ctrl
+        working-directory: src/peerpod-ctrl
 
     steps:
       - name: Checkout Code
@@ -72,8 +89,8 @@ jobs:
         with:
           tags: ${{ steps.tags.outputs.tags }}
           push: true
-          context: peerpod-ctrl
+          context: src
+          file: src/peerpod-ctrl/Dockerfile
           platforms: linux/amd64, linux/s390x, linux/ppc64le
           build-args: |
             GOFLAGS=-tags=aws,azure,ibmcloud,vsphere,libvirt
-
