@@ -106,7 +106,7 @@ fmt: ## Run go fmt against code.
 	find $(SOURCEDIRS) -name '*.go' -print0 | xargs -0 gofmt -l -s -w
 
 .PHONY: vet
-vet: ## Run go vet against code.
+vet: .git-commit ## Run go vet against code.
 	go vet $(GOFLAGS) $(PACKAGES)
 
 .PHONY: shellcheck
@@ -224,6 +224,7 @@ podvm-binaries:
 	--build-arg AA_KBC=$(AA_KBC) \
 	$(if $(DEFAULT_AGENT_POLICY_FILE),--build-arg DEFAULT_AGENT_POLICY_FILE=$(DEFAULT_AGENT_POLICY_FILE),) \
 	$(DOCKER_OPTS) .
+	rm -rf .git
 
 podvm-image:
 	cp -rf ../../.git .git
@@ -234,3 +235,4 @@ podvm-image:
 	--build-arg ARCH=$(ARCH) \
 	--build-arg CLOUD_PROVIDER=$(or $(CLOUD_PROVIDER),generic) \
 	$(DOCKER_OPTS) .
+	rm -rf .git

@@ -81,8 +81,6 @@ fi
 statuscode=0
 
 for module in "${goModules[@]}"; do
-    pwd
-    ls -alh
     govulncheck -C "${module}" ./... || statuscode=$?
 done
 
