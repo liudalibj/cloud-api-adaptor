@@ -95,7 +95,7 @@ jobs:
                 ;;
             esac
             podvm_image_tar_name="podvm-generic-ubuntu-${arch_string}-${caa_commit_id}.tar"
-            podvm_docker_name="quay.io/liudalibj/podvm-generic-ubuntu-${arch_string}:${caa_commit_id}"
+            podvm_docker_name="quay.io/confidential-containers/podvm-generic-ubuntu-${arch_string}:${caa_commit_id}"
             manifest_url="https://quay.io/v2/confidential-containers/podvm-generic-ubuntu-${arch_string}/manifests/${caa_commit_id}"
             curl -I --silent "${manifest_url}" > header.txt
             if grep -q "HTTP/2 200" "header.txt"; then

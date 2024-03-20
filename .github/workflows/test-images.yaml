@@ -6,7 +6,7 @@ on:
     branches:
       - 'main'
     paths:
-      - 'test/e2e/fixtures/Dockerfile.*'
+      - 'src/cloud-api-adaptor/test/e2e/fixtures/Dockerfile.*'
       - '.github/workflows/test-images.yaml'
 
 defaults:
@@ -66,7 +66,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         tags: |
-          quay.io/liudalibj/test-images:${{env.DOCKER_TAG}}
+          quay.io/confidential-containers/test-images:${{env.DOCKER_TAG}}
         push: true
         context: .
         platforms: linux/s390x,linux/amd64

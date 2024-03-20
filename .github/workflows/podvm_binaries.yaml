@@ -3,21 +3,7 @@ on:
   workflow_call:
     inputs:
       registry:
-        default: 'quay.io/liudalibj'
-        required: false
-        type: string
-      image_tag:
-        default: ''
-        required: false
-        type: string
-      git_ref:
-        description: Git ref to checkout the cloud-api-adaptor repository.
-        required: true
-        type: string
-  workflow_dispatch:
-    inputs:
-      registry:
-        default: 'quay.io/liudalibj'
+        default: 'quay.io/confidential-containers'
         required: false
         type: string
       image_tag:

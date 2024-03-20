@@ -4,8 +4,8 @@ on:
   workflow_call:
     inputs:
       registry:
-        default: 'quay.io/liudalibj'
-        description: 'Image registry (e.g. "ghcr.io/confidential-containers") where the built image will be pushed to'
+        default: 'quay.io/confidential-containers'
+        description: 'Image registry (e.g. "quay.io/confidential-containers") where the built image will be pushed to'
         required: false
         type: string
       dev_arches:
@@ -33,38 +33,7 @@ on:
         description: Git ref to checkout the cloud-api-adaptor repository. Defaults to main.
         required: false
         type: string
-  workflow_dispatch:
-    inputs:
-      registry:
-        default: 'quay.io/liudalibj'
-        description: 'Image registry (e.g. "ghcr.io/confidential-containers") where the built image will be pushed to'
-        required: false
-        type: string
-      dev_arches:
-        default: 'linux/amd64'
-        description: 'Dev build arches. Expected a docker buildx "--platform" string format'
-        required: false
-        type: string
-      dev_tags:
-        default: ''
-        description: 'Comma-separated list of tags for the dev built image (e.g. latest,ci-dev). By default uses the values from hack/build.sh'
-        required: false
-        type: string
-      release_arches:
-        default: 'linux/amd64,linux/s390x,linux/ppc64le'
-        description: 'Release build arches. Expected a docker buildx "--platform" string format'
-        required: false
-        type: string
-      release_tags:
-        default: ''
-        description: 'Likewise but for the release built image'
-        required: false
-        type: string
-      git_ref:
-        default: 'toplevel-go-modules'
-        description: Git ref to checkout the cloud-api-adaptor repository. Defaults to main.
-        required: false
-        type: string
+
 defaults:
   run:
     working-directory: src/cloud-api-adaptor
