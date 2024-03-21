@@ -49,11 +49,11 @@ fi
 
 # Configuration
 excludeModules=(
-    "../cloud-api-adaptor/podvm" # see the comment in podvm/go.mod
+    "./src/cloud-api-adaptor/podvm" # see the comment in podvm/go.mod
 )
 flags=()
 
-readarray -t <<< "$(find ../ -name go.mod -exec sh -c 'dirname $1' shell {} \;)"
+readarray -t <<< "$(find . -name go.mod -exec sh -c 'dirname $1' shell {} \;)"
 goModules=("${MAPFILE[@]}")
 
 if [ "$verbose" = true ]; then

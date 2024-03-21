@@ -3,7 +3,7 @@
 
 include Makefile.defaults
 
-.PHONY: all build check fmt vet clean image deploy delete
+.PHONY: all build vet clean image deploy delete
 
 SHELL = bash -o pipefail
 
@@ -97,53 +97,9 @@ else
 	$(error CLOUD_PROVIDER is not set)
 endif
 
- ## Run formatters and linters against the code.
-.PHONY: check
-check: fmt vet golangci-lint shellcheck tidy-check govulncheck packer-check terraform-check
-
-.PHONY: fmt
-fmt: ## Run go fmt against code.
-	find $(SOURCEDIRS) -name '*.go' -print0 | xargs -0 gofmt -l -s -w
-
 .PHONY: vet
 vet: .git-commit ## Run go vet against code.
 	go vet $(GOFLAGS) $(PACKAGES)
-
-.PHONY: shellcheck
-shellcheck: ## Run shellcheck against shell scripts.
-	./hack/shellcheck.sh
-
-.PHONY: golangci-lint
-golangci-lint: ## Run golangci-lint against code.
-	./hack/golangci-lint.sh
-
-.PHONY: tidy
-tidy:
-	./hack/go-tidy.sh
-
-.PHONY: tidy-check
-tidy-check:
-	./hack/go-tidy.sh --check
-
-.PHONY: govulncheck
-govulncheck:
-	./hack/govulncheck.sh -v
-
-.PHONY: packer-format
-packer-format:
-	./hack/packer-check.sh
-
-.PHONY: packer-check
-packer-check:
-	./hack/packer-check.sh --check
-
-.PHONY: terraform-format
-terraform-format:
-	./hack/terraform-check.sh
-
-.PHONY: terraform-check
-terraform-check:
-	./hack/terraform-check.sh --check
 
 .PHONY: clean
 clean: ## Remove binaries.

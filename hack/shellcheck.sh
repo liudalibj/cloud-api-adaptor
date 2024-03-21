@@ -24,7 +24,7 @@ if ! command -v shellcheck &> /dev/null; then
 fi
 
 # Configuration
-scanDir="../" # Directory to scan
+scanDir="." # Directory to scan
 shellcheckOpts=( # Options to pass to ShellCheck
     "--severity=warning"
 )
