@@ -1,4 +1,4 @@
-module github.com/confidential-containers/cloud-api-adaptor/src/webhook
+module github.com/liudalibj/cloud-api-adaptor/src/webhook
 
 go 1.20
 

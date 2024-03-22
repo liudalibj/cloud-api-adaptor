@@ -17,9 +17,9 @@ import (
 	"time"
 
 	"github.com/avast/retry-go/v4"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/tlsutil"
 	"github.com/containerd/ttrpc"
 	pb "github.com/kata-containers/kata-containers/src/runtime/virtcontainers/pkg/agent/protocols/grpc"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/tlsutil"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	criapi "k8s.io/cri-api/pkg/apis/runtime/v1alpha2"

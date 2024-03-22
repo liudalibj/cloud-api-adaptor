@@ -6,12 +6,12 @@ package routing
 import (
 	"testing"
 
-	testutils "github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/internal/testing"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tuntest"
+	testutils "github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/internal/testing"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tuntest"
 )
 
 func TestRouting(t *testing.T) {
-	// TODO: enable this test once https://github.com/confidential-containers/cloud-api-adaptor/issues/52 is fixed
+	// TODO: enable this test once https://github.com/liudalibj/cloud-api-adaptor/issues/52 is fixed
 	testutils.SkipTestIfRunningInCI(t)
 
 	tuntest.RunTunnelTest(t, "routing", NewWorkerNodeTunneler, NewPodNodeTunneler, true)

@@ -14,7 +14,7 @@ import (
 	bxsession "github.com/IBM-Cloud/bluemix-go/session"
 	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/IBM/vpc-go-sdk/vpcv1"
-	pv "github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/test/provisioner"
+	pv "github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/test/provisioner"
 	log "github.com/sirupsen/logrus"
 )
 

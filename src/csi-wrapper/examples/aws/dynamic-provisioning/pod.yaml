@@ -76,7 +76,7 @@ spec:
         valueFrom:
           fieldRef:
             fieldPath: spec.nodeName
-    image: quay.io/confidential-containers/csi-podvm-wrapper:latest
+    image: quay.io/liudalibj/csi-podvm-wrapper:latest
     imagePullPolicy: Always
     command: ["/usr/bin/csi-podvm-wrapper"] # TODO: using default entrypoint seems to fail with peer-pods
     args:

@@ -15,10 +15,10 @@ import (
 	"github.com/containerd/ttrpc"
 	pb "github.com/kata-containers/kata-containers/src/runtime/virtcontainers/pkg/agent/protocols/grpc"
 
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/forwarder/interceptor"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tunneler"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/tlsutil"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/forwarder/interceptor"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tunneler"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/tlsutil"
 )
 
 var logger = log.New(log.Writer(), "[forwarder] ", log.LstdFlags|log.Lmsgprefix)

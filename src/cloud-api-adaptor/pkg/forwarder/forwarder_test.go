@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/agentproto"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/tlsutil"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/agentproto"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/tlsutil"
 )
 
 type mockConn struct{}

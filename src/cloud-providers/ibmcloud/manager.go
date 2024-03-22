@@ -6,7 +6,7 @@ package ibmcloud
 import (
 	"flag"
 
-	provider "github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers"
+	provider "github.com/liudalibj/cloud-api-adaptor/src/cloud-providers"
 )
 
 var ibmcloudVPCConfig Config

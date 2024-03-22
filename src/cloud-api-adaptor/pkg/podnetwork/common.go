@@ -8,10 +8,10 @@ import (
 	"log"
 	"math"
 
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tunneler"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tunneler/routing"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tunneler/vxlan"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/netops"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tunneler"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tunneler/routing"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tunneler/vxlan"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/netops"
 )
 
 var logger = log.New(log.Writer(), "[podnetwork] ", log.LstdFlags|log.Lmsgprefix)

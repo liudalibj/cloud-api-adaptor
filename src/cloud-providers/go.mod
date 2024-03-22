@@ -1,4 +1,4 @@
-module github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers
+module github.com/liudalibj/cloud-api-adaptor/src/cloud-providers
 
 go 1.20
 

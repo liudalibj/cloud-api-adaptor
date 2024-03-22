@@ -6,5 +6,5 @@
 package controllers
 
 import (
-	_ "github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers/aws"
+	_ "github.com/liudalibj/cloud-api-adaptor/src/cloud-providers/aws"
 )

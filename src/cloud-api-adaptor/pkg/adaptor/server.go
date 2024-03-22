@@ -15,13 +15,13 @@ import (
 	"github.com/containerd/ttrpc"
 	pbHypervisor "github.com/kata-containers/kata-containers/src/runtime/protocols/hypervisor"
 
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/adaptor/cloud"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/adaptor/proxy"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/adaptor/vminfo"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/tlsutil"
-	pbPodVMInfo "github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/proto/podvminfo"
-	provider "github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/adaptor/cloud"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/adaptor/proxy"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/adaptor/vminfo"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/tlsutil"
+	pbPodVMInfo "github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/proto/podvminfo"
+	provider "github.com/liudalibj/cloud-api-adaptor/src/cloud-providers"
 )
 
 var logger = log.New(log.Writer(), "[adaptor] ", log.LstdFlags|log.Lmsgprefix)

@@ -10,7 +10,7 @@ import (
 	"net/netip"
 	"strings"
 
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers/util/cloudinit"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-providers/util/cloudinit"
 )
 
 type Provider interface {

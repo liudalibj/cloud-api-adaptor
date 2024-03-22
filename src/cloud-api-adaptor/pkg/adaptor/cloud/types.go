@@ -7,13 +7,13 @@ import (
 	"context"
 	"sync"
 
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/adaptor/k8sops"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/adaptor/proxy"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tunneler"
-	provider "github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers/util/cloudinit"
 	pb "github.com/kata-containers/kata-containers/src/runtime/protocols/hypervisor"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/adaptor/k8sops"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/adaptor/proxy"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tunneler"
+	provider "github.com/liudalibj/cloud-api-adaptor/src/cloud-providers"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-providers/util/cloudinit"
 )
 
 type Service interface {

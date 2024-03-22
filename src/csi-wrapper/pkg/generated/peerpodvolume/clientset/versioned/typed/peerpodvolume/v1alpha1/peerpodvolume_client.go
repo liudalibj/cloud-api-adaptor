@@ -5,8 +5,8 @@ package v1alpha1
 import (
 	"net/http"
 
-	v1alpha1 "github.com/confidential-containers/cloud-api-adaptor/src/csi-wrapper/pkg/apis/peerpodvolume/v1alpha1"
-	"github.com/confidential-containers/cloud-api-adaptor/src/csi-wrapper/pkg/generated/peerpodvolume/clientset/versioned/scheme"
+	v1alpha1 "github.com/liudalibj/cloud-api-adaptor/src/csi-wrapper/pkg/apis/peerpodvolume/v1alpha1"
+	"github.com/liudalibj/cloud-api-adaptor/src/csi-wrapper/pkg/generated/peerpodvolume/clientset/versioned/scheme"
 	rest "k8s.io/client-go/rest"
 )
 

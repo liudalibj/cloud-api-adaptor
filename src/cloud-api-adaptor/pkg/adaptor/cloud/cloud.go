@@ -18,15 +18,15 @@ import (
 	"github.com/containerd/containerd/pkg/cri/annotations"
 	pb "github.com/kata-containers/kata-containers/src/runtime/protocols/hypervisor"
 
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/adaptor/k8sops"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/adaptor/proxy"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/cdh"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/forwarder"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util"
-	provider "github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers"
-	putil "github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers/util"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers/util/cloudinit"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/adaptor/k8sops"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/adaptor/proxy"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/cdh"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/forwarder"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util"
+	provider "github.com/liudalibj/cloud-api-adaptor/src/cloud-providers"
+	putil "github.com/liudalibj/cloud-api-adaptor/src/cloud-providers/util"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-providers/util/cloudinit"
 )
 
 const (

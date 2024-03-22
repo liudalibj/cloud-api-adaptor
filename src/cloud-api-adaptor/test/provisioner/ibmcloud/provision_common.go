@@ -18,8 +18,8 @@ import (
 
 	"sigs.k8s.io/e2e-framework/pkg/envconf"
 
-	pv "github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/test/provisioner"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/test/utils"
+	pv "github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/test/provisioner"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/test/utils"
 
 	"github.com/IBM-Cloud/bluemix-go/api/container/containerv1"
 	"github.com/IBM-Cloud/bluemix-go/api/container/containerv2"

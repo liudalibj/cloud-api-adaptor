@@ -6,8 +6,8 @@ package aws
 import (
 	"strings"
 
-	provider "github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers/util"
+	provider "github.com/liudalibj/cloud-api-adaptor/src/cloud-providers"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-providers/util"
 )
 
 type securityGroupIds []string

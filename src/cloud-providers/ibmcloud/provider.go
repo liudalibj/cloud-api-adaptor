@@ -15,9 +15,9 @@ import (
 	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/IBM/vpc-go-sdk/vpcv1"
 
-	provider "github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers/util"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers/util/cloudinit"
+	provider "github.com/liudalibj/cloud-api-adaptor/src/cloud-providers"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-providers/util"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-providers/util/cloudinit"
 )
 
 const (

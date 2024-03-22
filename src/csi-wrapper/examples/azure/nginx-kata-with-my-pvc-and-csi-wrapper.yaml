@@ -53,7 +53,7 @@ spec:
         - --endpoint=/tmp/csi-podvm-wrapper.sock
         - --target-endpoint=/tmp/csi.sock
         - --namespace=kube-system
-      image: quay.io/confidential-containers/csi-podvm-wrapper:latest
+      image: quay.io/liudalibj/csi-podvm-wrapper:latest
       imagePullPolicy: Always
       volumeMounts:
         - mountPath: /tmp

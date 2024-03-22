@@ -1,4 +1,4 @@
-module github.com/confidential-containers/cloud-api-adaptor/src/peerpodconfig-ctrl
+module github.com/liudalibj/cloud-api-adaptor/src/peerpodconfig-ctrl
 
 go 1.20
 

@@ -13,11 +13,11 @@ import (
 	"strings"
 
 	"github.com/avast/retry-go/v4"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/agentproto"
 	cri "github.com/containerd/containerd/pkg/cri/annotations"
 	crio "github.com/containers/podman/v4/pkg/annotations"
 	"github.com/gogo/protobuf/types"
 	pb "github.com/kata-containers/kata-containers/src/runtime/virtcontainers/pkg/agent/protocols/grpc"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/agentproto"
 	criapi "k8s.io/cri-api/pkg/apis/runtime/v1alpha2"
 )
 

@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/adaptor/cloud"
-	pb "github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/proto/podvminfo"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/adaptor/cloud"
+	pb "github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/proto/podvminfo"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

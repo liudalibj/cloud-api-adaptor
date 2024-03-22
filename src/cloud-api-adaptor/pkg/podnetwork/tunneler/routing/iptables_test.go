@@ -6,9 +6,9 @@ package routing
 import (
 	"testing"
 
-	testutils "github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/internal/testing"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tuntest"
 	"github.com/coreos/go-iptables/iptables"
+	testutils "github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/internal/testing"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tuntest"
 )
 
 func TestIPTables(t *testing.T) {

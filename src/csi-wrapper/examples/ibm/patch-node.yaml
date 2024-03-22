@@ -13,7 +13,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
-          image: quay.io/confidential-containers/csi-node-wrapper:latest
+          image: quay.io/liudalibj/csi-node-wrapper:latest
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - mountPath: /csi

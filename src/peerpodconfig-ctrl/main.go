@@ -31,8 +31,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	confidentialcontainersorgv1alpha1 "github.com/confidential-containers/cloud-api-adaptor/src/peerpodconfig-ctrl/api/v1alpha1"
-	"github.com/confidential-containers/cloud-api-adaptor/src/peerpodconfig-ctrl/controllers"
+	confidentialcontainersorgv1alpha1 "github.com/liudalibj/cloud-api-adaptor/src/peerpodconfig-ctrl/api/v1alpha1"
+	"github.com/liudalibj/cloud-api-adaptor/src/peerpodconfig-ctrl/controllers"
 	//+kubebuilder:scaffold:imports
 )
 

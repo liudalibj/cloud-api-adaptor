@@ -12,7 +12,7 @@ import (
 
 	corev1 "k8s.io/api/core/v1"
 
-	pv "github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/test/provisioner/ibmcloud"
+	pv "github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/test/provisioner/ibmcloud"
 	log "github.com/sirupsen/logrus"
 )
 

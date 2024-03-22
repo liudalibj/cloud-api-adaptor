@@ -9,7 +9,7 @@ spec:
             - --endpoint=/var/lib/csi/sockets/pluginproxy/csi-controller-wrapper.sock
             - --target-endpoint=/var/lib/csi/sockets/pluginproxy/csi.sock
             - --namespace=kube-system
-          image: quay.io/confidential-containers/csi-controller-wrapper:latest
+          image: quay.io/liudalibj/csi-controller-wrapper:latest
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - mountPath: /var/lib/csi/sockets/pluginproxy/

@@ -7,7 +7,7 @@ import (
 	"runtime"
 	"testing"
 
-	testutils "github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/internal/testing"
+	testutils "github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/internal/testing"
 	"github.com/vishvananda/netns"
 )
 

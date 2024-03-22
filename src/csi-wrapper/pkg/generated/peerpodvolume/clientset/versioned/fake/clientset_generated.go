@@ -3,9 +3,9 @@
 package fake
 
 import (
-	clientset "github.com/confidential-containers/cloud-api-adaptor/src/csi-wrapper/pkg/generated/peerpodvolume/clientset/versioned"
-	confidentialcontainersv1alpha1 "github.com/confidential-containers/cloud-api-adaptor/src/csi-wrapper/pkg/generated/peerpodvolume/clientset/versioned/typed/peerpodvolume/v1alpha1"
-	fakeconfidentialcontainersv1alpha1 "github.com/confidential-containers/cloud-api-adaptor/src/csi-wrapper/pkg/generated/peerpodvolume/clientset/versioned/typed/peerpodvolume/v1alpha1/fake"
+	clientset "github.com/liudalibj/cloud-api-adaptor/src/csi-wrapper/pkg/generated/peerpodvolume/clientset/versioned"
+	confidentialcontainersv1alpha1 "github.com/liudalibj/cloud-api-adaptor/src/csi-wrapper/pkg/generated/peerpodvolume/clientset/versioned/typed/peerpodvolume/v1alpha1"
+	fakeconfidentialcontainersv1alpha1 "github.com/liudalibj/cloud-api-adaptor/src/csi-wrapper/pkg/generated/peerpodvolume/clientset/versioned/typed/peerpodvolume/v1alpha1/fake"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/discovery"

@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers/azure"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-providers/azure"
 )
 
 var testDaemonConfig string = `{

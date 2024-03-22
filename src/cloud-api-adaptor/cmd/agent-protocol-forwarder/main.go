@@ -10,11 +10,11 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/cmd"
-	daemon "github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/forwarder"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/forwarder/interceptor"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/tlsutil"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/cmd"
+	daemon "github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/forwarder"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/forwarder/interceptor"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/tlsutil"
 )
 
 const programName = "agent-protocol-forwarder"

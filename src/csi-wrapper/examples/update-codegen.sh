@@ -2,7 +2,7 @@
 
 set -o errexit -o pipefail -o nounset -o errtrace
 
-package=github.com/confidential-containers/cloud-api-adaptor/src/csi-wrapper
+package=github.com/liudalibj/cloud-api-adaptor/src/csi-wrapper
 group=peerpodvolume
 version=v1alpha1
 

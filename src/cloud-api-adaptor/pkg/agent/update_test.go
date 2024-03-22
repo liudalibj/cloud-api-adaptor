@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	daemon "github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/forwarder"
+	daemon "github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/forwarder"
 	"github.com/tj/assert"
 )
 

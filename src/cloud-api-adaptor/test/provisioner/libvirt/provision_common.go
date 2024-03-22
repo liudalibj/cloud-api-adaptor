@@ -12,7 +12,7 @@ import (
 	"path"
 	"path/filepath"
 
-	pv "github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/test/provisioner"
+	pv "github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/test/provisioner"
 	log "github.com/sirupsen/logrus"
 	"libvirt.org/go/libvirt"
 	"libvirt.org/go/libvirtxml"

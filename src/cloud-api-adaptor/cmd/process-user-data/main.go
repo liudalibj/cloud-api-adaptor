@@ -6,11 +6,11 @@ package main
 import (
 	"os"
 
-	cmdUtil "github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/cmd"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/agent"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/cdh"
-	daemon "github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/forwarder"
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/userdata"
+	cmdUtil "github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/cmd"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/agent"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/cdh"
+	daemon "github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/forwarder"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/userdata"
 	"github.com/spf13/cobra"
 )
 

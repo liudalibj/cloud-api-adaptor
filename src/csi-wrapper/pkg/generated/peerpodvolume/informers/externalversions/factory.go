@@ -7,9 +7,9 @@ import (
 	sync "sync"
 	time "time"
 
-	versioned "github.com/confidential-containers/cloud-api-adaptor/src/csi-wrapper/pkg/generated/peerpodvolume/clientset/versioned"
-	internalinterfaces "github.com/confidential-containers/cloud-api-adaptor/src/csi-wrapper/pkg/generated/peerpodvolume/informers/externalversions/internalinterfaces"
-	peerpodvolume "github.com/confidential-containers/cloud-api-adaptor/src/csi-wrapper/pkg/generated/peerpodvolume/informers/externalversions/peerpodvolume"
+	versioned "github.com/liudalibj/cloud-api-adaptor/src/csi-wrapper/pkg/generated/peerpodvolume/clientset/versioned"
+	internalinterfaces "github.com/liudalibj/cloud-api-adaptor/src/csi-wrapper/pkg/generated/peerpodvolume/informers/externalversions/internalinterfaces"
+	peerpodvolume "github.com/liudalibj/cloud-api-adaptor/src/csi-wrapper/pkg/generated/peerpodvolume/informers/externalversions/peerpodvolume"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"

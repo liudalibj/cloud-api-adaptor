@@ -3,7 +3,7 @@
 package v1alpha1
 
 import (
-	internalinterfaces "github.com/confidential-containers/cloud-api-adaptor/src/csi-wrapper/pkg/generated/peerpodvolume/informers/externalversions/internalinterfaces"
+	internalinterfaces "github.com/liudalibj/cloud-api-adaptor/src/csi-wrapper/pkg/generated/peerpodvolume/informers/externalversions/internalinterfaces"
 )
 
 // Interface provides access to all the informers in this group version.

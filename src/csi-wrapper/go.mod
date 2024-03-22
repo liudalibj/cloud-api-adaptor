@@ -1,9 +1,9 @@
-module github.com/confidential-containers/cloud-api-adaptor/src/csi-wrapper
+module github.com/liudalibj/cloud-api-adaptor/src/csi-wrapper
 
 go 1.20
 
 require (
-	github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor v0.8.0
+	github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor v0.8.0
 	github.com/container-storage-interface/spec v1.8.0
 	github.com/containerd/ttrpc v1.1.0
 	github.com/gofrs/uuid v4.4.0+incompatible
@@ -66,4 +66,4 @@ require (
 // We can remove this workaround when Kata stop using github.com/gogo/protobuf
 replace google.golang.org/genproto => google.golang.org/genproto v0.0.0-20180817151627-c66870c02cf8
 
-replace github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor => ../cloud-api-adaptor
+replace github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor => ../cloud-api-adaptor

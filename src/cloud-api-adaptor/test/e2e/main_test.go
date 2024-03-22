@@ -9,7 +9,7 @@ import (
 	"os"
 	"testing"
 
-	pv "github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/test/provisioner"
+	pv "github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/test/provisioner"
 	log "github.com/sirupsen/logrus"
 
 	kconf "sigs.k8s.io/e2e-framework/klient/conf"

@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"testing"
 
-	provider "github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers"
+	provider "github.com/liudalibj/cloud-api-adaptor/src/cloud-providers"
 	"github.com/stretchr/testify/assert"
 	libvirtxml "libvirt.org/go/libvirtxml"
 )

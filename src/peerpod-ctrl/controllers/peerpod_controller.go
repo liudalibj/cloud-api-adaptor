@@ -29,8 +29,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
-	provider "github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers"
-	confidentialcontainersorgv1alpha1 "github.com/confidential-containers/cloud-api-adaptor/src/peerpod-ctrl/api/v1alpha1"
+	provider "github.com/liudalibj/cloud-api-adaptor/src/cloud-providers"
+	confidentialcontainersorgv1alpha1 "github.com/liudalibj/cloud-api-adaptor/src/peerpod-ctrl/api/v1alpha1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 )
 

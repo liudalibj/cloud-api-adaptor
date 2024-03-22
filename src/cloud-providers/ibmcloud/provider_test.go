@@ -12,7 +12,7 @@ import (
 
 	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/IBM/vpc-go-sdk/vpcv1"
-	provider "github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers"
+	provider "github.com/liudalibj/cloud-api-adaptor/src/cloud-providers"
 	"github.com/stretchr/testify/assert"
 )
 

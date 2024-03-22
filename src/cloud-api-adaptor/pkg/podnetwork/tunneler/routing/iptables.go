@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/netops"
 	"github.com/coreos/go-iptables/iptables"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/netops"
 )
 
 const (

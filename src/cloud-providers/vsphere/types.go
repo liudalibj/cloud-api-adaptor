@@ -4,7 +4,7 @@
 package vsphere
 
 import (
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers/util"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-providers/util"
 )
 
 type Config struct {

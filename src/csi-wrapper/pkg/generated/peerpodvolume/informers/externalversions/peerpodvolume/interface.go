@@ -3,8 +3,8 @@
 package peerpodvolume
 
 import (
-	internalinterfaces "github.com/confidential-containers/cloud-api-adaptor/src/csi-wrapper/pkg/generated/peerpodvolume/informers/externalversions/internalinterfaces"
-	v1alpha1 "github.com/confidential-containers/cloud-api-adaptor/src/csi-wrapper/pkg/generated/peerpodvolume/informers/externalversions/peerpodvolume/v1alpha1"
+	internalinterfaces "github.com/liudalibj/cloud-api-adaptor/src/csi-wrapper/pkg/generated/peerpodvolume/informers/externalversions/internalinterfaces"
+	v1alpha1 "github.com/liudalibj/cloud-api-adaptor/src/csi-wrapper/pkg/generated/peerpodvolume/informers/externalversions/peerpodvolume/v1alpha1"
 )
 
 // Interface provides access to each of this group's versions.

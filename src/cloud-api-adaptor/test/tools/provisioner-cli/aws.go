@@ -6,5 +6,5 @@
 package main
 
 import (
-	_ "github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/test/provisioner/aws"
+	_ "github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/test/provisioner/aws"
 )

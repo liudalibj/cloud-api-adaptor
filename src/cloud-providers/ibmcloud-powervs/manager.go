@@ -7,7 +7,7 @@ import (
 	"flag"
 	"strconv"
 
-	provider "github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers"
+	provider "github.com/liudalibj/cloud-api-adaptor/src/cloud-providers"
 )
 
 var ibmcloudPowerVSConfig Config

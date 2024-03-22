@@ -61,8 +61,8 @@ help: ## Display this help.
 VERSION ?= $(shell git describe --match "v[0-9]*" --tags 2> /dev/null | sed -E 's/-[0-9]+-g[0-9a-f]+$$/-dev/' || echo unknown)
 COMMIT  ?= $(shell cat .git-commit)
 
-GOFLAGS += -ldflags="-X 'github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/cmd.VERSION=$(VERSION)' \
-                     -X 'github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/cmd.COMMIT=$(COMMIT)'"
+GOFLAGS += -ldflags="-X 'github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/cmd.VERSION=$(VERSION)' \
+                     -X 'github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/cmd.COMMIT=$(COMMIT)'"
 
 # Build tags required to build cloud-api-adaptor are derived from BUILTIN_CLOUD_PROVIDERS.
 # When libvirt is specified, CGO_ENABLED is set to 1.
@@ -144,7 +144,7 @@ endif
 
 ### PODVM IMAGE BUILDING ###
 
-REGISTRY ?= quay.io/confidential-containers
+REGISTRY ?= quay.io/liudalibj
 
 PODVM_DISTRO ?= ubuntu
 PODVM_TAG ?= $(VERSIONS_HASH)

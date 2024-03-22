@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	daemon "github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/forwarder"
+	daemon "github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/forwarder"
 	toml "github.com/pelletier/go-toml/v2"
 )
 

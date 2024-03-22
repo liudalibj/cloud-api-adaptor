@@ -6,7 +6,7 @@ bases:
 
 images:
 - name: cloud-api-adaptor
-  newName: quay.io/confidential-containers/cloud-api-adaptor # change image if needed
+  newName: quay.io/liudalibj/cloud-api-adaptor # change image if needed
   newTag: dev-d4496d008b65c979a4d24767979a77ed1ba21e76
 
 generatorOptions:

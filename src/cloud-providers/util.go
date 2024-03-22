@@ -9,7 +9,7 @@ import (
 	"os"
 	"sort"
 
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers/util"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-providers/util"
 )
 
 var logger = log.New(log.Writer(), "[adaptor/cloud] ", log.LstdFlags|log.Lmsgprefix)

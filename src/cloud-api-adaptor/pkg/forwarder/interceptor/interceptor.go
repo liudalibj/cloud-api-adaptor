@@ -18,7 +18,7 @@ import (
 	"github.com/moby/sys/mountinfo"
 	"github.com/opencontainers/runtime-spec/specs-go"
 
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/agentproto"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/agentproto"
 )
 
 const (
@@ -203,7 +203,7 @@ func (i *interceptor) CreateSandbox(ctx context.Context, req *pb.CreateSandboxRe
 		}
 
 		logger.Print("      Eliminated the DNS setting above from CreateSandboxRequest to stop updating /etc/resolv.conf on the peer pod VM")
-		logger.Print("      See https://github.com/confidential-containers/cloud-api-adaptor/issues/98 for the details.")
+		logger.Print("      See https://github.com/liudalibj/cloud-api-adaptor/issues/98 for the details.")
 		logger.Println()
 		req.Dns = nil
 	}

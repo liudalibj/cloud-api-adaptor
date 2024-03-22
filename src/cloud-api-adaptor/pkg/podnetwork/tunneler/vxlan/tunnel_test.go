@@ -6,7 +6,7 @@ package vxlan
 import (
 	"testing"
 
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tuntest"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tuntest"
 )
 
 func TestVXLAN(t *testing.T) {

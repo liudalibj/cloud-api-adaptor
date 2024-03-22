@@ -40,13 +40,13 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
-	ccv1alpha1 "github.com/confidential-containers/cloud-api-adaptor/src/peerpodconfig-ctrl/api/v1alpha1"
+	ccv1alpha1 "github.com/liudalibj/cloud-api-adaptor/src/peerpodconfig-ctrl/api/v1alpha1"
 )
 
 const (
 	// Name of env var containing the cloud-api-adaptor image name
 	CloudApiAdaptorImageEnvName = "RELATED_IMAGE_CAA"
-	DefaultCloudApiAdaptorImage = "quay.io/confidential-containers/cloud-api-adaptor"
+	DefaultCloudApiAdaptorImage = "quay.io/liudalibj/cloud-api-adaptor"
 	defaultNodeSelectorLabel    = "node.kubernetes.io/worker"
 	defaultPeerPodsLimitPerNode = "1"
 	// cloud-api-adaptor (CAA) daemonset name

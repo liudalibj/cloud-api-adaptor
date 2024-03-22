@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/tlsutil"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/tlsutil"
 	log "github.com/sirupsen/logrus"
 	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/api/core/v1"
@@ -162,7 +162,7 @@ func DoTestCreatePeerPodWithJob(t *testing.T, e env.Environment, assert CloudAss
 
 func DoTestCreatePeerPodAndCheckUserLogs(t *testing.T, e env.Environment, assert CloudAssert) {
 	// podName := "user-pod"
-	// imageName := "quay.io/confidential-containers/test-images:testuser"
+	// imageName := "quay.io/liudalibj/test-images:testuser"
 	// pod := NewPod(E2eNamespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyOnFailure))
 	// expectedPodLogString := "otheruser"
 	// NewTestCase(t, e, "UserPeerPod", assert, "Peer pod with user has been created").WithPod(pod).WithExpectedPodLogString(expectedPodLogString).WithCustomPodState(v1.PodSucceeded).Run()
@@ -182,7 +182,7 @@ func DoTestCreateConfidentialPod(t *testing.T, e env.Environment, assert CloudAs
 
 func DoTestCreatePeerPodAndCheckWorkDirLogs(t *testing.T, e env.Environment, assert CloudAssert) {
 	podName := "workdirpod"
-	imageName := "quay.io/confidential-containers/test-images:testworkdir"
+	imageName := "quay.io/liudalibj/test-images:testworkdir"
 	pod := NewPod(E2eNamespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyOnFailure))
 	expectedPodLogString := "/other"
 	NewTestCase(t, e, "WorkDirPeerPod", assert, "Peer pod with work directory has been created").WithPod(pod).WithExpectedPodLogString(expectedPodLogString).WithCustomPodState(v1.PodSucceeded).Run()
@@ -190,7 +190,7 @@ func DoTestCreatePeerPodAndCheckWorkDirLogs(t *testing.T, e env.Environment, ass
 
 func DoTestCreatePeerPodAndCheckEnvVariableLogsWithImageOnly(t *testing.T, e env.Environment, assert CloudAssert) {
 	podName := "env-variable-in-image"
-	imageName := "quay.io/confidential-containers/test-images:testenv"
+	imageName := "quay.io/liudalibj/test-images:testenv"
 	pod := NewPod(E2eNamespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyOnFailure))
 	expectedPodLogString := "ISPRODUCTION=false"
 	NewTestCase(t, e, "EnvVariablePeerPodWithImageOnly", assert, "Peer pod with environmental variables has been created").WithPod(pod).WithExpectedPodLogString(expectedPodLogString).WithCustomPodState(v1.PodSucceeded).Run()
@@ -206,7 +206,7 @@ func DoTestCreatePeerPodAndCheckEnvVariableLogsWithDeploymentOnly(t *testing.T, 
 
 func DoTestCreatePeerPodAndCheckEnvVariableLogsWithImageAndDeployment(t *testing.T, e env.Environment, assert CloudAssert) {
 	podName := "env-variable-in-both"
-	imageName := "quay.io/confidential-containers/test-images:testenv"
+	imageName := "quay.io/liudalibj/test-images:testenv"
 	pod := NewPod(E2eNamespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyOnFailure), WithEnvironmentalVariables([]v1.EnvVar{{Name: "ISPRODUCTION", Value: "true"}}))
 	expectedPodLogString := "ISPRODUCTION=true"
 	NewTestCase(t, e, "EnvVariablePeerPodWithBoth", assert, "Peer pod with environmental variables has been created").WithPod(pod).WithExpectedPodLogString(expectedPodLogString).WithCustomPodState(v1.PodSucceeded).Run()
@@ -214,7 +214,7 @@ func DoTestCreatePeerPodAndCheckEnvVariableLogsWithImageAndDeployment(t *testing
 
 func DoTestCreatePeerPodWithLargeImage(t *testing.T, e env.Environment, assert CloudAssert) {
 	podName := "largeimage-pod"
-	imageName := "quay.io/confidential-containers/test-images:largeimage"
+	imageName := "quay.io/liudalibj/test-images:largeimage"
 	pod := NewPod(E2eNamespace, podName, podName, imageName, WithRestartPolicy(v1.RestartPolicyOnFailure))
 	NewTestCase(t, e, "LargeImagePeerPod", assert, "Peer pod with Large Image has been created").WithPod(pod).WithPodWatcher().Run()
 }

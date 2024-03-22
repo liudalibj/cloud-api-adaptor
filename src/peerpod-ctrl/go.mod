@@ -1,9 +1,9 @@
-module github.com/confidential-containers/cloud-api-adaptor/src/peerpod-ctrl
+module github.com/liudalibj/cloud-api-adaptor/src/peerpod-ctrl
 
 go 1.20
 
 require (
-	github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers v0.8.0
+	github.com/liudalibj/cloud-api-adaptor/src/cloud-providers v0.8.0
 	github.com/onsi/ginkgo/v2 v2.8.1
 	github.com/onsi/gomega v1.27.1
 	k8s.io/api v0.26.0
@@ -112,4 +112,4 @@ require (
 	sigs.k8s.io/yaml v1.3.0 // indirect
 )
 
-replace github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers => ../cloud-providers
+replace github.com/liudalibj/cloud-api-adaptor/src/cloud-providers => ../cloud-providers

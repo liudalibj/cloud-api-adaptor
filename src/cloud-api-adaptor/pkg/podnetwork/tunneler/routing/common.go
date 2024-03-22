@@ -8,8 +8,8 @@ import (
 	"net/netip"
 	"strings"
 
-	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/netops"
 	"github.com/containernetworking/plugins/pkg/utils/sysctl"
+	"github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/netops"
 )
 
 const (

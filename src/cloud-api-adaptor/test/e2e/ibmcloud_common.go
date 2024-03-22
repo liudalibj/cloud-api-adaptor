@@ -13,7 +13,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 
 	"github.com/IBM/vpc-go-sdk/vpcv1"
-	pv "github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/test/provisioner/ibmcloud"
+	pv "github.com/liudalibj/cloud-api-adaptor/src/cloud-api-adaptor/test/provisioner/ibmcloud"
 	log "github.com/sirupsen/logrus"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
@@ -176,7 +176,7 @@ func NewPodWithPVCFromIBMVPCBlockDriver(namespace, podName, containerName, image
 						"--target-endpoint=/tmp/csi.sock",
 						"--namespace=kube-system",
 					},
-					Image:           "quay.io/confidential-containers/csi-podvm-wrapper:latest",
+					Image:           "quay.io/liudalibj/csi-podvm-wrapper:latest",
 					ImagePullPolicy: corev1.PullAlways,
 					VolumeMounts: []corev1.VolumeMount{
 						{

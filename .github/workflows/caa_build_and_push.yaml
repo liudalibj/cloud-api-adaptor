@@ -4,8 +4,8 @@ on:
   workflow_call:
     inputs:
       registry:
-        default: 'quay.io/confidential-containers'
-        description: 'Image registry (e.g. "quay.io/confidential-containers") where the built image will be pushed to'
+        default: 'quay.io/liudalibj'
+        description: 'Image registry (e.g. "quay.io/liudalibj") where the built image will be pushed to'
         required: false
         type: string
       dev_arches:

@@ -7,7 +7,7 @@ set -o nounset
 script_dir=$(dirname "$(readlink -f "$0")")
 
 tags_file="${script_dir}/../tags.txt"
-registry="${registry:-quay.io/confidential-containers}"
+registry="${registry:-quay.io/liudalibj}"
 name="cloud-api-adaptor"
 arch_file_prefix="tags-architectures-"
 all_arches_array=()

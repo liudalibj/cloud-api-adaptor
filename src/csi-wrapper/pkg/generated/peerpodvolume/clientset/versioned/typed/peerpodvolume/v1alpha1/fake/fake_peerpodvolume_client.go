@@ -3,7 +3,7 @@
 package fake
 
 import (
-	v1alpha1 "github.com/confidential-containers/cloud-api-adaptor/src/csi-wrapper/pkg/generated/peerpodvolume/clientset/versioned/typed/peerpodvolume/v1alpha1"
+	v1alpha1 "github.com/liudalibj/cloud-api-adaptor/src/csi-wrapper/pkg/generated/peerpodvolume/clientset/versioned/typed/peerpodvolume/v1alpha1"
 	rest "k8s.io/client-go/rest"
 	testing "k8s.io/client-go/testing"
 )
