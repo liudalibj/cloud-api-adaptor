@@ -40,7 +40,9 @@ func printHelp(out io.Writer) {
 	fmt.Fprintf(out, "Usage: %s <provider-name> [options] | help | version\n", programName)
 	fmt.Fprintln(out)
 	fmt.Fprintln(out, "Supported cloud providers are:")
-
+	if os.Getenv("CLOUD_PROVIDER_PLUGIN_PATH") != "" {
+		provider.LoadCloudProviders(os.Getenv("CLOUD_PROVIDER_PLUGIN_PATH"))
+	}
 	for _, name := range provider.List() {
 		fmt.Fprintf(out, "\t%s\n", name)
 	}
