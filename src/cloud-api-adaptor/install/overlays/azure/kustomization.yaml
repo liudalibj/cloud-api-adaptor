@@ -17,7 +17,7 @@ configMapGenerator:
   namespace: confidential-containers-system
   literals:
   - CLOUD_PROVIDER="azure"
-  - CLOUD_PROVIDER_PLUGIN_PATH="/run/cloud-providers" # caa will try to load extend cloud providers from this path in runtime
+  - CLOUD_PROVIDER_PLUGIN_PATH="/cloud-providers" # caa will try to load extend cloud providers from this path in runtime
   - CLOUD_CONFIG_VERIFY="false" # It's better set as true to enable could config verify in production env
   - AZURE_SUBSCRIPTION_ID="" #set
   - AZURE_REGION="eastus" #set
