@@ -43,7 +43,7 @@ func NewProvider(config *Config) (provider.Provider, error) {
 	return provider, nil
 }
 
-func getIPs(instance *vmConfig) ([]netip.Addr, error) {
+func getIPs(instance *VMConfig) ([]netip.Addr, error) {
 	return instance.ips, nil
 }
 
@@ -57,7 +57,7 @@ func (p *libvirtProvider) CreateInstance(ctx context.Context, podName, sandboxID
 	}
 
 	// TODO: Specify the maximum instance name length in Libvirt
-	vm := &vmConfig{name: instanceName, userData: userData, firmware: p.serviceConfig.Firmware}
+	vm := &VMConfig{name: instanceName, userData: userData, firmware: p.serviceConfig.Firmware}
 
 	if p.serviceConfig.DisableCVM {
 		vm.launchSecurityType = NoLaunchSecurity

@@ -89,7 +89,7 @@ func TestCreateDomainXMLs390x(t *testing.T) {
 	}
 	defer client.connection.Close()
 
-	vm := vmConfig{}
+	vm := VMConfig{}
 
 	domainCfg := domainConfig{
 		name:        "TestCreateDomainS390x",

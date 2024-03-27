@@ -23,7 +23,7 @@ type Config struct {
 	Firmware       string
 }
 
-type vmConfig struct {
+type VMConfig struct {
 	name               string
 	cpu                uint
 	mem                uint
@@ -36,7 +36,7 @@ type vmConfig struct {
 }
 
 type createDomainOutput struct {
-	instance *vmConfig
+	instance *VMConfig
 }
 
 type libvirtClient struct {

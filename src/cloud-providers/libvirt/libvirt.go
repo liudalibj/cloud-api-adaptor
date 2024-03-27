@@ -63,7 +63,7 @@ func (s *sevGuestPolicy) getGuestPolicy() uint {
 }
 
 // createCloudInitISO creates an ISO file with a userdata and a metadata file. The ISO image will be created in-memory since it is small
-func createCloudInitISO(v *vmConfig) ([]byte, error) {
+func createCloudInitISO(v *VMConfig) ([]byte, error) {
 	logger.Println("Create cloudInit iso")
 
 	userData := v.userData
@@ -202,7 +202,7 @@ func getCanonicalMachineName(caps *libvirtxml.Caps, arch string, virttype string
 	return "", fmt.Errorf("cannot find machine type %s for %s/%s in %v", targetmachine, virttype, arch, caps)
 }
 
-func createDomainXMLs390x(client *libvirtClient, cfg *domainConfig, vm *vmConfig) (*libvirtxml.Domain, error) {
+func createDomainXMLs390x(client *libvirtClient, cfg *domainConfig, vm *VMConfig) (*libvirtxml.Domain, error) {
 
 	guest, err := getGuestForArchType(client.caps, archS390x, typeHardwareVirtualMachine)
 	if err != nil {
@@ -323,7 +323,7 @@ func createDomainXMLs390x(client *libvirtClient, cfg *domainConfig, vm *vmConfig
 	}, nil
 }
 
-func createDomainXMLx86_64(client *libvirtClient, cfg *domainConfig, vm *vmConfig) (*libvirtxml.Domain, error) {
+func createDomainXMLx86_64(client *libvirtClient, cfg *domainConfig, vm *VMConfig) (*libvirtxml.Domain, error) {
 
 	var diskControllerAddr uint = 0
 	domain := &libvirtxml.Domain{
@@ -399,7 +399,7 @@ func createDomainXMLx86_64(client *libvirtClient, cfg *domainConfig, vm *vmConfi
 
 }
 
-func enableSEV(client *libvirtClient, cfg *domainConfig, vm *vmConfig, domain *libvirtxml.Domain) (*libvirtxml.Domain, error) {
+func enableSEV(client *libvirtClient, cfg *domainConfig, vm *VMConfig, domain *libvirtxml.Domain) (*libvirtxml.Domain, error) {
 
 	if vm.launchSecurityType != SEV {
 		return nil, fmt.Errorf("launch Security must be set as SEV to enable SEV")
@@ -491,7 +491,7 @@ func enableSEV(client *libvirtClient, cfg *domainConfig, vm *vmConfig, domain *l
 }
 
 // createDomainXML detects the machine type of the libvirt host and will return a libvirt XML for that machine type
-func createDomainXML(client *libvirtClient, cfg *domainConfig, vm *vmConfig) (*libvirtxml.Domain, error) {
+func createDomainXML(client *libvirtClient, cfg *domainConfig, vm *VMConfig) (*libvirtxml.Domain, error) {
 	switch client.nodeInfo.Model {
 	case archS390x:
 		return createDomainXMLs390x(client, cfg, vm)
@@ -527,7 +527,7 @@ func getDomainIPs(dom *libvirt.Domain) ([]netip.Addr, error) {
 	return ips, nil
 }
 
-func CreateDomain(ctx context.Context, libvirtClient *libvirtClient, v *vmConfig) (result *createDomainOutput, err error) {
+func CreateDomain(ctx context.Context, libvirtClient *libvirtClient, v *VMConfig) (result *createDomainOutput, err error) {
 
 	v.cpu = uint(2)
 	v.mem = uint(8)
