@@ -1,0 +1,19 @@
+ARG BUILD_TYPE=dev
+ARG BUILDER_BASE=quay.io/confidential-containers/golang-fedora:1.21.8-38
+
+# For `dev` builds due to CGO constraints we have to emulate the target platform
+# instead of using Go's cross-compilation
+FROM --platform=$TARGETPLATFORM $BUILDER_BASE AS builder
+
+RUN dnf install -y libvirt-devel && dnf clean all
+
+WORKDIR /work
+COPY ./cloud-providers ./cloud-providers
+COPY ./cloud-providers-plugins ./cloud-providers-plugins
+
+WORKDIR /work/cloud-providers-plugins
+RUN CC=gcc make ARCH=$TARGETARCH libvirt-ext
+
+FROM --platform=$TARGETPLATFORM alpine:latest
+COPY --from=builder /work/cloud-providers-plugins/libvirt-ext.so /libvirt-ext.so
+COPY --from=builder /work/cloud-providers-plugins/entrypoint.sh /entrypoint.sh

@@ -1,7 +1,7 @@
 # (C) Copyright Confidential Containers Contributors
 # SPDX-License-Identifier: Apache-2.0
 
-.PHONY: all build libvirt-plugin
+.PHONY: all build libvirt-ext image-plugins image-cca image-ppc images
 
 SHELL = bash -o pipefail
 
@@ -9,13 +9,13 @@ ARCH        ?= $(subst x86_64,amd64,$(shell uname -m))
 
 GOOPTIONS   ?= GOOS=linux GOARCH=$(ARCH) CGO_ENABLED=1
 GOFLAGS     ?=
-SOURCEDIRS  := ./libvirt-plugin
+SOURCEDIRS  := ./libvirt-ext
 SOURCES     := $(shell find $(SOURCEDIRS) -name '*.go' -print)
 
-BUILTIN_CLOUD_PROVIDERS ?= aws azure ibmcloud vsphere libvirt
+BUILTIN_CLOUD_PROVIDERS ?= libvirt
 
 all: build
-build: libvirt-plugin
+build: libvirt-ext
 
 # The help target prints out all targets with their descriptions organized
 # beneath their categories. The categories are represented by '##@' and the
@@ -36,5 +36,20 @@ space := $() $()
 comma := ,
 GOFLAGS += -tags=$(subst $(space),$(comma),$(strip $(BUILTIN_CLOUD_PROVIDERS)))
 
-libvirt-plugin: $(SOURCES)
+libvirt-ext: $(SOURCES)
 	$(GOOPTIONS) go build $(GOFLAGS) -buildmode=plugin ./$@
+
+.PHONY: image-plugins
+image-plugins: ## Build and push cloud provider plugins
+	./build.sh -p
+
+.PHONY: image-caa
+image-caa: ## Build and push caa with cloud provider plugins
+	./build.sh -c
+
+.PHONY: image-ppc
+image-ppc: ## Build and push peerpod-ctrl with cloud provider plugins
+	./build.sh -l
+
+.PHONY: images
+images: image-plugins image-cca image-ppc

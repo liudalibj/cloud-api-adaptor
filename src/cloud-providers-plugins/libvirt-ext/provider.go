@@ -15,7 +15,7 @@ import (
 	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers/util/cloudinit"
 )
 
-var logger = log.New(log.Writer(), "[adaptor/cloud/libvirt-plugin] ", log.LstdFlags|log.Lmsgprefix)
+var logger = log.New(log.Writer(), "[adaptor/cloud/libvirt-ext] ", log.LstdFlags|log.Lmsgprefix)
 
 type libvirtext struct {
 	libvirtProvider providers.Provider
@@ -48,7 +48,7 @@ func (p *libvirtext) CreateInstance(ctx context.Context, podName, sandboxID stri
 	if err != nil {
 		return nil, err
 	}
-	logger.Printf("===CreateInstance: userData from libvirt-plugin: %s", userData)
+	logger.Printf("===CreateInstance: userData from libvirt-ext: %s", userData)
 
 	return p.libvirtProvider.CreateInstance(ctx, podName, sandboxID, cloudConfig, spec)
 }
@@ -63,7 +63,7 @@ func (p *libvirtext) Teardown() error {
 
 func (p *libvirtext) ConfigVerifier() error {
 	// Debug print p.serviceConfig
-	logger.Printf("===p.serviceConfig from libvirt-plugin: %v", p.serviceConfig)
+	logger.Printf("===p.serviceConfig from libvirt-ext: %v", p.serviceConfig)
 	VolName := p.serviceConfig.VolName
 	if len(VolName) == 0 {
 		return fmt.Errorf("VolName is empty")

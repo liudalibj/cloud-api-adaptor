@@ -1,0 +1,10 @@
+ARG PLUGINS_IMG="quay.io/liudalibj/cloud-provider-plugins:latest"
+ARG CAA_IMG="quay.io/liudalibj/cloud-api-adaptor:latest"
+
+FROM --platform=$TARGETPLATFORM $PLUGINS_IMG AS plugins
+FROM --platform=$TARGETPLATFORM $CAA_IMG AS caa
+
+FROM caa
+COPY --from=plugins /libvirt-ext.so /cloud-providers/libvirt-ext.so
+COPY --from=plugins /entrypoint.sh /usr/local/bin/entrypoint.sh
+CMD ["entrypoint.sh"]

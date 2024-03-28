@@ -1,0 +1,9 @@
+ARG PLUGINS_IMG="quay.io/liudalibj/cloud-provider-plugins:latest"
+ARG PEERPOD_CTRL="quay.io/liudalibj/peerpod-ctrl:latest"
+
+FROM --platform=$TARGETPLATFORM $PLUGINS_IMG AS plugins
+FROM --platform=$TARGETPLATFORM $PEERPOD_CTRL AS peerpod_ctrl
+
+FROM peerpod_ctrl
+COPY --from=plugins /libvirt-ext.so /cloud-providers/libvirt-ext.so
+ENTRYPOINT ["/manager"]
