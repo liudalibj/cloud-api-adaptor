@@ -139,6 +139,21 @@ libvirt() {
         -socket /run/peerpod/hypervisor.sock
 }
 
+libvirt-ext() {
+    test_vars LIBVIRT_URI
+
+    [[ "${DISABLECVM}" = "true" ]] && optionals+="-disable-cvm "
+    set -x
+    exec cloud-api-adaptor libvirt-ext \
+        -uri "${LIBVIRT_URI}" \
+        -data-dir /opt/data-dir \
+        -pods-dir /run/peerpod/pods \
+        -network-name "${LIBVIRT_NET:-default}" \
+        -pool-name "${LIBVIRT_POOL:-default}" \
+        ${optionals} \
+        -socket /run/peerpod/hypervisor.sock
+}
+
 vsphere() {
     test_vars GOVC_USERNAME GOVC_PASSWORD GOVC_URL GOVC_DATACENTER
 
@@ -160,9 +175,9 @@ vsphere() {
 help_msg() {
     cat <<EOF
 Usage:
-	CLOUD_PROVIDER=aws|azure|ibmcloud|ibmcloud-powervs|libvirt|vsphere $0
+	CLOUD_PROVIDER=aws|azure|ibmcloud|ibmcloud-powervs|libvirt|libvirt-ex|vsphere $0
 or
-	$0 aws|azure|ibmcloud|ibmcloud-powervs|libvirt|vsphere
+	$0 aws|azure|ibmcloud|ibmcloud-powervs|libvirt|libvirt-ex|vsphere
 in addition all cloud provider specific env variables must be set and valid
 (CLOUD_PROVIDER is currently set to "$CLOUD_PROVIDER")
 EOF
@@ -178,6 +193,8 @@ elif [[ "$CLOUD_PROVIDER" == "ibmcloud-powervs" ]]; then
     ibmcloud_powervs
 elif [[ "$CLOUD_PROVIDER" == "libvirt" ]]; then
     libvirt
+elif [[ "$CLOUD_PROVIDER" == "libvirt-ext" ]]; then
+    libvirt-ext
 elif [[ "$CLOUD_PROVIDER" == "vsphere" ]]; then
     vsphere
 else

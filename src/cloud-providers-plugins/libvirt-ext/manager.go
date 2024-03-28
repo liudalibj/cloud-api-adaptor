@@ -21,7 +21,7 @@ func InitCloud() {
 	manager := &Manager{
 		libvirtManager: libvirtManager,
 	}
-	providers.AddCloudProvider("libvirt", manager)
+	providers.AddCloudProvider("libvirt-ext", manager)
 }
 
 func (m *Manager) ParseCmd(flags *flag.FlagSet) {

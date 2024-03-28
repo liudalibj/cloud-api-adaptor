@@ -46,3 +46,18 @@ jobs:
       image_tags: ${{ github.sha }},latest
       git_ref: ${{ github.sha }}
     secrets: inherit
+
+  cloud-provider-plguins:
+    uses: ./.github/workflows/cloud_provider_plugins_build_and_push.yaml
+    with:
+      image_tags: ${{ github.sha }}
+      git_ref: ${{ github.sha }}
+    secrets: inherit
+
+  caa-peerpod-ctrl-with-cloud-provider-plguins:
+    needs: [caa, peerpod-ctrl, cloud-provider-plguins]
+    uses: ./.github/workflows/caa_peerpod-ctrl-with_provider_plugins_build_and_push.yaml
+    with:
+      image_tags: ${{ github.sha }}
+      git_ref: ${{ github.sha }}
+    secrets: inherit
