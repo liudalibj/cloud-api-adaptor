@@ -22,14 +22,14 @@ BUILTIN_CLOUD_PROVIDERS ?= libvirt
 	@printf "$$(git rev-parse HEAD 2>/dev/null || echo unknown)" >$@
 	@test -n "$$(git status --porcelain --untracked-files=no 2> /dev/null)" && echo -dirty >>$@ || true
 
-REGISTRY ?= quay.io/confidential-containers
+REGISTRY ?= quay.io/liudalibj
 DEV_TAGS ?= $(shell cat .git-commit)
 PLUGINS_IMAGE ?= $(REGISTRY)/cloud-provider-plugins:$(DEV_TAGS)
 PLUGINS_CAA_IMAGE ?= $(REGISTRY)/cloud-api-adaptor:dev-plugins-$(DEV_TAGS)
 PLUGINS_PEERPOD_CTRL_IMAGE ?= $(REGISTRY)/peerpod-ctrl:dev-plugins-$(DEV_TAGS)
-CAA_IMG ?= quay.io/confidential-containers/loud-api-adaptor:latest
-PEERPOD_CTRL_IMG ?= quay.io/confidential-containers/peerpod-ctrl:latest
-PUSH ?= false
+CAA_IMG ?= quay.io/liudalibj/cloud-api-adaptor:latest
+PEERPOD_CTRL_IMG ?= quay.io/liudalibj/peerpod-ctrl:latest
+PUSH ?= true
 # If not pushing `--load` into the local docker cache
 DOCKER_OPTS := $(if $(filter $(PUSH),true),--push,--load)
 

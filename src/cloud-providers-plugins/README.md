@@ -82,4 +82,10 @@ EOF
 
 ```
 
+## Troubleshooting
+- "failed to map segment from shared object" from CAA log
 
+> Please use update `CLOUD_PROVIDER_PLUGIN_PATH` to a path which have execute permissions, the plugin .so file need have execute permissions
+- "plugin was built with a different version of package XXX" from CAA log
+
+> Please check the go.mod of CAA and plugins project, the CAA and plugins should be built with same version of issue package XXX
