@@ -62,8 +62,6 @@ func (p *libvirtext) Teardown() error {
 }
 
 func (p *libvirtext) ConfigVerifier() error {
-	// Debug print p.serviceConfig
-	logger.Printf("===p.serviceConfig from libvirt-ext: %v", p.serviceConfig)
 	VolName := p.serviceConfig.VolName
 	if len(VolName) == 0 {
 		return fmt.Errorf("VolName is empty")
