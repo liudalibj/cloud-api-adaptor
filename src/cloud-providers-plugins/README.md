@@ -58,4 +58,28 @@ kubectl set image -n confidential-containers-system   ds/cloud-api-adaptor-daemo
 
 kubectl set image -n confidential-containers-system deploy/peerpod-ctrl-controller-manage manager=${registry}/peerpod-ctrl:dev-plugins-${COMMIT_ID}
 ```
-- 
+- Create peerpod to verify the update env
+```bash
+kubectl create -f - <<EOF
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: busybox
+  name: busybox
+spec:
+  containers:
+  - image: quay.io/prometheus/busybox
+    name: busybox
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+  runtimeClassName: kata-remote
+EOF
+```
+- Check CAA log:
+```bash
+
+```
+
+

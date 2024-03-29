@@ -63,7 +63,7 @@ libvirt-ext: $(SOURCES)
 image-plugins: .git-commit ## Build and push cloud provider plugins
 	cd ../ && docker buildx build --platform "$(ARCHES)" \
 	-t $(PLUGINS_IMAGE) \
-	-f src/cloud-providers-plugins/Dockerfile.plugins \
+	-f cloud-providers-plugins/Dockerfile.plugins \
 	$(DOCKER_OPTS) .
 
 .PHONY: image-caa
@@ -85,4 +85,4 @@ image-ppc: .git-commit ## Build and push peerpod-ctrl with cloud provider plugin
 	$(DOCKER_OPTS) .
 
 .PHONY: images
-images: image-plugins image-cca image-ppc
+images: image-plugins image-caa image-ppc
