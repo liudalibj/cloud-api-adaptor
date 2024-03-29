@@ -1,5 +1,5 @@
 ARG PLUGINS_IMG="quay.io/liudalibj/cloud-provider-plugins:latest"
-ARG PEERPOD_CTRL="quay.io/liudalibj/peerpod-ctrl:latest"
+ARG PEERPOD_CTRL_IMG="quay.io/liudalibj/peerpod-ctrl:latest"
 
 FROM --platform=$TARGETPLATFORM $PLUGINS_IMG AS plugins
 FROM --platform=$TARGETPLATFORM $PEERPOD_CTRL AS peerpod_ctrl

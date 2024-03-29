@@ -89,4 +89,4 @@ jobs:
           retry_wait_seconds: 120
           max_attempts: 3
           command: |
-              cd src/cloud-providers-plugins && ARCHES=${{matrix.arches}} DEV_TAGS=${{ inputs.image_tags }} make images registry=${{ inputs.registry }}
+              cd src/cloud-providers-plugins && PUSH=true ARCHES=${{matrix.arches}} DEV_TAGS=${{ inputs.image_tags }} make images registry=${{ inputs.registry }}

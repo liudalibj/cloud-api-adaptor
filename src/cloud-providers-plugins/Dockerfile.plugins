@@ -1,4 +1,3 @@
-ARG BUILD_TYPE=dev
 ARG BUILDER_BASE=quay.io/confidential-containers/golang-fedora:1.21.8-38
 
 # For `dev` builds due to CGO constraints we have to emulate the target platform
