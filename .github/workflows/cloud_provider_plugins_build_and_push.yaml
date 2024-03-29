@@ -1,4 +1,4 @@
-name: (Callable) Build and push cloud-api-adaptor image
+name: (Callable) Build and push cloud provider plugins images
 
 on:
   workflow_call:
@@ -9,34 +9,20 @@ on:
         required: false
         type: string
       dev_arches:
-        default: 'linux/amd64'
+        default: 'linux/amd64,linux/s390x'
         description: 'Dev build arches. Expected a docker buildx "--platform" string format'
         required: false
         type: string
-      dev_tags:
+      image_tags:
         default: ''
         description: 'Comma-separated list of tags for the dev built image (e.g. latest,ci-dev). By default uses the values from hack/build.sh'
-        required: false
-        type: string
-      release_arches:
-        default: 'linux/amd64,linux/s390x,linux/ppc64le'
-        description: 'Release build arches. Expected a docker buildx "--platform" string format'
-        required: false
-        type: string
-      release_tags:
-        default: ''
-        description: 'Likewise but for the release built image'
-        required: false
+        required: true
         type: string
       git_ref:
         default: 'main'
         description: Git ref to checkout the cloud-api-adaptor repository. Defaults to main.
         required: false
         type: string
-
-defaults:
-  run:
-    working-directory: src/cloud-api-adaptor
 
 jobs:
   build_push_job:
@@ -48,8 +34,6 @@ jobs:
         include:
           - type: dev
             arches: ${{ inputs.dev_arches }}
-          - type: release
-            arches: ${{ inputs.release_arches }}
     steps:
       - name: Checkout the code
         uses: actions/checkout@v3
@@ -64,6 +48,7 @@ jobs:
           ./hack/ci-helper.sh rebase-atop-of-the-latest-target-branch
 
       - name: Read properties from versions.yaml
+        working-directory: src/cloud-api-adaptor
         run: |
           go_version="$(yq '.tools.golang' versions.yaml)"
           [ -n "$go_version" ]
@@ -76,7 +61,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Install build dependencies
-        if: matrix.type == 'dev'
         run: |
           sudo apt-get update -y
           sudo apt-get install -y libvirt-dev
@@ -96,7 +80,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push image
+      - name: Build and push images
         uses: nick-fields/retry@v2
         with:
           # We are not interested in timeout but this field is required
@@ -105,8 +89,4 @@ jobs:
           retry_wait_seconds: 120
           max_attempts: 3
           command: |
-            if [ ${{ matrix.type }} == "release" ]; then
-              cd src/cloud-api-adaptor && ARCHES=${{matrix.arches}} RELEASE_BUILD=true RELEASE_TAGS=${{ inputs.release_tags}} make image registry=${{ inputs.registry }}
-            else
-              cd src/cloud-api-adaptor && ARCHES=${{matrix.arches}} RELEASE_BUILD=false DEV_TAGS=${{ inputs.dev_tags }} make image registry=${{ inputs.registry }}
-            fi
+              cd src/cloud-providers-plugins && ARCHES=${{matrix.arches}} DEV_TAGS=${{ inputs.image_tags }} make images registry=${{ inputs.registry }}

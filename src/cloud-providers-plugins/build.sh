@@ -14,8 +14,9 @@ peerpod_ctrl_name="peerpod-ctrl"
 commit=$(git rev-parse HEAD)
 [[ -n "$(git status --porcelain --untracked-files=no)" ]] && commit+='-dirty'
 
-plugins_tags="latest,dev-${commit}"
-extend_tags="dev-plugins-${commit}"
+dev_tags=${DEV_TAGS:-"${commit}"}
+plugins_tags="latest,dev-${dev_tags}"
+extend_tags="dev-plugins-${dev_tags}"
 
 supported_arches=${ARCHES:-"linux/amd64,linux/s390x"}
 

@@ -67,3 +67,11 @@ jobs:
       image_tags: ${{ github.event.release.tag_name }}
       git_ref: ${{ github.ref }}
     secrets: inherit
+
+  cloud-provider-plguins:
+    needs: [caa, peerpod-ctrl]
+    uses: ./.github/workflows/cloud_provider_plugins_build_and_push.yaml
+    with:
+      image_tags: ${{ github.event.release.tag_name }}
+      git_ref: ${{ github.ref }}
+    secrets: inherit

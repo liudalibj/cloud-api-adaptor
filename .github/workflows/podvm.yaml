@@ -3,7 +3,7 @@ on:
   workflow_call:
     inputs:
       registry:
-        default: 'quay.io/confidential-containers'
+        default: 'quay.io/liudalibj'
         required: false
         type: string
       image_tag:

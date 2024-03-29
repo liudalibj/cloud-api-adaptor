@@ -3,7 +3,7 @@
 CLOUD_PROVIDER=${1:-$CLOUD_PROVIDER}
 # caa will try to load extend cloud providers from this path in runtime
 # specific env variables for any new extend cloud providers must be set and valid
-CLOUD_PROVIDER_PLUGIN_PATH=${$CLOUD_PROVIDER_PLUGIN_PATH:-/cloud-providers}
+CLOUD_PROVIDER_PLUGIN_PATH=${CLOUD_PROVIDER_PLUGIN_PATH:-/cloud-providers}
 CRI_RUNTIME_ENDPOINT=${CRI_RUNTIME_ENDPOINT:-/run/cri-runtime.sock}
 optionals+=""
 
