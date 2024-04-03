@@ -17,6 +17,7 @@ import (
 	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork/tunneler/vxlan"
 	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/util/tlsutil"
 	provider "github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers"
+	"github.com/fsnotify/fsnotify"
 
 	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/podnetwork"
 	"github.com/confidential-containers/cloud-api-adaptor/src/cloud-api-adaptor/pkg/probe"
@@ -155,8 +156,60 @@ func main() {
 
 	go probe.Start(config.serverConfig.SocketPath)
 
+	go func() {
+		monitorCloudProviderPlugins()
+	}()
+
 	if err := starter.Start(ctx); err != nil {
 		fmt.Fprintf(os.Stderr, "%s: %s\n", os.Args[0], err)
 		cmd.Exit(1)
+	}
+}
+
+func monitorCloudProviderPlugins() {
+	fmt.Println("======monitorCloudProviderPlugins====")
+	// Create a new watcher instance
+	watcher, err := fsnotify.NewWatcher()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%s\n", err)
+	}
+	// defer watcher.Close()
+
+	// Add the folder you want to monitor
+	folderPath := "/cloud-providers"
+	err = watcher.Add(folderPath)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error:%s\n", err)
+	}
+
+	// Start an infinite loop to listen for events
+	for {
+		select {
+		case event, ok := <-watcher.Events:
+			if !ok {
+				return
+			}
+			// Process events
+			if event.Op&fsnotify.Write == fsnotify.Write || event.Op&fsnotify.Create == fsnotify.Create || event.Op&fsnotify.Remove == fsnotify.Remove {
+				// Log the event
+				fmt.Println("Event:", event)
+				// If it's a file modification event, print the filename
+				if event.Op&fsnotify.Write == fsnotify.Write {
+					fmt.Println("Modified file:", event.Name)
+				} else if event.Op&fsnotify.Create == fsnotify.Create {
+					fmt.Println("Created file:", event.Name)
+				} else if event.Op&fsnotify.Remove == fsnotify.Remove {
+					fmt.Println("Removed file:", event.Name)
+				}
+				fmt.Println("======RestartCAA====")
+				cmd.Exit(0)
+			}
+
+		case err, ok := <-watcher.Errors:
+			if !ok {
+				return
+			}
+			fmt.Fprintf(os.Stderr, "Error:%s\n", err)
+		}
 	}
 }

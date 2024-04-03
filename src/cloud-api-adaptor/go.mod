@@ -51,6 +51,7 @@ require (
 	github.com/confidential-containers/cloud-api-adaptor/src/cloud-providers v0.8.0
 	github.com/confidential-containers/cloud-api-adaptor/src/peerpod-ctrl v0.8.0
 	github.com/coreos/go-systemd v0.0.0-20190719114852-fd7a80b32e1f
+	github.com/fsnotify/fsnotify v1.6.0
 	github.com/moby/sys/mountinfo v0.6.2
 	github.com/pelletier/go-toml/v2 v2.1.0
 	github.com/sirupsen/logrus v1.9.0
