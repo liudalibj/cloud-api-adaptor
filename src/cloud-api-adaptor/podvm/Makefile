@@ -86,6 +86,8 @@ $(IMAGE_FILE): $(BINARIES) $(FILES) setopts
 	if [ "${ARCH}" = "x86_64" ]; then \
 		packer init qcow2/rhel/qemu-rhel.pkr.hcl; \
 	fi
+	export PACKER_LOG=1
+	export PACKER_LOG_PATH=/var/log/packer.log
 	packer build ${PACKER_DEFAULT_OPTS} ${OPTS} qcow2/$(PODVM_DISTRO)
 	rm -fr toupload
 	rm -f cloud-init.img

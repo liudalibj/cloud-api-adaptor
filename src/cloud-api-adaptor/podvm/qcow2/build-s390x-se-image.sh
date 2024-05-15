@@ -24,6 +24,7 @@ sudo apt-get remove unattended-upgrades -y
 sudo apt-get autoremove
 sudo apt-get clean
 sudo rm -rf /var/lib/apt/lists/*
+cryptsetup --version
 
 workdir=$(pwd)
 disksize=100G
@@ -56,7 +57,7 @@ echo "Setting up encrypted root partition"
 sudo mkdir ${workdir}/rootkeys
 sudo mount -t tmpfs rootkeys ${workdir}/rootkeys
 sudo dd if=/dev/random of=${workdir}/rootkeys/rootkey.bin bs=1 count=64 &> /dev/null
-echo YES | sudo cryptsetup luksFormat --type luks2 ${tmp_nbd}2 --key-file ${workdir}/rootkeys/rootkey.bin
+echo YES | sudo cryptsetup luksFormat --type luks2 --cipher aes-xts-plain64 --integrity hmac-sha256 ${tmp_nbd}2 --key-file ${workdir}/rootkeys/rootkey.bin
 echo "Setting luks name for root partition"
 LUKS_NAME="luks-$(sudo blkid -s UUID -o value ${tmp_nbd}2)"
 export LUKS_NAME
@@ -78,6 +79,7 @@ echo "Partition copy complete"
 
 echo "Preparing secure execution boot image"
 sudo rm -rf ${dst_mnt}/home/peerpod/*
+cat ~/.ssh/id_rsa.pub >> ${dst_mnt}/root/.ssh/authorized_keys
 
 sudo mount -t sysfs sysfs ${dst_mnt}/sys
 sudo mount -t proc proc ${dst_mnt}/proc
@@ -100,7 +102,7 @@ sudo chmod 600 "${dst_mnt}/etc/keys/luks-${dev_uuid}.key"
 
 sudo -E bash -c 'cat <<END > ${dst_mnt}/etc/crypttab
 #This file was auto-generated
-$LUKS_NAME UUID=$(sudo blkid -s UUID -o value ${tmp_nbd}2) /etc/keys/luks-$(blkid -s UUID -o value /dev/mapper/$LUKS_NAME).key luks,discard,initramfs
+${LUKS_NAME} UUID=$(sudo blkid -s UUID -o value ${tmp_nbd}2) /etc/keys/luks-$(blkid -s UUID -o value /dev/mapper/$LUKS_NAME).key luks
 END'
 sudo chmod 744 "${dst_mnt}/etc/crypttab"
 
@@ -129,8 +131,15 @@ targetoffset=2048
 [linux]
 image = /boot-se/se.img
 END'
-
+sudo sed -i 's|if \[ "\$(dmsetup info -c --noheadings -o devnos_used -- "\$CRYPTTAB_NAME" 2>/dev/null)" != "\$MAJ:\$MIN" \]; then|if [ "$(dmsetup info -c --noheadings -o devnos_used -- "$CRYPTTAB_NAME" 2>/dev/null)" != "$MAJ:$MIN" ] \&\& [ "$(dmsetup info -c --noheadings -o devnos_used -- "${CRYPTTAB_NAME}_dif" 2>/dev/null)" != "$MAJ:$MIN" ]; then|' ${dst_mnt}/usr/share/initramfs-tools/hooks/cryptroot
+sudo -E bash -c 'echo dm_integrity >> ${dst_mnt}/etc/initramfs-tools/modules'
+echo "------"
+cat ${dst_mnt}/usr/share/initramfs-tools/hooks/cryptroot
+echo "------"
+cat ${dst_mnt}/etc/initramfs-tools/modules
 echo "Updating initial ram disk"
+sudo chroot "${dst_mnt}" cryptsetup --version
+echo "------"
 sudo chroot "${dst_mnt}" update-initramfs -u || true
 echo "!!! Bootloader install errors prior to this line are intentional !!!!!" 1>&2
 echo "Generating an IBM Secure Execution image"

@@ -205,8 +205,10 @@ podvm-image:
 	--build-arg BINARIES_IMG=$(PODVM_BINARIES_IMAGE) \
 	--build-arg PODVM_DISTRO=$(PODVM_DISTRO) \
 	--build-arg ARCH=$(ARCH) \
+	--build-arg SE_BOOT=1
 	--build-arg CLOUD_PROVIDER=$(or $(CLOUD_PROVIDER),generic) \
 	--build-arg IMAGE_URL=$(IMAGE_URL) \
+	--progress plain \
 	--build-arg IMAGE_CHECKSUM=$(IMAGE_CHECKSUM) \
 	$(DOCKER_OPTS) .
 	rm -rf .git
